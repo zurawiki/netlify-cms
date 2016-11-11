@@ -1,26 +1,91 @@
-.active {
-  box-shadow: 0 0 0 2px blue;
+.editor {
+  position: relative;
+  & h1, & h2, & h3 {
+    padding: 0;
+    color: #7c8382;
+    text-decoration: none;
+    border-bottom: none;
+    margin-bottom: 20px;
+    line-height: 1.45;
+  }
+  & h1 {
+    font-size: 2.5rem;
+  }
+  & h2 {
+    font-size: 2rem;
+  }
+  & h3 {
+    font-size: 1.8rem;
+  }
+  & p {
+    margin-bottom: 20px;
+  }
+  & div[data-plugin] {
+    background: #fff;
+    border: 1px solid #aaa;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
 }
 
-:global .plugin {
-  background-color: #ddd;
-  color: #555;
-  text-align: center;
-  width: 200px;
-  padding: 8px;
-  border-radius: 2px;
-}
+:global {
+  & .ProseMirror {
+    position: relative;
+  }
 
-:global .plugin_icon {
-  font-size: 50px;
-  margin: 12px 0;
-}
+  & .ProseMirror-content {
+    white-space: pre-wrap;
+  }
 
-:global .plugin_fields {
-  font-size: 11px;
-  outline:none;
-}
+  & .ProseMirror-drop-target {
+    position: absolute;
+    width: 1px;
+    background: #666;
+    pointer-events: none;
+  }
 
-:global .active {
-  box-shadow: 0 0 0 2px blue;
+  & .ProseMirror-content ul, & .ProseMirror-content ol {
+    padding-left: 30px;
+    cursor: default;
+  }
+
+  & .ProseMirror-content blockquote {
+    padding-left: 1em;
+    border-left: 3px solid #eee;
+    margin-left: 0; margin-right: 0;
+  }
+
+  & .ProseMirror-content pre {
+    white-space: pre-wrap;
+  }
+
+  & .ProseMirror-content li {
+    position: relative;
+    pointer-events: none; /* Don't do weird stuff with marker clicks */
+  }
+  & .ProseMirror-content li > * {
+    pointer-events: auto;
+  }
+
+  & .ProseMirror-nodeselection *::selection { background: transparent; }
+  & .ProseMirror-nodeselection *::-moz-selection { background: transparent; }
+
+  & .ProseMirror-selectednode {
+    outline: 2px solid #8cf;
+  }
+
+  /* Make sure li selections wrap around markers */
+
+  & li.ProseMirror-selectednode {
+    outline: none;
+  }
+
+  & li.ProseMirror-selectednode:after {
+    content: "";
+    position: absolute;
+    left: -32px;
+    right: -2px; top: -2px; bottom: -2px;
+    border: 2px solid #8cf;
+    pointer-events: none;
+  }
 }
