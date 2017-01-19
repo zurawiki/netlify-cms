@@ -45,6 +45,7 @@ class EntryPage extends React.Component {
     const { entry, newEntry, collection, slug, loadEntry, createEmptyDraft } = this.props;
     this.props.openSidebar();
     if (newEntry) {
+      console.log(this.props.location.state.defaultTitle);
       createEmptyDraft(collection);
     } else {
       loadEntry(collection, slug);
@@ -57,6 +58,7 @@ class EntryPage extends React.Component {
     if (nextProps.entry && !nextProps.entry.get('isFetching') && !nextProps.entry.get('error')) {
       this.createDraft(nextProps.entry);
     } else if (nextProps.newEntry) {
+      console.log(this.props.location.state.defaultTitle);
       this.props.createEmptyDraft(nextProps.collection);
     }
   }

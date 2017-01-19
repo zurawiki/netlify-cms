@@ -19,19 +19,22 @@ export function createNewEntryInCollection(collectionName) {
 }
 
 export function runCommand(commandName, payload) {
-  return dispatch => {
+  return (dispatch) => {
     switch (commandName) {
-      case SHOW_COLLECTION:
-        history.push(`/collections/${payload.collectionName}`);
+      case SHOW_COLLECTION:        
+        history.push(`/collections/${ payload.collectionName }`);
         break;
       case CREATE_COLLECTION:
-        history.push(`/collections/${payload.collectionName}/entries/new`);
+        history.push({
+          pathname: `/collections/${ payload.collectionName }/entries/new`,
+          state: { defaultTitle: payload.title },
+        });
         break;
       case HELP:
         window.alert('Find Bar Help (PLACEHOLDER)\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit.');
         break;
       case SEARCH:
-        history.push(`/search/${payload.searchTerm}`);
+        history.push(`/search/${ payload.searchTerm }`);
         break;
     }
     dispatch(run(commandName, payload));
