@@ -9,6 +9,7 @@ node_js:
 before_install:
   - npm i -g yarn --cache-min 999999999
 install:
+  - npm run check-formatting
   - yarn
 notifications:
     email: false

@@ -1,7 +1,18 @@
 {
   "extends": [
-    "eslint-config-netlify"
+    "eslint-config-netlify",
+    "prettier",
+    "prettier/react"
   ],
+  "plugins": [
+    "prettier"
+  ],
+  "rules": {
+    "prettier/prettier": ["error", {
+      "trailingComma": "all",
+      "printWidth": 80
+    }]
+  },
   "settings": {
     "import/resolver": {
       "webpack": {
