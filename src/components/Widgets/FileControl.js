@@ -1,7 +1,7 @@
-import React, { PropTypes } from 'react';
-import { truncateMiddle } from '../../lib/textHelper';
-import { Loader } from '../UI';
-import AssetProxy, { createAssetProxy } from '../../valueObjects/AssetProxy';
+import React, { PropTypes } from "react";
+import { truncateMiddle } from "../../lib/textHelper";
+import { Loader } from "../UI";
+import AssetProxy, { createAssetProxy } from "../../valueObjects/AssetProxy";
 
 const MAX_DISPLAY_LENGTH = 50;
 
@@ -19,26 +19,25 @@ export default class FileControl extends React.Component {
     return { error: false };
   };
 
-
-  handleFileInputRef = (el) => {
+  handleFileInputRef = el => {
     this._fileInput = el;
   };
 
-  handleClick = (e) => {
+  handleClick = e => {
     this._fileInput.click();
   };
 
-  handleDragEnter = (e) => {
+  handleDragEnter = e => {
     e.stopPropagation();
     e.preventDefault();
   };
 
-  handleDragOver = (e) => {
+  handleDragOver = e => {
     e.stopPropagation();
     e.preventDefault();
   };
 
-  handleChange = (e) => {
+  handleChange = e => {
     e.stopPropagation();
     e.preventDefault();
 
@@ -52,8 +51,12 @@ export default class FileControl extends React.Component {
     this.props.onRemoveAsset(this.props.value);
     if (file) {
       this.setState({ processing: true });
-      this.promise = createAssetProxy(file.name, file, false, this.props.field.get('private', false))
-      .then((assetProxy) => {
+      this.promise = createAssetProxy(
+        file.name,
+        file,
+        false,
+        this.props.field.get("private", false),
+      ).then(assetProxy => {
         this.setState({ processing: false });
         this.props.onAddAsset(assetProxy);
         this.props.onChange(assetProxy.public_path);
@@ -92,7 +95,9 @@ export default class FileControl extends React.Component {
         onDrop={this.handleChange}
       >
         <span style={styles.message} onClick={this.handleClick}>
-          {fileName ? fileName : 'Tip: Click here to select a file to upload, or drag an image directly into this box from your desktop'}
+          {fileName
+            ? fileName
+            : "Tip: Click here to select a file to upload, or drag an image directly into this box from your desktop"}
         </span>
         <input
           type="file"
@@ -107,19 +112,19 @@ export default class FileControl extends React.Component {
 
 const styles = {
   input: {
-    display: 'none',
+    display: "none",
   },
   message: {
-    padding: '20px',
-    display: 'block',
-    fontSize: '12px',
+    padding: "20px",
+    display: "block",
+    fontSize: "12px",
   },
   imageUpload: {
-    backgroundColor: '#fff',
-    textAlign: 'center',
-    color: '#999',
-    border: '1px dashed #eee',
-    cursor: 'pointer',
+    backgroundColor: "#fff",
+    textAlign: "center",
+    color: "#999",
+    border: "1px dashed #eee",
+    cursor: "pointer",
   },
 };
 

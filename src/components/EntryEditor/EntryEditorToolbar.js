@@ -1,24 +1,14 @@
-import React, { PropTypes } from 'react';
-import { Button } from 'react-toolbox/lib/button';
+import React, { PropTypes } from "react";
+import { Button } from "react-toolbox/lib/button";
 
-const EntryEditorToolbar = (
-  {
-    isPersisting,
-    onPersist,
-    onCancelEdit,
-  }) => {
+const EntryEditorToolbar = ({ isPersisting, onPersist, onCancelEdit }) => {
   const disabled = isPersisting;
   return (
     <div>
-      <Button
-        primary
-        raised
-        onClick={onPersist}
-        disabled={disabled}
-      >
-        { isPersisting ? 'Saving...' : 'Save' }
+      <Button primary raised onClick={onPersist} disabled={disabled}>
+        {isPersisting ? "Saving..." : "Save"}
       </Button>
-      {' '}
+      {" "}
       <Button onClick={onCancelEdit}>
         Cancel
       </Button>

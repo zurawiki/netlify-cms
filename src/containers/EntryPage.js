@@ -1,7 +1,7 @@
-import React, { PropTypes } from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import { connect } from 'react-redux';
-import history from '../routing/history';
+import React, { PropTypes } from "react";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import { connect } from "react-redux";
+import history from "../routing/history";
 import {
   loadEntry,
   createDraftFromEntry,
@@ -10,15 +10,15 @@ import {
   changeDraftField,
   changeDraftFieldValidation,
   persistEntry,
-} from '../actions/entries';
-import { closeEntry } from '../actions/editor';
-import { addAsset, removeAsset } from '../actions/media';
-import { openSidebar } from '../actions/globalUI';
-import { selectEntry, getAsset } from '../reducers';
-import { selectFields } from '../reducers/collections';
-import EntryEditor from '../components/EntryEditor/EntryEditor';
-import entryPageHOC from './editorialWorkflow/EntryPageHOC';
-import { Loader } from '../components/UI';
+} from "../actions/entries";
+import { closeEntry } from "../actions/editor";
+import { addAsset, removeAsset } from "../actions/media";
+import { openSidebar } from "../actions/globalUI";
+import { selectEntry, getAsset } from "../reducers";
+import { selectFields } from "../reducers/collections";
+import EntryEditor from "../components/EntryEditor/EntryEditor";
+import entryPageHOC from "./editorialWorkflow/EntryPageHOC";
+import { Loader } from "../components/UI";
 
 class EntryPage extends React.Component {
   static propTypes = {
@@ -43,7 +43,14 @@ class EntryPage extends React.Component {
   };
 
   componentDidMount() {
-    const { entry, newEntry, collection, slug, loadEntry, createEmptyDraft } = this.props;
+    const {
+      entry,
+      newEntry,
+      collection,
+      slug,
+      loadEntry,
+      createEmptyDraft,
+    } = this.props;
     this.props.openSidebar();
     if (newEntry) {
       createEmptyDraft(collection);
@@ -51,8 +58,8 @@ class EntryPage extends React.Component {
       loadEntry(collection, slug);
     }
 
-    this.unlisten = history.listenBefore((location) => {
-      if (this.props.entryDraft.get('hasChanged')) {
+    this.unlisten = history.listenBefore(location => {
+      if (this.props.entryDraft.get("hasChanged")) {
         return "Are you sure you want to leave this page?";
       }
       return true;
@@ -62,7 +69,11 @@ class EntryPage extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.entry === nextProps.entry) return;
 
-    if (nextProps.entry && !nextProps.entry.get('isFetching') && !nextProps.entry.get('error')) {
+    if (
+      nextProps.entry &&
+      !nextProps.entry.get("isFetching") &&
+      !nextProps.entry.get("error")
+    ) {
       this.createDraft(nextProps.entry);
     } else if (nextProps.newEntry) {
       this.props.createEmptyDraft(nextProps.collection);
@@ -74,7 +85,7 @@ class EntryPage extends React.Component {
     this.unlisten();
   }
 
-  createDraft = (entry) => {
+  createDraft = entry => {
     if (entry) this.props.createDraftFromEntry(entry);
   };
 
@@ -85,7 +96,7 @@ class EntryPage extends React.Component {
   handlePersistEntry = () => {
     const { persistEntry, collection } = this.props;
     setTimeout(() => {
-      persistEntry(collection);  
+      persistEntry(collection);
     }, 0);
   };
 
@@ -103,22 +114,24 @@ class EntryPage extends React.Component {
       closeEntry,
     } = this.props;
 
-    if (entry && entry.get('error')) {
-      return <div><h3>{ entry.get('error') }</h3></div>;
-    } else if (entryDraft == null
-      || entryDraft.get('entry') === undefined
-      || (entry && entry.get('isFetching'))) {
+    if (entry && entry.get("error")) {
+      return <div><h3>{entry.get("error")}</h3></div>;
+    } else if (
+      entryDraft == null ||
+      entryDraft.get("entry") === undefined ||
+      (entry && entry.get("isFetching"))
+    ) {
       return <Loader active>Loading entry...</Loader>;
     }
 
     return (
       <EntryEditor
-        entry={entryDraft.get('entry')}
+        entry={entryDraft.get("entry")}
         getAsset={boundGetAsset}
         collection={collection}
         fields={fields}
-        fieldsMetaData={entryDraft.get('fieldsMetaData')}
-        fieldsErrors={entryDraft.get('fieldsErrors')}
+        fieldsMetaData={entryDraft.get("fieldsMetaData")}
+        fieldsErrors={entryDraft.get("fieldsErrors")}
         onChange={changeDraftField}
         onValidate={changeDraftFieldValidation}
         onAddAsset={addAsset}
@@ -136,7 +149,9 @@ function mapStateToProps(state, ownProps) {
   const collection = collections.get(ownProps.params.name);
   const newEntry = ownProps.route && ownProps.route.newRecord === true;
   const fields = selectFields(collection, slug);
-  const entry = newEntry ? null : selectEntry(state, collection.get('name'), slug);
+  const entry = newEntry
+    ? null
+    : selectEntry(state, collection.get("name"), slug);
   const boundGetAsset = getAsset.bind(null, state);
   return {
     collection,
@@ -150,19 +165,16 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  {
-    changeDraftField,
-    changeDraftFieldValidation,
-    addAsset,
-    removeAsset,
-    loadEntry,
-    createDraftFromEntry,
-    createEmptyDraft,
-    discardDraft,
-    persistEntry,
-    closeEntry,
-    openSidebar,
-  }
-)(entryPageHOC(EntryPage));
+export default connect(mapStateToProps, {
+  changeDraftField,
+  changeDraftFieldValidation,
+  addAsset,
+  removeAsset,
+  loadEntry,
+  createDraftFromEntry,
+  createEmptyDraft,
+  discardDraft,
+  persistEntry,
+  closeEntry,
+  openSidebar,
+})(entryPageHOC(EntryPage));

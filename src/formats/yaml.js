@@ -1,9 +1,9 @@
-import yaml from 'js-yaml';
-import moment from 'moment';
-import AssetProxy from '../valueObjects/AssetProxy';
+import yaml from "js-yaml";
+import moment from "moment";
+import AssetProxy from "../valueObjects/AssetProxy";
 
-const MomentType = new yaml.Type('date', {
-  kind: 'scalar',
+const MomentType = new yaml.Type("date", {
+  kind: "scalar",
   predicate(value) {
     return moment.isMoment(value);
   },
@@ -15,11 +15,11 @@ const MomentType = new yaml.Type('date', {
   },
 });
 
-const ImageType = new yaml.Type('image', {
-  kind: 'scalar',
+const ImageType = new yaml.Type("image", {
+  kind: "scalar",
   instanceOf: AssetProxy,
   represent(value) {
-    return `${ value.path }`;
+    return `${value.path}`;
   },
   resolve(value) {
     if (value === null) return false;
@@ -27,7 +27,6 @@ const ImageType = new yaml.Type('image', {
     return false;
   },
 });
-
 
 const OutputSchema = new yaml.Schema({
   include: yaml.DEFAULT_SAFE_SCHEMA.include,
@@ -55,6 +54,9 @@ export default class YAML {
   }
 
   toFile(data, sortedKeys = []) {
-    return yaml.safeDump(data, { schema: OutputSchema, sortKeys: sortKeys(sortedKeys) });
+    return yaml.safeDump(data, {
+      schema: OutputSchema,
+      sortKeys: sortKeys(sortedKeys),
+    });
   }
 }

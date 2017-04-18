@@ -1,13 +1,15 @@
-import React, { Component, PropTypes } from 'react';
-import { Icon } from '../../UI';
-import styles from './Toolbar.css';
+import React, { Component, PropTypes } from "react";
+import { Icon } from "../../UI";
+import styles from "./Toolbar.css";
 
 function button(label, icon, action) {
-  return (<li className={styles.Button}>
-    <button className={styles[label]} onClick={action} title={label}>
-      <Icon type={icon} />
-    </button>
-  </li>);
+  return (
+    <li className={styles.Button}>
+      <button className={styles[label]} onClick={action} title={label}>
+        <Icon type={icon} />
+      </button>
+    </li>
+  );
 }
 
 export default class Toolbar extends Component {
@@ -32,17 +34,25 @@ export default class Toolbar extends Component {
         top: selectionPosition.top - rect.height - 5,
         left: Math.min(selectionPosition.left, parentRect.width - rect.width),
       };
-      style.setProperty('top', `${ pos.top }px`);
-      style.setProperty('left', `${ pos.left }px`);
+      style.setProperty("top", `${pos.top}px`);
+      style.setProperty("left", `${pos.left}px`);
     }
   }
 
-  handleRef = (ref) => {
+  handleRef = ref => {
     this.element = ref;
   };
 
   render() {
-    const { isOpen, onH1, onH2, onBold, onItalic, onLink, onToggleMode } = this.props;
+    const {
+      isOpen,
+      onH1,
+      onH2,
+      onBold,
+      onItalic,
+      onLink,
+      onToggleMode,
+    } = this.props;
     const classNames = [styles.Toolbar];
 
     if (isOpen) {
@@ -50,13 +60,13 @@ export default class Toolbar extends Component {
     }
 
     return (
-      <ul className={classNames.join(' ')} ref={this.handleRef}>
-        {button('Header 1', 'h1', onH1)}
-        {button('Header 2', 'h2', onH2)}
-        {button('Bold', 'bold', onBold)}
-        {button('Italic', 'italic', onItalic)}
-        {button('Link', 'link', onLink)}
-        {button('View Code', 'code', onToggleMode)}
+      <ul className={classNames.join(" ")} ref={this.handleRef}>
+        {button("Header 1", "h1", onH1)}
+        {button("Header 2", "h2", onH2)}
+        {button("Bold", "bold", onBold)}
+        {button("Italic", "italic", onItalic)}
+        {button("Link", "link", onLink)}
+        {button("View Code", "code", onToggleMode)}
       </ul>
     );
   }

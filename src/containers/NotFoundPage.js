@@ -1,5 +1,3 @@
-import React from 'react';
+import React from "react";
 
-export default () => (
-  <h2>Not Found</h2>
-);
+export default () => <h2>Not Found</h2>;

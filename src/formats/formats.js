@@ -1,6 +1,6 @@
-import YAML from './yaml';
-import JSONFormatter from './json';
-import Frontmatter from './frontmatter';
+import YAML from "./yaml";
+import JSONFormatter from "./json";
+import Frontmatter from "./frontmatter";
 
 const yamlFormatter = new YAML();
 const jsonFormatter = new JSONFormatter();
@@ -13,29 +13,33 @@ function formatByType(type) {
 }
 
 export function formatByExtension(extension) {
-  return {
-    yml: yamlFormatter,
-    json: jsonFormatter,
-    md: FrontmatterFormatter,
-    markdown: FrontmatterFormatter,
-    html: FrontmatterFormatter,
-  }[extension] || FrontmatterFormatter;
+  return (
+    {
+      yml: yamlFormatter,
+      json: jsonFormatter,
+      md: FrontmatterFormatter,
+      markdown: FrontmatterFormatter,
+      html: FrontmatterFormatter,
+    }[extension] || FrontmatterFormatter
+  );
 }
 
 function formatByName(name) {
-  return {
-    yaml: yamlFormatter,
-    frontmatter: FrontmatterFormatter,
-  }[name] || FrontmatterFormatter;
+  return (
+    {
+      yaml: yamlFormatter,
+      frontmatter: FrontmatterFormatter,
+    }[name] || FrontmatterFormatter
+  );
 }
 
 export function resolveFormat(collectionOrEntity, entry) {
-  if (typeof collectionOrEntity === 'string') {
+  if (typeof collectionOrEntity === "string") {
     return formatByType(collectionOrEntity);
   }
   const path = entry && entry.path;
   if (path) {
-    return formatByExtension(path.split('.').pop());
+    return formatByExtension(path.split(".").pop());
   }
-  return formatByName(collectionOrEntity.get('format'));
+  return formatByName(collectionOrEntity.get("format"));
 }

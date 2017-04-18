@@ -9,12 +9,10 @@ export default class API extends GithubAPI {
     this.repoURL = "";
   }
 
-
   getRequestHeaders(headers = {}) {
-    return this.tokenPromise()
-    .then((jwtToken) => {
+    return this.tokenPromise().then(jwtToken => {
       const baseHeader = {
-        "Authorization": `Bearer ${ jwtToken }`,
+        Authorization: `Bearer ${jwtToken}`,
         "Content-Type": "application/json",
         ...headers,
       };
@@ -23,16 +21,15 @@ export default class API extends GithubAPI {
     });
   }
 
-
   urlFor(path, options) {
     const params = [];
     if (options.params) {
       for (const key in options.params) {
-        params.push(`${ key }=${ encodeURIComponent(options.params[key]) }`);
+        params.push(`${key}=${encodeURIComponent(options.params[key])}`);
       }
     }
     if (params.length) {
-      path += `?${ params.join("&") }`;
+      path += `?${params.join("&")}`;
     }
     return this.api_root + path;
   }
@@ -44,15 +41,15 @@ export default class API extends GithubAPI {
   request(path, options = {}) {
     const url = this.urlFor(path, options);
     return this.getRequestHeaders(options.headers || {})
-    .then(headers => fetch(url, { ...options, headers }))
-    .then((response) => {
-      const contentType = response.headers.get("Content-Type");
-      if (contentType && contentType.match(/json/)) {
-        return this.parseJsonResponse(response);
-      }
+      .then(headers => fetch(url, { ...options, headers }))
+      .then(response => {
+        const contentType = response.headers.get("Content-Type");
+        if (contentType && contentType.match(/json/)) {
+          return this.parseJsonResponse(response);
+        }
 
-      return response.text();
-    });
+        return response.text();
+      });
   }
 
   commit(message, changeTree) {
@@ -74,5 +71,4 @@ export default class API extends GithubAPI {
       body: JSON.stringify(commitParams),
     });
   }
-
 }

@@ -1,5 +1,5 @@
 import NetlifyAuthClient from "netlify-auth-js";
-import jwtDecode from 'jwt-decode';
+import jwtDecode from "jwt-decode";
 import { get, pick, intersection } from "lodash";
 import GitHubBackend from "../github/implementation";
 import API from "./API";
@@ -8,15 +8,23 @@ import AuthenticationPage from "./AuthenticationPage";
 export default class NetlifyAuth extends GitHubBackend {
   constructor(config) {
     super(config, true);
-    if (config.getIn(["backend", "auth_url"]) == null) { throw new Error("The NetlifyAuth backend needs an \"auth_url\" in the backend configuration."); }
+    if (config.getIn(["backend", "auth_url"]) == null) {
+      throw new Error(
+        'The NetlifyAuth backend needs an "auth_url" in the backend configuration.',
+      );
+    }
 
     if (config.getIn(["backend", "github_proxy_url"]) == null) {
-      throw new Error("The NetlifyAuth backend needs an \"github_proxy_url\" in the backend configuration.");
+      throw new Error(
+        'The NetlifyAuth backend needs an "github_proxy_url" in the backend configuration.',
+      );
     }
     this.github_proxy_url = config.getIn(["backend", "github_proxy_url"]);
 
     if (config.getIn(["backend", "accept_roles"]) == null) {
-      throw new Error("The NetlifyAuth backend needs an \"accept_roles\" in the backend configuration.");
+      throw new Error(
+        'The NetlifyAuth backend needs an "accept_roles" in the backend configuration.',
+      );
     }
     this.accept_roles = config.getIn(["backend", "accept_roles"]).toArray();
 
@@ -35,12 +43,11 @@ export default class NetlifyAuth extends GitHubBackend {
 
   authenticate(user) {
     this.tokenPromise = user.jwt.bind(user);
-    return this.tokenPromise()
-    .then((token) => {
-      const userRoles = get(jwtDecode(token), 'app_metadata.roles', []);
+    return this.tokenPromise().then(token => {
+      const userRoles = get(jwtDecode(token), "app_metadata.roles", []);
       if (intersection(userRoles, this.accept_roles).length > 0) {
         const userData = {
-          name: `${ user.user_metadata.firstname } ${ user.user_metadata.lastname }`,
+          name: `${user.user_metadata.firstname} ${user.user_metadata.lastname}`,
           email: user.email,
           metadata: user.user_metadata,
         };
@@ -53,7 +60,7 @@ export default class NetlifyAuth extends GitHubBackend {
       } else {
         throw new Error("User is not authorized");
       }
-    });    
+    });
   }
 
   getToken() {
@@ -63,5 +70,4 @@ export default class NetlifyAuth extends GitHubBackend {
   authComponent() {
     return AuthenticationPage;
   }
-
 }

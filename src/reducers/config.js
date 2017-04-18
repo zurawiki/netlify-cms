@@ -1,5 +1,9 @@
-import Immutable from 'immutable';
-import { CONFIG_REQUEST, CONFIG_SUCCESS, CONFIG_FAILURE } from '../actions/config';
+import Immutable from "immutable";
+import {
+  CONFIG_REQUEST,
+  CONFIG_SUCCESS,
+  CONFIG_FAILURE,
+} from "../actions/config";
 
 const config = (state = null, action) => {
   switch (action.type) {

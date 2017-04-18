@@ -1,14 +1,14 @@
-import history from '../routing/history';
-import { SEARCH } from '../components/FindBar/FindBar';
-import { getCollectionUrl, getNewEntryUrl } from '../lib/urlHelper';
+import history from "../routing/history";
+import { SEARCH } from "../components/FindBar/FindBar";
+import { getCollectionUrl, getNewEntryUrl } from "../lib/urlHelper";
 
-export const RUN_COMMAND = 'RUN_COMMAND';
-export const SHOW_COLLECTION = 'SHOW_COLLECTION';
-export const CREATE_COLLECTION = 'CREATE_COLLECTION';
-export const HELP = 'HELP';
+export const RUN_COMMAND = "RUN_COMMAND";
+export const SHOW_COLLECTION = "SHOW_COLLECTION";
+export const CREATE_COLLECTION = "CREATE_COLLECTION";
+export const HELP = "HELP";
 
 export function runCommand(command, payload) {
-  return (dispatch) => {
+  return dispatch => {
     switch (command) {
       case SHOW_COLLECTION:
         history.push(getCollectionUrl(payload.collectionName));
@@ -17,10 +17,12 @@ export function runCommand(command, payload) {
         history.push(getNewEntryUrl(payload.collectionName));
         break;
       case HELP:
-        window.alert('Find Bar Help (PLACEHOLDER)\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit.');
+        window.alert(
+          "Find Bar Help (PLACEHOLDER)\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        );
         break;
       case SEARCH:
-        history.push(`/search/${ payload.searchTerm }`);
+        history.push(`/search/${payload.searchTerm}`);
         break;
       default:
         break;

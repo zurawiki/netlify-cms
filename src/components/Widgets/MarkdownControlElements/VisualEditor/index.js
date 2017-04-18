@@ -1,31 +1,36 @@
-import React, { Component, PropTypes } from 'react';
-import { Schema } from 'prosemirror-model';
-import { EditorState } from 'prosemirror-state';
-import { EditorView } from 'prosemirror-view';
-import history from 'prosemirror-history';
+import React, { Component, PropTypes } from "react";
+import { Schema } from "prosemirror-model";
+import { EditorState } from "prosemirror-state";
+import { EditorView } from "prosemirror-view";
+import history from "prosemirror-history";
 import {
-  blockQuoteRule, orderedListRule, bulletListRule, codeBlockRule, headingRule,
-  inputRules, allInputRules,
-} from 'prosemirror-inputrules';
-import { keymap } from 'prosemirror-keymap';
-import { schema, defaultMarkdownSerializer } from 'prosemirror-markdown';
-import { baseKeymap, setBlockType, toggleMark } from 'prosemirror-commands';
-import registry from '../../../../lib/registry';
-import { createAssetProxy } from '../../../../valueObjects/AssetProxy';
-import { buildKeymap } from './keymap';
-import createMarkdownParser from './parser';
-import Toolbar from '../Toolbar';
-import BlockMenu from '../BlockMenu';
-import styles from './index.css';
+  blockQuoteRule,
+  orderedListRule,
+  bulletListRule,
+  codeBlockRule,
+  headingRule,
+  inputRules,
+  allInputRules,
+} from "prosemirror-inputrules";
+import { keymap } from "prosemirror-keymap";
+import { schema, defaultMarkdownSerializer } from "prosemirror-markdown";
+import { baseKeymap, setBlockType, toggleMark } from "prosemirror-commands";
+import registry from "../../../../lib/registry";
+import { createAssetProxy } from "../../../../valueObjects/AssetProxy";
+import { buildKeymap } from "./keymap";
+import createMarkdownParser from "./parser";
+import Toolbar from "../Toolbar";
+import BlockMenu from "../BlockMenu";
+import styles from "./index.css";
 
 function processUrl(url) {
   if (url.match(/^(https?:\/\/|mailto:|\/)/)) {
     return url;
   }
   if (url.match(/^[^\/]+\.[^\/]+/)) {
-    return `https://${ url }`;
+    return `https://${url}`;
   }
-  return `/${ url }`;
+  return `/${url}`;
 }
 
 const ruleset = {
@@ -58,22 +63,28 @@ function markActive(state, type) {
 
 function schemaWithPlugins(schema, plugins) {
   let nodeSpec = schema.nodeSpec;
-  plugins.forEach((plugin) => {
+  plugins.forEach(plugin => {
     const attrs = {};
-    plugin.get('fields').forEach((field) => {
-      attrs[field.get('name')] = { default: null };
+    plugin.get("fields").forEach(field => {
+      attrs[field.get("name")] = { default: null };
     });
-    nodeSpec = nodeSpec.addToEnd(`plugin_${ plugin.get('id') }`, {
+    nodeSpec = nodeSpec.addToEnd(`plugin_${plugin.get("id")}`, {
       attrs,
-      group: 'block',
-      parseDOM: [{
-        tag: 'div[data-plugin]',
-        getAttrs(dom) {
-          return JSON.parse(dom.getAttribute('data-plugin'));
+      group: "block",
+      parseDOM: [
+        {
+          tag: "div[data-plugin]",
+          getAttrs(dom) {
+            return JSON.parse(dom.getAttribute("data-plugin"));
+          },
         },
-      }],
+      ],
       toDOM(node) {
-        return ['div', { 'data-plugin': JSON.stringify(node.attrs) }, plugin.get('label')];
+        return [
+          "div",
+          { "data-plugin": JSON.stringify(node.attrs) },
+          plugin.get("label"),
+        ];
       },
     });
   });
@@ -86,10 +97,10 @@ function schemaWithPlugins(schema, plugins) {
 
 function createSerializer(schema, plugins) {
   const serializer = Object.create(defaultMarkdownSerializer);
-  plugins.forEach((plugin) => {
-    serializer.nodes[`plugin_${ plugin.get('id') }`] = (state, node) => {
-      const toBlock = plugin.get('toBlock');
-      state.write(`${ toBlock.call(plugin, node.attrs) }\n\n`);
+  plugins.forEach(plugin => {
+    serializer.nodes[`plugin_${plugin.get("id")}`] = (state, node) => {
+      const toBlock = plugin.get("toBlock");
+      state.write(`${toBlock.call(plugin, node.attrs)}\n\n`);
     };
   });
   return serializer;
@@ -110,7 +121,7 @@ export default class Editor extends Component {
 
   componentDidMount() {
     const { schema, parser } = this.state;
-    const doc = parser.parse(this.props.value || '');
+    const doc = parser.parse(this.props.value || "");
     this.view = new EditorView(this.ref, {
       state: EditorState.create({
         doc,
@@ -123,8 +134,8 @@ export default class Editor extends Component {
           keymap(baseKeymap),
           history.history(),
           keymap({
-            'Mod-z': history.undo,
-            'Mod-y': history.redo,
+            "Mod-z": history.undo,
+            "Mod-y": history.redo,
           }),
         ],
       }),
@@ -132,7 +143,7 @@ export default class Editor extends Component {
     });
   }
 
-  handleAction = (action) => {
+  handleAction = action => {
     const { schema, serializer } = this.state;
     const newState = this.view.state.applyAction(action);
     const md = serializer.serialize(newState.doc);
@@ -144,50 +155,66 @@ export default class Editor extends Component {
     this.view.focus();
   };
 
-  handleSelection = (state) => {
+  handleSelection = state => {
     const { schema, selection } = state;
     if (selection.from === selection.to) {
       const { $from } = selection;
-      if ($from.parent && $from.parent.type === schema.nodes.paragraph && $from.parent.textContent === '') {
+      if (
+        $from.parent &&
+        $from.parent.type === schema.nodes.paragraph &&
+        $from.parent.textContent === ""
+      ) {
         const pos = this.view.coordsAtPos(selection.from);
         const editorPos = this.view.content.getBoundingClientRect();
-        const selectionPosition = { top: pos.top - editorPos.top, left: pos.left - editorPos.left };
-        this.setState({ showToolbar: false, showBlockMenu: true, selectionPosition });
+        const selectionPosition = {
+          top: pos.top - editorPos.top,
+          left: pos.left - editorPos.left,
+        };
+        this.setState({
+          showToolbar: false,
+          showBlockMenu: true,
+          selectionPosition,
+        });
       } else {
         this.setState({ showToolbar: false, showBlockMenu: false });
       }
     } else {
       const pos = this.view.coordsAtPos(selection.from);
       const editorPos = this.view.content.getBoundingClientRect();
-      const selectionPosition = { top: pos.top - editorPos.top, left: pos.left - editorPos.left };
-      this.setState({ showToolbar: true, showBlockMenu: false, selectionPosition });
+      const selectionPosition = {
+        top: pos.top - editorPos.top,
+        left: pos.left - editorPos.left,
+      };
+      this.setState({
+        showToolbar: true,
+        showBlockMenu: false,
+        selectionPosition,
+      });
     }
   };
 
-  handleRef = (ref) => {
+  handleRef = ref => {
     this.ref = ref;
   };
 
-  handleHeader = level => (
-    () => {
-      const { schema } = this.state;
-      const state = this.view.state;
-      const { $from, to, node } = state.selection;
-      let nodeType = schema.nodes.heading;
-      let attrs = { level };
-      let inHeader = node && node.hasMarkup(nodeType, attrs);
-      if (!inHeader) {
-        inHeader = to <= $from.end() && $from.parent.hasMarkup(nodeType, attrs);
-      }
-      if (inHeader) {
-        nodeType = schema.nodes.paragraph;
-        attrs = {};
-      }
-
-      const command = setBlockType(nodeType, { level });
-      command(state, this.handleAction);
+  handleHeader = level => () => {
+    const { schema } = this.state;
+    const state = this.view.state;
+    const { $from, to, node } = state.selection;
+    let nodeType = schema.nodes.heading;
+    let attrs = { level };
+    let inHeader = node && node.hasMarkup(nodeType, attrs);
+    if (!inHeader) {
+      inHeader = to <= $from.end() && $from.parent.hasMarkup(nodeType, attrs);
     }
-  );
+    if (inHeader) {
+      nodeType = schema.nodes.paragraph;
+      attrs = {};
+    }
+
+    const command = setBlockType(nodeType, { level });
+    command(state, this.handleAction);
+  };
 
   handleBold = () => {
     const command = toggleMark(this.state.schema.marks.strong);
@@ -202,33 +229,39 @@ export default class Editor extends Component {
   handleLink = () => {
     let url = null;
     if (!markActive(this.view.state, this.state.schema.marks.link)) {
-      url = prompt('Link URL:');
+      url = prompt("Link URL:");
     }
-    const command = toggleMark(this.state.schema.marks.link, { href: url ? processUrl(url) : null });
+    const command = toggleMark(this.state.schema.marks.link, {
+      href: url ? processUrl(url) : null,
+    });
     command(this.view.state, this.handleAction);
   };
 
   handleBlock = (plugin, data) => {
     const { schema } = this.state;
-    const nodeType = schema.nodes[`plugin_${ plugin.get('id') }`];
-    this.view.props.onAction(this.view.state.tr.replaceSelectionWith(nodeType.create(data.toJS())).action());
+    const nodeType = schema.nodes[`plugin_${plugin.get("id")}`];
+    this.view.props.onAction(
+      this.view.state.tr
+        .replaceSelectionWith(nodeType.create(data.toJS()))
+        .action(),
+    );
   };
 
-  handleDragEnter = (e) => {
+  handleDragEnter = e => {
     e.preventDefault();
     this.setState({ dragging: true });
   };
 
-  handleDragLeave = (e) => {
+  handleDragLeave = e => {
     e.preventDefault();
     this.setState({ dragging: false });
   };
 
-  handleDragOver = (e) => {
+  handleDragOver = e => {
     e.preventDefault();
   };
 
-  handleDrop = (e) => {
+  handleDrop = e => {
     e.preventDefault();
 
     this.setState({ dragging: false });
@@ -238,71 +271,88 @@ export default class Editor extends Component {
     const nodes = [];
 
     if (e.dataTransfer.files && e.dataTransfer.files.length) {
-      Array.from(e.dataTransfer.files).forEach((file) => {
-        createAssetProxy(file.name, file)
-        .then((assetProxy) => {
+      Array.from(e.dataTransfer.files).forEach(file => {
+        createAssetProxy(file.name, file).then(assetProxy => {
           this.props.onAddAsset(assetProxy);
-          if (file.type.split('/')[0] === 'image') {
+          if (file.type.split("/")[0] === "image") {
             nodes.push(
-              schema.nodes.image.create({ src: assetProxy.public_path, alt: file.name })
+              schema.nodes.image.create({
+                src: assetProxy.public_path,
+                alt: file.name,
+              }),
             );
           } else {
             nodes.push(
-              schema.marks.link.create({ href: assetProxy.public_path, title: file.name })
+              schema.marks.link.create({
+                href: assetProxy.public_path,
+                title: file.name,
+              }),
             );
           }
         });
       });
     } else {
-      nodes.push(schema.nodes.paragraph.create({}, e.dataTransfer.getData('text/plain')));
+      nodes.push(
+        schema.nodes.paragraph.create({}, e.dataTransfer.getData("text/plain")),
+      );
     }
 
-    nodes.forEach((node) => {
-      this.view.props.onAction(this.view.state.tr.replaceSelectionWith(node).action());
+    nodes.forEach(node => {
+      this.view.props.onAction(
+        this.view.state.tr.replaceSelectionWith(node).action(),
+      );
     });
   };
 
   handleToggle = () => {
-    this.props.onMode('raw');
+    this.props.onMode("raw");
   };
 
   render() {
     const { onAddAsset, onRemoveAsset, getAsset } = this.props;
-    const { plugins, showToolbar, showBlockMenu, selectionPosition, dragging } = this.state;
+    const {
+      plugins,
+      showToolbar,
+      showBlockMenu,
+      selectionPosition,
+      dragging,
+    } = this.state;
     const classNames = [styles.editor];
     if (dragging) {
       classNames.push(styles.dragging);
     }
 
-    return (<div
-      className={classNames.join(' ')}
-      onDragEnter={this.handleDragEnter}
-      onDragLeave={this.handleDragLeave}
-      onDragOver={this.handleDragOver}
-      onDrop={this.handleDrop}
-    >
-      <Toolbar
-        isOpen={showToolbar}
-        selectionPosition={selectionPosition}
-        onH1={this.handleHeader(1)}
-        onH2={this.handleHeader(2)}
-        onBold={this.handleBold}
-        onItalic={this.handleItalic}
-        onLink={this.handleLink}
-        onToggleMode={this.handleToggle}
-      />
-      <BlockMenu
-        isOpen={showBlockMenu}
-        selectionPosition={selectionPosition}
-        plugins={plugins}
-        onBlock={this.handleBlock}
-        onAddAsset={onAddAsset}
-        onRemoveAsset={onRemoveAsset}
-        getAsset={getAsset}
-      />
-      <div ref={this.handleRef} />
-      <div className={styles.shim} />
-    </div>);
+    return (
+      <div
+        className={classNames.join(" ")}
+        onDragEnter={this.handleDragEnter}
+        onDragLeave={this.handleDragLeave}
+        onDragOver={this.handleDragOver}
+        onDrop={this.handleDrop}
+      >
+        <Toolbar
+          isOpen={showToolbar}
+          selectionPosition={selectionPosition}
+          onH1={this.handleHeader(1)}
+          onH2={this.handleHeader(2)}
+          onBold={this.handleBold}
+          onItalic={this.handleItalic}
+          onLink={this.handleLink}
+          onToggleMode={this.handleToggle}
+        />
+        <BlockMenu
+          isOpen={showBlockMenu}
+          selectionPosition={selectionPosition}
+          plugins={plugins}
+          onBlock={this.handleBlock}
+          onAddAsset={onAddAsset}
+          onRemoveAsset={onRemoveAsset}
+          getAsset={getAsset}
+        />
+        <div ref={this.handleRef} />
+        <div className={styles.shim} />
+      </div>
+    );
   }
 }
 

@@ -1,22 +1,27 @@
-import Algolia from './providers/algolia/implementation';
-import AssetStore from './providers/assetStore/implementation';
-import { Map } from 'immutable';
+import Algolia from "./providers/algolia/implementation";
+import AssetStore from "./providers/assetStore/implementation";
+import { Map } from "immutable";
 
 export function resolveIntegrations(interationsConfig, getToken) {
   let integrationInstances = Map({});
-  interationsConfig.get('providers').forEach((providerData, providerName) => {
+  interationsConfig.get("providers").forEach((providerData, providerName) => {
     switch (providerName) {
-      case 'algolia':
-        integrationInstances = integrationInstances.set('algolia', new Algolia(providerData));
+      case "algolia":
+        integrationInstances = integrationInstances.set(
+          "algolia",
+          new Algolia(providerData),
+        );
         break;
-      case 'assetStore':
-        integrationInstances = integrationInstances.set('assetStore', new AssetStore(providerData, getToken));
+      case "assetStore":
+        integrationInstances = integrationInstances.set(
+          "assetStore",
+          new AssetStore(providerData, getToken),
+        );
         break;
     }
   });
   return integrationInstances;
 }
-
 
 export const getIntegrationProvider = (function() {
   let integrations = null;
@@ -29,4 +34,4 @@ export const getIntegrationProvider = (function() {
       return integrations.get(provider);
     }
   };
-}());
+})();

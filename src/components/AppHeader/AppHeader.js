@@ -11,7 +11,6 @@ import { stringToRGB } from "../../lib/textHelper";
 import styles from "./AppHeader.css";
 
 export default class AppHeader extends React.Component {
-
   static propTypes = {
     user: ImmutablePropTypes.map.isRequired,
     collections: ImmutablePropTypes.orderedMap.isRequired,
@@ -26,7 +25,7 @@ export default class AppHeader extends React.Component {
     userMenuActive: false,
   };
 
-  handleCreatePostClick = (collectionName) => {
+  handleCreatePostClick = collectionName => {
     const { onCreateEntryClick } = this.props;
     if (onCreateEntryClick) {
       onCreateEntryClick(collectionName);
@@ -55,7 +54,7 @@ export default class AppHeader extends React.Component {
     } = this.props;
 
     const avatarStyle = {
-      backgroundColor: `#${ stringToRGB(user.get("name")) }`,
+      backgroundColor: `#${stringToRGB(user.get("name"))}`,
     };
 
     return (
@@ -75,19 +74,27 @@ export default class AppHeader extends React.Component {
           onClick={this.handleCreateButtonClick}
           onHide={this.handleCreateMenuHide}
         >
-          {
-            collections.filter(collection => collection.get('create')).valueSeq().map(collection =>
+          {collections
+            .filter(collection => collection.get("create"))
+            .valueSeq()
+            .map(collection => (
               <MenuItem
                 key={collection.get("name")}
                 value={collection.get("name")}
-                onClick={this.handleCreatePostClick.bind(this, collection.get('name'))} // eslint-disable-line
+                onClick={this.handleCreatePostClick.bind(
+                  this,
+                  collection.get("name"),
+                )} // eslint-disable-line
                 caption={pluralize(collection.get("label"), 1)}
               />
-            )
-          }
+            ))}
         </IconMenu>
         <FindBar runCommand={runCommand} />
-        <Avatar style={avatarStyle} title={user.get("name")} image={user.get("avatar_url")} />
+        <Avatar
+          style={avatarStyle}
+          title={user.get("name")}
+          image={user.get("avatar_url")}
+        />
         <IconMenu icon="settings" position="topRight" theme={styles}>
           <MenuItem onClick={onLogoutClick} value="log out" caption="Log Out" />
         </IconMenu>

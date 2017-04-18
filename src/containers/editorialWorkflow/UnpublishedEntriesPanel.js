@@ -1,17 +1,18 @@
-import React, { Component, PropTypes } from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import { OrderedMap } from 'immutable';
-import { connect } from 'react-redux';
-import { 
+import React, { Component, PropTypes } from "react";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import { OrderedMap } from "immutable";
+import { connect } from "react-redux";
+import {
   loadUnpublishedEntries,
   updateUnpublishedEntryStatus,
   publishUnpublishedEntry,
-  deleteUnpublishedEntry 
-} from '../../actions/editorialWorkflow';
-import { selectUnpublishedEntriesByStatus } from '../../reducers';
-import { EDITORIAL_WORKFLOW, status } from '../../constants/publishModes';
-import UnpublishedListing from '../../components/UnpublishedListing/UnpublishedListing';
-import { Loader } from '../../components/UI';
+  deleteUnpublishedEntry,
+} from "../../actions/editorialWorkflow";
+import { selectUnpublishedEntriesByStatus } from "../../reducers";
+import { EDITORIAL_WORKFLOW, status } from "../../constants/publishModes";
+import UnpublishedListing
+  from "../../components/UnpublishedListing/UnpublishedListing";
+import { Loader } from "../../components/UI";
 
 class unpublishedEntriesPanel extends Component {
   static propTypes = {
@@ -32,10 +33,18 @@ class unpublishedEntriesPanel extends Component {
   }
 
   render() {
-    const { isEditorialWorkflow, isFetching, unpublishedEntries, updateUnpublishedEntryStatus, publishUnpublishedEntry, deleteUnpublishedEntry } = this.props;
+    const {
+      isEditorialWorkflow,
+      isFetching,
+      unpublishedEntries,
+      updateUnpublishedEntryStatus,
+      publishUnpublishedEntry,
+      deleteUnpublishedEntry,
+    } = this.props;
     if (!isEditorialWorkflow) return null;
-    if (isFetching) return <Loader active>Loading Editorial Workflow Entries</Loader>;
-   
+    if (isFetching)
+      return <Loader active>Loading Editorial Workflow Entries</Loader>;
+
     return (
       <UnpublishedListing
         entries={unpublishedEntries}
@@ -48,20 +57,29 @@ class unpublishedEntriesPanel extends Component {
 }
 
 function mapStateToProps(state) {
-  const isEditorialWorkflow = (state.config.get('publish_mode') === EDITORIAL_WORKFLOW);
+  const isEditorialWorkflow =
+    state.config.get("publish_mode") === EDITORIAL_WORKFLOW;
   const returnObj = { isEditorialWorkflow };
 
   if (isEditorialWorkflow) {
-    returnObj.isFetching = state.editorialWorkflow.getIn(['pages', 'isFetching'], false);
+    returnObj.isFetching = state.editorialWorkflow.getIn(
+      ["pages", "isFetching"],
+      false,
+    );
 
     /*
      * Generates an ordered Map of the available status as keys.
      * Each key containing a Sequence of available unpubhlished entries
      * Eg.: OrderedMap{'draft':Seq(), 'pending_review':Seq(), 'pending_publish':Seq()}
      */
-    returnObj.unpublishedEntries = status.reduce((acc, currStatus) => (
-      acc.set(currStatus, selectUnpublishedEntriesByStatus(state, currStatus))
-    ), OrderedMap());
+    returnObj.unpublishedEntries = status.reduce(
+      (acc, currStatus) =>
+        acc.set(
+          currStatus,
+          selectUnpublishedEntriesByStatus(state, currStatus),
+        ),
+      OrderedMap(),
+    );
   }
   return returnObj;
 }

@@ -1,11 +1,13 @@
-import { List } from 'immutable';
-import { newEditorPlugin } from '../components/Widgets/MarkdownControlElements/plugins';
+import { List } from "immutable";
+import {
+  newEditorPlugin,
+} from "../components/Widgets/MarkdownControlElements/plugins";
 
 const _registry = {
   templates: {},
   previewStyles: [],
   widgets: {},
-  editorComponents: List([])
+  editorComponents: List([]),
 };
 
 export default {
@@ -28,9 +30,11 @@ export default {
     return _registry.widgets[name];
   },
   registerEditorComponent(component) {
-    _registry.editorComponents = _registry.editorComponents.push(newEditorPlugin(component));
+    _registry.editorComponents = _registry.editorComponents.push(
+      newEditorPlugin(component),
+    );
   },
   getEditorComponents() {
     return _registry.editorComponents;
-  }
+  },
 };

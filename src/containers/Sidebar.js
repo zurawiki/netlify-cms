@@ -1,12 +1,11 @@
-import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
-import ReactSidebar from 'react-sidebar';
-import _ from 'lodash';
-import { openSidebar } from '../actions/globalUI';
-import styles from './Sidebar.css';
+import React, { PropTypes } from "react";
+import { connect } from "react-redux";
+import ReactSidebar from "react-sidebar";
+import _ from "lodash";
+import { openSidebar } from "../actions/globalUI";
+import styles from "./Sidebar.css";
 
 class Sidebar extends React.Component {
-
   static propTypes = {
     children: PropTypes.node.isRequired,
     content: PropTypes.node.isRequired,
@@ -17,7 +16,7 @@ class Sidebar extends React.Component {
   state = { sidebarDocked: false };
 
   componentWillMount() {
-    this.mql = window.matchMedia('(min-width: 1200px)');
+    this.mql = window.matchMedia("(min-width: 1200px)");
     this.mql.addListener(this.mediaQueryChanged);
     this.setState({ sidebarDocked: this.mql.matches });
   }
@@ -30,14 +29,8 @@ class Sidebar extends React.Component {
     this.setState({ sidebarDocked: this.mql.matches });
   }, 500);
 
-
   render() {
-    const {
-      children,
-      content,
-      sidebarIsOpen,
-      openSidebar,
-    } = this.props;
+    const { children, content, sidebarIsOpen, openSidebar } = this.props;
 
     return (
       <ReactSidebar
@@ -56,7 +49,7 @@ class Sidebar extends React.Component {
 
 function mapStateToProps(state) {
   const { globalUI } = state;
-  const sidebarIsOpen = globalUI.get('sidebarIsOpen');
+  const sidebarIsOpen = globalUI.get("sidebarIsOpen");
   return { sidebarIsOpen };
 }
 

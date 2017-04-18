@@ -1,20 +1,21 @@
-const absolutePath = new RegExp('^(?:[a-z]+:)?//', 'i');
-const normalizePath = path => path.replace(/[\\\/]+/g, '/');
+const absolutePath = new RegExp("^(?:[a-z]+:)?//", "i");
+const normalizePath = path => path.replace(/[\\\/]+/g, "/");
 
-export function resolvePath(path, basePath) { // eslint-disable-line
+export function resolvePath(path, basePath) {
+  // eslint-disable-line
   // No path provided, skip
   if (!path) return null;
 
   // It's an absolute path.
   if (absolutePath.test(path)) return path;
 
-  if (path.indexOf('/') === -1) {
+  if (path.indexOf("/") === -1) {
     // It's a single file name, no directories. Prepend public folder
-    return normalizePath(`/${ basePath }/${ path }`);
+    return normalizePath(`/${basePath}/${path}`);
   }
 
   // It's a relative path. Prepend a forward slash.
-  return normalizePath(`/${ path }`);
+  return normalizePath(`/${path}`);
 }
 
 /**
@@ -30,17 +31,17 @@ export function resolvePath(path, basePath) { // eslint-disable-line
  */
 export function basename(p, ext = "") {
   // Special case: Normalize will modify this to '.'
-  if (p === '') {
+  if (p === "") {
     return p;
   }
   // Normalize the string first to remove any weirdness.
   p = normalizePath(p);
   // Get the last part of the string.
-  const sections = p.split('/');
+  const sections = p.split("/");
   const lastPart = sections[sections.length - 1];
   // Special case: If it's empty, then we have a string like so: foo/
   // Meaning, 'foo' is guaranteed to be a directory.
-  if (lastPart === '' && sections.length > 1) {
+  if (lastPart === "" && sections.length > 1) {
     return sections[sections.length - 2];
   }
   // Remove the extension, if need be.
@@ -64,18 +65,18 @@ export function basename(p, ext = "") {
  */
 export function extname(p) {
   p = normalizePath(p);
-  const sections = p.split('/');
+  const sections = p.split("/");
   p = sections.pop();
   // Special case: foo/file.ext/ should return '.ext'
-  if (p === '' && sections.length > 0) {
+  if (p === "" && sections.length > 0) {
     p = sections.pop();
   }
-  if (p === '..') {
-    return '';
+  if (p === "..") {
+    return "";
   }
-  const i = p.lastIndexOf('.');
+  const i = p.lastIndexOf(".");
   if (i === -1 || i === 0) {
-    return '';
+    return "";
   }
   return p.substr(i);
 }

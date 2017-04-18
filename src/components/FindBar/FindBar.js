@@ -1,8 +1,8 @@
-import React, { Component, PropTypes } from 'react';
-import styles from './FindBar.css';
+import React, { Component, PropTypes } from "react";
+import styles from "./FindBar.css";
 
-export const SEARCH = 'SEARCH';
-const PLACEHOLDER = 'Search entry titles...';
+export const SEARCH = "SEARCH";
+const PLACEHOLDER = "Search entry titles...";
 
 class FindBar extends Component {
   static propTypes = {
@@ -12,11 +12,11 @@ class FindBar extends Component {
   constructor() {
     super();
     this._searchCommand = {
-      regexp: `(?:${ SEARCH })?(.*)`,
-      param: { name: 'searchTerm', display: '' },
+      regexp: `(?:${SEARCH})?(.*)`,
+      param: { name: "searchTerm", display: "" },
     };
     this.state = {
-      value: '',
+      value: "",
       placeholder: PLACEHOLDER,
     };
   }
@@ -24,15 +24,17 @@ class FindBar extends Component {
   search = () => {
     const string = this.state.value;
     const command = this._searchCommand;
-    const match = string.match(RegExp(`^${ this._searchCommand.regexp }`, 'i'));
-    const enteredParamValue = command && command.param && match[1] ? match[1].trim() : null;
+    const match = string.match(RegExp(`^${this._searchCommand.regexp}`, "i"));
+    const enteredParamValue = command && command.param && match[1]
+      ? match[1].trim()
+      : null;
 
     if (enteredParamValue) {
       this.props.runCommand(SEARCH, { searchTerm: enteredParamValue });
     }
   };
 
-  handleKeyDown = event => (event.key === 'Enter' && this.search());
+  handleKeyDown = event => event.key === "Enter" && this.search();
   handleChange = event => this.setState({ value: event.target.value });
 
   render() {
