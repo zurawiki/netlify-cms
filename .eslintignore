@@ -1,2 +1,6 @@
-bin/
-dist/
+bin
+dist
+node_modules
+example
+webpack.*.js
+wallaby.*.js

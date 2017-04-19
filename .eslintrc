@@ -1,8 +1,17 @@
 {
   "extends": [
-    "eslint-config-netlify"
+    "eslint-config-netlify",
+    "prettier",
+    "prettier/react"
+  ],
+  "plugins": [
+    "prettier"
   ],
   "rules": {
+    "prettier/prettier": ["error", {
+      "trailingComma": "all",
+      "printWidth": 120
+    }],
     "consistent-return": "warn",
     "jsx-a11y/img-has-alt": "warn",
     "jsx-a11y/label-has-for": "warn",
