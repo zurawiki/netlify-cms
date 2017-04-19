@@ -1,17 +1,17 @@
 export default class AssetStore {
   constructor(config, getToken) {
     this.config = config;
-    if (config.get('getSignedFormURL') == null) {
-      throw new Error('The AssetStore integration needs the getSignedFormURL in the integration configuration.');
+    if (config.get("getSignedFormURL") == null) {
+      throw new Error("The AssetStore integration needs the getSignedFormURL in the integration configuration.");
     }
     this.getToken = getToken;
-    
-    this.shouldConfirmUpload = config.get('shouldConfirmUpload', false);
-    this.getSignedFormURL = config.get('getSignedFormURL');
+
+    this.shouldConfirmUpload = config.get("shouldConfirmUpload", false);
+    this.getSignedFormURL = config.get("getSignedFormURL");
   }
 
   parseJsonResponse(response) {
-    return response.json().then((json) => {
+    return response.json().then(json => {
       if (!response.ok) {
         return Promise.reject(json);
       }
@@ -23,16 +23,15 @@ export default class AssetStore {
   urlFor(path, options) {
     const params = [];
     if (options.params) {
-      Object.keys(options.params).forEach((key) => {
-        params.push(`${ key }=${ encodeURIComponent(options.params[key]) }`);
+      Object.keys(options.params).forEach(key => {
+        params.push(`${key}=${encodeURIComponent(options.params[key])}`);
       });
     }
     if (params.length) {
-      path += `?${ params.join('&') }`;
+      path += `?${params.join("&")}`;
     }
     return path;
   }
-
 
   requestHeaders(headers = {}) {
     return {
@@ -41,23 +40,23 @@ export default class AssetStore {
   }
 
   confirmRequest(assetID) {
-    this.getToken()
-    .then(token => this.request(`${ this.getSignedFormURL }/${ assetID }`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${ token }`,
-      },
-      body: JSON.stringify({ state: 'uploaded' }),
-    }));
+    this.getToken().then(token =>
+      this.request(`${this.getSignedFormURL}/${assetID}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ state: "uploaded" }),
+      }),
+    );
   }
-
 
   request(path, options = {}) {
     const headers = this.requestHeaders(options.headers || {});
     const url = this.urlFor(path, options);
-    return fetch(url, { ...options, headers }).then((response) => {
-      const contentType = response.headers.get('Content-Type');
+    return fetch(url, { ...options, headers }).then(response => {
+      const contentType = response.headers.get("Content-Type");
       if (contentType && contentType.match(/json/)) {
         return this.parseJsonResponse(response);
       }
@@ -74,37 +73,37 @@ export default class AssetStore {
     };
 
     if (privateUpload) {
-      fileData.visibility = 'private';
+      fileData.visibility = "private";
     }
 
     return this.getToken()
-    .then(token => this.request(this.getSignedFormURL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${ token }`,
-      },
-      body: JSON.stringify(fileData),
-    }))
-    .then((response) => {
-      const formURL = response.form.url;
-      const formFields = response.form.fields;
-      const assetID = response.asset.id;
-      const assetURL = response.asset.url;
-      
-      const formData = new FormData();
-      Object.keys(formFields).forEach(key => formData.append(key, formFields[key]));
-      formData.append('file', file, file.name);
+      .then(token =>
+        this.request(this.getSignedFormURL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(fileData),
+        }),
+      )
+      .then(response => {
+        const formURL = response.form.url;
+        const formFields = response.form.fields;
+        const assetID = response.asset.id;
+        const assetURL = response.asset.url;
 
-      return this.request(formURL, {
-        method: 'POST',
-        body: formData,
-      })
-      .then(() => { 
-        if (this.shouldConfirmUpload) this.confirmRequest(assetID);
-        return { success: true, assetURL };
+        const formData = new FormData();
+        Object.keys(formFields).forEach(key => formData.append(key, formFields[key]));
+        formData.append("file", file, file.name);
+
+        return this.request(formURL, {
+          method: "POST",
+          body: formData,
+        }).then(() => {
+          if (this.shouldConfirmUpload) this.confirmRequest(assetID);
+          return { success: true, assetURL };
+        });
       });
-    });
   }
 }
-

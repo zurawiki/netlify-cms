@@ -1,8 +1,8 @@
-import React, { PropTypes } from 'react';
-import previewStyle from './defaultPreviewStyle';
+import React, { PropTypes } from "react";
+import previewStyle from "./defaultPreviewStyle";
 
 export default function RelationPreview({ value }) {
-  return <div style={previewStyle}>{ value }</div>;
+  return <div style={previewStyle}>{value}</div>;
 }
 
 RelationPreview.propTypes = {

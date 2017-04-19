@@ -1,11 +1,10 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component, PropTypes } from "react";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import { has } from "lodash";
 
 const truthy = () => ({ error: false });
 
 class ControlHOC extends Component {
-
   static propTypes = {
     controlComponent: PropTypes.func.isRequired,
     field: ImmutablePropTypes.map.isRequired,
@@ -18,7 +17,7 @@ class ControlHOC extends Component {
     getAsset: PropTypes.func.isRequired,
   };
 
-  processInnerControlRef = (wrappedControl) => {
+  processInnerControlRef = wrappedControl => {
     if (!wrappedControl) return;
     this.wrappedControlValid = wrappedControl.isValid || truthy;
   };
@@ -27,7 +26,7 @@ class ControlHOC extends Component {
     const { field, value } = this.props;
     const errors = [];
     const validations = [this.validatePresence, this.validatePattern];
-    validations.forEach((func) => {
+    validations.forEach(func => {
       const response = func(field, value);
       if (response.error) errors.push(response.error);
     });
@@ -41,41 +40,50 @@ class ControlHOC extends Component {
   };
 
   validatePresence(field, value) {
-    const isRequired = field.get('required', true);
-    if (isRequired && (
-      value === null ||
-      value === undefined ||
-      (has(value, 'length') && value.length === 0) ||
-      (value.constructor === Object && Object.keys(value).length === 0)
-    )) {
+    const isRequired = field.get("required", true);
+    if (
+      isRequired &&
+      (value === null ||
+        value === undefined ||
+        (has(value, "length") && value.length === 0) ||
+        (value.constructor === Object && Object.keys(value).length === 0))
+    ) {
       return { error: true };
-    }
-    return { error: false };  
-  }
-
-  validatePattern(field, value) {
-    const pattern = field.get('pattern', false);
-    if (pattern && !RegExp(pattern.first()).test(value)) {
-      return { error: `${ field.get('label', field.get('name')) } didn't match the pattern: ${ pattern.last() }` };
     }
     return { error: false };
   }
 
-  validateWrappedControl = (field) => {
+  validatePattern(field, value) {
+    const pattern = field.get("pattern", false);
+    if (pattern && !RegExp(pattern.first()).test(value)) {
+      return {
+        error: `${field.get("label", field.get("name"))} didn't match the pattern: ${pattern.last()}`,
+      };
+    }
+    return { error: false };
+  }
+
+  validateWrappedControl = field => {
     const response = this.wrappedControlValid();
     if (typeof response === "boolean") {
       const isValid = response;
-      return { error: (!isValid) };
-    } else if (has(response, 'error')) {
+      return { error: !isValid };
+    } else if (has(response, "error")) {
       return response;
     } else if (response instanceof Promise) {
       response.then(
-        () => { this.validate({ error: false }); },
-        (error) => { 
-          this.validate({ error: `${ field.get('label', field.get('name')) } - ${ error }.` });
-        }
+        () => {
+          this.validate({ error: false });
+        },
+        error => {
+          this.validate({
+            error: `${field.get("label", field.get("name"))} - ${error}.`,
+          });
+        },
       );
-      return { error: `${ field.get('label', field.get('name')) } is processing.` };
+      return {
+        error: `${field.get("label", field.get("name"))} is processing.`,
+      };
     }
     return { error: false };
   };
@@ -90,7 +98,7 @@ class ControlHOC extends Component {
       onAddAsset,
       onRemoveAsset,
       getAsset,
-      forID: field.get('name'),
+      forID: field.get("name"),
       ref: this.processInnerControlRef,
     });
   }

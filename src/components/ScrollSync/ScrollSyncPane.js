@@ -1,8 +1,7 @@
-import { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
+import { Component, PropTypes } from "react";
+import ReactDOM from "react-dom";
 
 export default class ScrollSyncPane extends Component {
-
   static propTypes = {
     children: PropTypes.node.isRequired,
     attachTo: PropTypes.any,

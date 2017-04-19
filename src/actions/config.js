@@ -17,9 +17,11 @@ export function applyDefaults(config) {
   }
 
   // Make sure there is a public folder
-  set(defaults,
+  set(
+    defaults,
     "public_folder",
-    config.media_folder.charAt(0) === "/" ? config.media_folder : `/${ config.media_folder }`);
+    config.media_folder.charAt(0) === "/" ? config.media_folder : `/${config.media_folder}`,
+  );
 
   return defaultsDeep(config, defaults);
 }
@@ -28,8 +30,10 @@ function parseConfig(data) {
   const config = yaml.safeLoad(data);
   if (typeof CMS_ENV === "string" && config[CMS_ENV]) {
     // TODO: Add tests and refactor
-    for (const key in config[CMS_ENV]) { // eslint-disable-line no-restricted-syntax
-      if (config[CMS_ENV].hasOwnProperty(key)) { // eslint-disable-line no-prototype-builtins
+    for (const key in config[CMS_ENV]) {
+      // eslint-disable-line no-restricted-syntax
+      if (config[CMS_ENV].hasOwnProperty(key)) {
+        // eslint-disable-line no-prototype-builtins
         config[key] = config[CMS_ENV][key];
       }
     }
@@ -37,7 +41,6 @@ function parseConfig(data) {
 
   return config;
 }
-
 
 export function configLoaded(config) {
   return {
@@ -61,7 +64,7 @@ export function configFailed(err) {
 }
 
 export function configDidLoad(config) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(configLoaded(config));
   };
 }
@@ -70,24 +73,24 @@ export function loadConfig() {
   if (window.CMS_CONFIG) {
     return configDidLoad(window.CMS_CONFIG);
   }
-  return (dispatch) => {
+  return dispatch => {
     dispatch(configLoading());
 
-    fetch("config.yml", { credentials: 'same-origin' })
-    .then((response) => {
-      if (response.status !== 200) {
-        throw new Error(`Failed to load config.yml (${ response.status })`);
-      }
-      return response.text();
-    })
-    .then(parseConfig)
-    .then(applyDefaults)
-    .then((config) => {
-      dispatch(configDidLoad(config));
-      dispatch(authenticateUser());
-    })
-    .catch((err) => {
-      dispatch(configFailed(err));
-    });
+    fetch("config.yml", { credentials: "same-origin" })
+      .then(response => {
+        if (response.status !== 200) {
+          throw new Error(`Failed to load config.yml (${response.status})`);
+        }
+        return response.text();
+      })
+      .then(parseConfig)
+      .then(applyDefaults)
+      .then(config => {
+        dispatch(configDidLoad(config));
+        dispatch(authenticateUser());
+      })
+      .catch(err => {
+        dispatch(configFailed(err));
+      });
   };
 }

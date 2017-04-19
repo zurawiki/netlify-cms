@@ -1,12 +1,12 @@
-import React, { PropTypes } from 'react';
-import { Icon } from '../index';
-import styles from './Toast.css';
+import React, { PropTypes } from "react";
+import { Icon } from "../index";
+import styles from "./Toast.css";
 
 const icons = {
-  info: 'info',
-  success: 'check',
-  warning: 'attention',
-  danger: 'alert',
+  info: "info",
+  success: "check",
+  warning: "attention",
+  danger: "alert",
 };
 
 export default function Toast({ kind, message }) {
@@ -19,6 +19,6 @@ export default function Toast({ kind, message }) {
 }
 
 Toast.propTypes = {
-  kind: PropTypes.oneOf(['info', 'success', 'warning', 'danger']).isRequired,
+  kind: PropTypes.oneOf(["info", "success", "warning", "danger"]).isRequired,
   message: PropTypes.string,
 };

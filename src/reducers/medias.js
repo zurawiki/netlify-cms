@@ -1,7 +1,7 @@
-import { Map } from 'immutable';
-import { resolvePath } from '../lib/pathHelper';
-import { ADD_ASSET, REMOVE_ASSET } from '../actions/media';
-import AssetProxy from '../valueObjects/AssetProxy';
+import { Map } from "immutable";
+import { resolvePath } from "../lib/pathHelper";
+import { ADD_ASSET, REMOVE_ASSET } from "../actions/media";
+import AssetProxy from "../valueObjects/AssetProxy";
 
 const medias = (state = Map(), action) => {
   switch (action.type) {

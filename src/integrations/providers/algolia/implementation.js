@@ -1,26 +1,27 @@
-import { flatten } from 'lodash';
-import { createEntry } from '../../../valueObjects/Entry';
-import { selectEntrySlug } from '../../../reducers/collections';
+import { flatten } from "lodash";
+import { createEntry } from "../../../valueObjects/Entry";
+import { selectEntrySlug } from "../../../reducers/collections";
 
 function getSlug(path) {
-  return path.split('/').pop().replace(/\.[^\.]+$/, '');
+  return path.split("/").pop().replace(/\.[^\.]+$/, "");
 }
 
 export default class Algolia {
   constructor(config) {
     this.config = config;
-    if (config.get('applicationID') == null ||
-        config.get('apiKey') == null) {
-      throw new Error('The Algolia search integration needs the credentials (applicationID and apiKey) in the integration configuration.');
+    if (config.get("applicationID") == null || config.get("apiKey") == null) {
+      throw new Error(
+        "The Algolia search integration needs the credentials (applicationID and apiKey) in the integration configuration.",
+      );
     }
 
-    this.applicationID = config.get('applicationID');
-    this.apiKey = config.get('apiKey');
+    this.applicationID = config.get("applicationID");
+    this.apiKey = config.get("apiKey");
 
-    const prefix = config.get('indexPrefix');
-    this.indexPrefix = prefix ? `${ prefix }-` : '';
+    const prefix = config.get("indexPrefix");
+    this.indexPrefix = prefix ? `${prefix}-` : "";
 
-    this.searchURL = `https://${ this.applicationID }-dsn.algolia.net/1`;
+    this.searchURL = `https://${this.applicationID}-dsn.algolia.net/1`;
 
     this.entriesCache = {
       collection: null,
@@ -31,15 +32,15 @@ export default class Algolia {
 
   requestHeaders(headers = {}) {
     return {
-      'X-Algolia-API-Key': this.apiKey,
-      'X-Algolia-Application-Id': this.applicationID,
-      'Content-Type': 'application/json',
+      "X-Algolia-API-Key": this.apiKey,
+      "X-Algolia-Application-Id": this.applicationID,
+      "Content-Type": "application/json",
       ...headers,
     };
   }
 
   parseJsonResponse(response) {
-    return response.json().then((json) => {
+    return response.json().then(json => {
       if (!response.ok) {
         return Promise.reject(json);
       }
@@ -51,12 +52,12 @@ export default class Algolia {
   urlFor(path, options) {
     const params = [];
     if (options.params) {
-      Object.keys(options.params).forEach((key) => {
-        params.push(`${ key }=${ encodeURIComponent(options.params[key]) }`);
+      Object.keys(options.params).forEach(key => {
+        params.push(`${key}=${encodeURIComponent(options.params[key])}`);
       });
     }
     if (params.length) {
-      path += `?${ params.join('&') }`;
+      path += `?${params.join("&")}`;
     }
     return path;
   }
@@ -64,8 +65,8 @@ export default class Algolia {
   request(path, options = {}) {
     const headers = this.requestHeaders(options.headers || {});
     const url = this.urlFor(path, options);
-    return fetch(url, { ...options, headers }).then((response) => {
-      const contentType = response.headers.get('Content-Type');
+    return fetch(url, { ...options, headers }).then(response => {
+      const contentType = response.headers.get("Content-Type");
       if (contentType && contentType.match(/json/)) {
         return this.parseJsonResponse(response);
       }
@@ -75,25 +76,31 @@ export default class Algolia {
   }
 
   search(collections, searchTerm, page) {
-    const searchCollections = collections.map(collection => (
-      { indexName: `${ this.indexPrefix }${ collection }`, params: `query=${ searchTerm }&page=${ page }` }
-    ));
+    const searchCollections = collections.map(collection => ({
+      indexName: `${this.indexPrefix}${collection}`,
+      params: `query=${searchTerm}&page=${page}`,
+    }));
 
-    return this.request(`${ this.searchURL }/indexes/*/queries`, {
-      method: 'POST',
+    return this.request(`${this.searchURL}/indexes/*/queries`, {
+      method: "POST",
       body: JSON.stringify({ requests: searchCollections }),
-    }).then((response) => {
-      const entries = response.results.map((result, index) => result.hits.map((hit) => {
-        const slug = getSlug(hit.path);
-        return createEntry(collections[index], slug, hit.path, { data: hit.data, partial: true });
-      }));
+    }).then(response => {
+      const entries = response.results.map((result, index) =>
+        result.hits.map(hit => {
+          const slug = getSlug(hit.path);
+          return createEntry(collections[index], slug, hit.path, {
+            data: hit.data,
+            partial: true,
+          });
+        }),
+      );
 
       return { entries: flatten(entries), pagination: page };
     });
   }
 
   searchBy(field, collection, query) {
-    return this.request(`${ this.searchURL }/indexes/${ this.indexPrefix }${ collection }`, {
+    return this.request(`${this.searchURL}/indexes/${this.indexPrefix}${collection}`, {
       params: {
         restrictSearchableAttributes: field,
         query,
@@ -103,14 +110,20 @@ export default class Algolia {
 
   listEntries(collection, page) {
     if (this.entriesCache.collection === collection && this.entriesCache.page === page) {
-      return Promise.resolve({ page: this.entriesCache.page, entries: this.entriesCache.entries });
+      return Promise.resolve({
+        page: this.entriesCache.page,
+        entries: this.entriesCache.entries,
+      });
     } else {
-      return this.request(`${ this.searchURL }/indexes/${ this.indexPrefix }${ collection.get('name') }`, {
+      return this.request(`${this.searchURL}/indexes/${this.indexPrefix}${collection.get("name")}`, {
         params: { page },
-      }).then((response) => {
-        const entries = response.hits.map((hit) => {
+      }).then(response => {
+        const entries = response.hits.map(hit => {
           const slug = selectEntrySlug(collection, hit.path);
-          return createEntry(collection.get('name'), slug, hit.path, { data: hit.data, partial: true });
+          return createEntry(collection.get("name"), slug, hit.path, {
+            data: hit.data,
+            partial: true,
+          });
         });
         this.entriesCache = { collection, pagination: response.page, entries };
         return { entries, pagination: response.page };
@@ -119,9 +132,12 @@ export default class Algolia {
   }
 
   getEntry(collection, slug) {
-    return this.searchBy('slug', collection.get('name'), slug).then((response) => {
+    return this.searchBy("slug", collection.get("name"), slug).then(response => {
       const entry = response.hits.filter(hit => hit.slug === slug)[0];
-      return createEntry(collection.get('name'), slug, entry.path, { data: entry.data, partial: true });
+      return createEntry(collection.get("name"), slug, entry.path, {
+        data: entry.data,
+        partial: true,
+      });
     });
   }
 }

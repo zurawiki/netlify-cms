@@ -1,7 +1,7 @@
-import React, { PropTypes } from 'react';
-import { getSyntaxes } from './richText';
-import MarkupItReactRenderer from '../MarkupItReactRenderer/index';
-import previewStyle from './defaultPreviewStyle';
+import React, { PropTypes } from "react";
+import { getSyntaxes } from "./richText";
+import MarkupItReactRenderer from "../MarkupItReactRenderer/index";
+import previewStyle from "./defaultPreviewStyle";
 
 const MarkdownPreview = ({ value, getAsset }) => {
   if (value == null) {
@@ -9,23 +9,15 @@ const MarkdownPreview = ({ value, getAsset }) => {
   }
 
   const schema = {
-    'mediaproxy': ({ token }) => ( // eslint-disable-line
-      <img
-        src={getAsset(token.getIn(['data', 'src']))}
-        alt={token.getIn(['data', 'alt'])}
-      />
-    ),
+    mediaproxy: (
+      { token }, // eslint-disable-line
+    ) => <img src={getAsset(token.getIn(["data", "src"]))} alt={token.getIn(["data", "alt"])} />,
   };
 
   const { markdown } = getSyntaxes();
   return (
     <div style={previewStyle}>
-      <MarkupItReactRenderer
-        value={value}
-        syntax={markdown}
-        schema={schema}
-        getAsset={getAsset}
-      />
+      <MarkupItReactRenderer value={value} syntax={markdown} schema={schema} getAsset={getAsset} />
     </div>
   );
 };

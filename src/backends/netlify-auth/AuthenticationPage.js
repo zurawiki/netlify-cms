@@ -11,22 +11,21 @@ export default class AuthenticationPage extends React.Component {
   };
 
   state = { username: "", password: "", errors: {} };
-  
 
   handleChange = (name, value) => {
     this.setState({ ...this.state, [name]: value });
   };
 
-  handleLogin = (e) => {
+  handleLogin = e => {
     e.preventDefault();
 
     const { username, password } = this.state;
     const errors = {};
     if (!username) {
-      errors.username = 'Make sure to enter your user name';
+      errors.username = "Make sure to enter your user name";
     }
     if (!password) {
-      errors.password = 'Please enter your password';
+      errors.password = "Please enter your password";
     }
 
     if (Object.keys(errors).length > 0) {
@@ -34,13 +33,17 @@ export default class AuthenticationPage extends React.Component {
       return;
     }
 
-    AuthenticationPage.authClient.login(this.state.username, this.state.password, true)
-    .then((user) => {
-      this.props.onLogin(user);
-    })
-    .catch((error) => { 
-      this.setState({ errors: { server: error.description || error.msg || error }, loggingIn: false });
-    });
+    AuthenticationPage.authClient
+      .login(this.state.username, this.state.password, true)
+      .then(user => {
+        this.props.onLogin(user);
+      })
+      .catch(error => {
+        this.setState({
+          errors: { server: error.description || error.msg || error },
+          loggingIn: false,
+        });
+      });
   };
 
   render() {
@@ -50,13 +53,15 @@ export default class AuthenticationPage extends React.Component {
       <section className={styles.root}>
         <Card className={styles.card}>
           <img src={logo} width={100} role="presentation" />
-          {error && <p>
-            <span className={styles.errorMsg}>{error}</span>
-          </p>}
-          {errors.server && <p>
-            <span className={styles.errorMsg}>{errors.server}</span>
-          </p>}
-          <Input 
+          {error &&
+            <p>
+              <span className={styles.errorMsg}>{error}</span>
+            </p>}
+          {errors.server &&
+            <p>
+              <span className={styles.errorMsg}>{errors.server}</span>
+            </p>}
+          <Input
             type="text"
             label="Username"
             name="username"
@@ -72,11 +77,7 @@ export default class AuthenticationPage extends React.Component {
             error={errors.password}
             onChange={this.handleChange.bind(this, "password")} // eslint-disable-line
           />
-          <Button
-            className={styles.button}
-            raised
-            onClick={this.handleLogin}
-          >
+          <Button className={styles.button} raised onClick={this.handleLogin}>
             <Icon type="login" /> Login
           </Button>
         </Card>

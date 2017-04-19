@@ -11,7 +11,6 @@ import { stringToRGB } from "../../lib/textHelper";
 import styles from "./AppHeader.css";
 
 export default class AppHeader extends React.Component {
-
   static propTypes = {
     user: ImmutablePropTypes.map.isRequired,
     collections: ImmutablePropTypes.orderedMap.isRequired,
@@ -26,7 +25,7 @@ export default class AppHeader extends React.Component {
     userMenuActive: false,
   };
 
-  handleCreatePostClick = (collectionName) => {
+  handleCreatePostClick = collectionName => {
     const { onCreateEntryClick } = this.props;
     if (onCreateEntryClick) {
       onCreateEntryClick(collectionName);
@@ -46,16 +45,10 @@ export default class AppHeader extends React.Component {
   };
 
   render() {
-    const {
-      user,
-      collections,
-      runCommand,
-      toggleDrawer,
-      onLogoutClick,
-    } = this.props;
+    const { user, collections, runCommand, toggleDrawer, onLogoutClick } = this.props;
 
     const avatarStyle = {
-      backgroundColor: `#${ stringToRGB(user.get("name")) }`,
+      backgroundColor: `#${stringToRGB(user.get("name"))}`,
     };
 
     return (
@@ -69,22 +62,15 @@ export default class AppHeader extends React.Component {
         <IndexLink to="/" className={styles.homeLink}>
           <FontIcon value="home" className={styles.icon} />
         </IndexLink>
-        <IconMenu
-          theme={styles}
-          icon="add"
-          onClick={this.handleCreateButtonClick}
-          onHide={this.handleCreateMenuHide}
-        >
-          {
-            collections.filter(collection => collection.get('create')).valueSeq().map(collection =>
-              <MenuItem
-                key={collection.get("name")}
-                value={collection.get("name")}
-                onClick={this.handleCreatePostClick.bind(this, collection.get('name'))} // eslint-disable-line
-                caption={pluralize(collection.get("label"), 1)}
-              />
-            )
-          }
+        <IconMenu theme={styles} icon="add" onClick={this.handleCreateButtonClick} onHide={this.handleCreateMenuHide}>
+          {collections.filter(collection => collection.get("create")).valueSeq().map(collection => (
+            <MenuItem
+              key={collection.get("name")}
+              value={collection.get("name")}
+              onClick={this.handleCreatePostClick.bind(this, collection.get("name"))} // eslint-disable-line
+              caption={pluralize(collection.get("label"), 1)}
+            />
+          ))}
         </IconMenu>
         <FindBar runCommand={runCommand} />
         <Avatar style={avatarStyle} title={user.get("name")} image={user.get("avatar_url")} />

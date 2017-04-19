@@ -30,9 +30,9 @@ const slugFormatter = (template = "{{slug}}", entryData) => {
       case "year":
         return date.getFullYear();
       case "month":
-        return (`0${ date.getMonth() + 1 }`).slice(-2);
+        return `0${date.getMonth() + 1}`.slice(-2);
       case "day":
-        return (`0${ date.getDate() }`).slice(-2);
+        return `0${date.getDate()}`.slice(-2);
       case "slug":
         return identifier.trim().toLowerCase().replace(/[^a-z0-9\-_]+/gi, "-");
       default:
@@ -51,7 +51,9 @@ class Backend {
   }
 
   currentUser() {
-    if (this.user) { return this.user; }
+    if (this.user) {
+      return this.user;
+    }
     const stored = this.authStore && this.authStore.retrieve();
     if (stored) {
       return Promise.resolve(this.implementation.setUser(stored)).then(() => stored);
@@ -64,8 +66,10 @@ class Backend {
   }
 
   authenticate(credentials) {
-    return this.implementation.authenticate(credentials).then((user) => {
-      if (this.authStore) { this.authStore.store(user); }
+    return this.implementation.authenticate(credentials).then(user => {
+      if (this.authStore) {
+        this.authStore.store(user);
+      }
       return user;
     });
   }
@@ -82,82 +86,78 @@ class Backend {
 
   listEntries(collection) {
     const listMethod = this.implementation[selectListMethod(collection)];
-    return listMethod.call(this.implementation, collection)
-      .then(loadedEntries => (
-        loadedEntries.map(loadedEntry => createEntry(
-          collection.get("name"),
-          selectEntrySlug(collection, loadedEntry.file.path),
-          loadedEntry.file.path,
-          { raw: loadedEntry.data, label: loadedEntry.file.label }
-        ))
-      ))
-      .then(entries => (
-        {
-          entries: entries.map(this.entryWithFormat(collection)),
-        }
-      ));
+    return listMethod
+      .call(this.implementation, collection)
+      .then(loadedEntries =>
+        loadedEntries.map(loadedEntry =>
+          createEntry(
+            collection.get("name"),
+            selectEntrySlug(collection, loadedEntry.file.path),
+            loadedEntry.file.path,
+            { raw: loadedEntry.data, label: loadedEntry.file.label },
+          ),
+        ),
+      )
+      .then(entries => ({
+        entries: entries.map(this.entryWithFormat(collection)),
+      }));
   }
 
   getEntry(collection, slug) {
-    return this.implementation.getEntry(collection, slug, selectEntryPath(collection, slug))
-      .then(loadedEntry => this.entryWithFormat(collection, slug)(createEntry(
-        collection.get("name"),
-        slug,
-        loadedEntry.file.path,
-        { raw: loadedEntry.data, label: loadedEntry.file.label }
-      ))
+    return this.implementation.getEntry(collection, slug, selectEntryPath(collection, slug)).then(loadedEntry =>
+      this.entryWithFormat(collection, slug)(
+        createEntry(collection.get("name"), slug, loadedEntry.file.path, {
+          raw: loadedEntry.data,
+          label: loadedEntry.file.label,
+        }),
+      ),
     );
   }
 
   entryWithFormat(collectionOrEntity) {
-    return (entry) => {
+    return entry => {
       const format = resolveFormat(collectionOrEntity, entry);
       if (entry && entry.raw) {
-        return Object.assign(entry, { data: format && format.fromFile(entry.raw) });
+        return Object.assign(entry, {
+          data: format && format.fromFile(entry.raw),
+        });
       }
       return format.fromFile(entry);
     };
   }
 
   unpublishedEntries(page, perPage) {
-    return this.implementation.unpublishedEntries(page, perPage)
-    .then(loadedEntries => loadedEntries.filter(entry => entry !== null))
-    .then(entries => (
-      entries.map((loadedEntry) => {
-        const entry = createEntry(
-          loadedEntry.metaData.collection,
-          loadedEntry.slug,
-          loadedEntry.file.path,
-          {
+    return this.implementation
+      .unpublishedEntries(page, perPage)
+      .then(loadedEntries => loadedEntries.filter(entry => entry !== null))
+      .then(entries =>
+        entries.map(loadedEntry => {
+          const entry = createEntry(loadedEntry.metaData.collection, loadedEntry.slug, loadedEntry.file.path, {
             raw: loadedEntry.data,
             isModification: loadedEntry.isModification,
-          }
-        );
-        entry.metaData = loadedEntry.metaData;
-        return entry;
-      })
-    ))
-    .then(entries => ({
-      pagination: 0,
-      entries: entries.map(this.entryWithFormat("editorialWorkflow")),
-    }));
+          });
+          entry.metaData = loadedEntry.metaData;
+          return entry;
+        }),
+      )
+      .then(entries => ({
+        pagination: 0,
+        entries: entries.map(this.entryWithFormat("editorialWorkflow")),
+      }));
   }
 
   unpublishedEntry(collection, slug) {
-    return this.implementation.unpublishedEntry(collection, slug)
-    .then((loadedEntry) => {
-      const entry = createEntry(
-        "draft",
-        loadedEntry.slug,
-        loadedEntry.file.path,
-        {
+    return this.implementation
+      .unpublishedEntry(collection, slug)
+      .then(loadedEntry => {
+        const entry = createEntry("draft", loadedEntry.slug, loadedEntry.file.path, {
           raw: loadedEntry.data,
           isModification: loadedEntry.isModification,
         });
-      entry.metaData = loadedEntry.metaData;
-      return entry;
-    })
-    .then(this.entryWithFormat(collection, slug));
+        entry.metaData = loadedEntry.metaData;
+        return entry;
+      })
+      .then(this.entryWithFormat(collection, slug));
   }
 
   persistEntry(config, collection, entryDraft, MediaFiles, options) {
@@ -172,7 +172,7 @@ class Backend {
     let entryObj;
     if (newEntry) {
       if (!selectAllowNewEntries(collection)) {
-        throw (new Error("Not allowed to create new entries in this collection"));
+        throw new Error("Not allowed to create new entries in this collection");
       }
       const slug = slugFormatter(collection.get("slug"), entryDraft.getIn(["entry", "data"]));
       const path = selectEntryPath(collection, slug);
@@ -191,20 +191,26 @@ class Backend {
       };
     }
 
-    const commitMessage = `${ (newEntry ? "Create " : "Update ") +
-          collection.get("label") } “${ entryObj.slug }”`;
+    const commitMessage = `${(newEntry ? "Create " : "Update ") + collection.get("label")} “${entryObj.slug}”`;
 
     const mode = config.get("publish_mode");
 
     const collectionName = collection.get("name");
 
     return this.implementation.persistEntry(entryObj, MediaFiles, {
-      newEntry, parsedData, commitMessage, collectionName, mode, ...options,
+      newEntry,
+      parsedData,
+      commitMessage,
+      collectionName,
+      mode,
+      ...options,
     });
   }
 
   persistUnpublishedEntry(config, collection, entryDraft, MediaFiles) {
-    return this.persistEntry(config, collection, entryDraft, MediaFiles, { unpublished: true });
+    return this.persistEntry(config, collection, entryDraft, MediaFiles, {
+      unpublished: true,
+    });
   }
 
   updateUnpublishedEntryStatus(collection, slug, newStatus) {
@@ -226,17 +232,17 @@ class Backend {
   }
 
   fieldsOrder(collection, entry) {
-    const fields = collection.get('fields');
+    const fields = collection.get("fields");
     if (fields) {
-      return collection.get('fields').map(f => f.get('name')).toArray();
+      return collection.get("fields").map(f => f.get("name")).toArray();
     }
 
-    const files = collection.get('files');
+    const files = collection.get("files");
     const file = (files || []).filter(f => f.get("name") === entry.get("slug")).get(0);
     if (file == null) {
-      throw new Error(`No file found for ${ entry.get("slug") } in ${ collection.get('name') }`);
+      throw new Error(`No file found for ${entry.get("slug")} in ${collection.get("name")}`);
     }
-    return file.get('fields').map(f => f.get('name')).toArray();
+    return file.get("fields").map(f => f.get("name")).toArray();
   }
 }
 
@@ -256,18 +262,20 @@ export function resolveBackend(config) {
     case "netlify-auth":
       return new Backend(new NetlifyAuthBackend(config), authStore);
     default:
-      throw new Error(`Backend not found: ${ name }`);
+      throw new Error(`Backend not found: ${name}`);
   }
 }
 
-export const currentBackend = (function () {
+export const currentBackend = (function() {
   let backend = null;
 
-  return (config) => {
-    if (backend) { return backend; }
+  return config => {
+    if (backend) {
+      return backend;
+    }
     if (config.get("backend")) {
       backend = resolveBackend(config);
       return backend;
     }
   };
-}());
+})();

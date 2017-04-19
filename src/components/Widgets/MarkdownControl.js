@@ -1,12 +1,12 @@
-import React, { PropTypes } from 'react';
-import registry from '../../lib/registry';
-import RawEditor from './MarkdownControlElements/RawEditor';
-import VisualEditor from './MarkdownControlElements/VisualEditor';
-import { processEditorPlugins } from './richText';
-import { connect } from 'react-redux';
-import { switchVisualMode } from '../../actions/editor';
+import React, { PropTypes } from "react";
+import registry from "../../lib/registry";
+import RawEditor from "./MarkdownControlElements/RawEditor";
+import VisualEditor from "./MarkdownControlElements/VisualEditor";
+import { processEditorPlugins } from "./richText";
+import { connect } from "react-redux";
+import { switchVisualMode } from "../../actions/editor";
 
-const MODE_STORAGE_KEY = 'cms.md-mode';
+const MODE_STORAGE_KEY = "cms.md-mode";
 
 class MarkdownControl extends React.Component {
   static propTypes = {
@@ -20,14 +20,14 @@ class MarkdownControl extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { mode: localStorage.getItem(MODE_STORAGE_KEY) || 'visual' };
+    this.state = { mode: localStorage.getItem(MODE_STORAGE_KEY) || "visual" };
   }
 
   componentWillMount() {
     processEditorPlugins(registry.getEditorComponents());
   }
 
-  handleMode = (mode) => {
+  handleMode = mode => {
     this.setState({ mode });
     localStorage.setItem(MODE_STORAGE_KEY, mode);
   };
@@ -35,7 +35,7 @@ class MarkdownControl extends React.Component {
   render() {
     const { onChange, onAddAsset, onRemoveAsset, getAsset, value } = this.props;
     const { mode } = this.state;
-    if (mode === 'visual') {
+    if (mode === "visual") {
       return (
         <div className="cms-editor-visual">
           <VisualEditor
@@ -65,7 +65,6 @@ class MarkdownControl extends React.Component {
   }
 }
 
-export default connect(
-  state => ({ editor: state.editor }),
-  { switchVisualMode }
-)(MarkdownControl);
+export default connect(state => ({ editor: state.editor }), {
+  switchVisualMode,
+})(MarkdownControl);

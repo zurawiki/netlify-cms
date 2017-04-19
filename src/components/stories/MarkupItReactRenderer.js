@@ -1,8 +1,8 @@
-import React from 'react';
-import markdownSyntax from 'markup-it/syntaxes/markdown';
-import htmlSyntax from 'markup-it/syntaxes/html';
-import MarkupItReactRenderer from '../MarkupItReactRenderer';
-import { storiesOf } from '@kadira/storybook';
+import React from "react";
+import markdownSyntax from "markup-it/syntaxes/markdown";
+import htmlSyntax from "markup-it/syntaxes/html";
+import MarkupItReactRenderer from "../MarkupItReactRenderer";
+import { storiesOf } from "@kadira/storybook";
 
 const mdContent = `
 # Title
@@ -23,18 +23,6 @@ function getAsset(path) {
   return path;
 }
 
-storiesOf('MarkupItReactRenderer', module)
-  .add('Markdown', () => (
-    <MarkupItReactRenderer
-      value={mdContent}
-      syntax={markdownSyntax}
-      getAsset={getAsset}
-    />
-
-  )).add('HTML', () => (
-    <MarkupItReactRenderer
-      value={htmlContent}
-      syntax={htmlSyntax}
-      getAsset={getAsset}
-    />
-  ));
+storiesOf("MarkupItReactRenderer", module)
+  .add("Markdown", () => <MarkupItReactRenderer value={mdContent} syntax={markdownSyntax} getAsset={getAsset} />)
+  .add("HTML", () => <MarkupItReactRenderer value={htmlContent} syntax={htmlSyntax} getAsset={getAsset} />);

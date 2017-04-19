@@ -1,14 +1,14 @@
-import React, { Component, PropTypes } from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import SplitPane from 'react-split-pane';
-import Button from 'react-toolbox/lib/button';
-import { ScrollSync, ScrollSyncPane } from '../ScrollSync';
-import ControlPane from '../ControlPanel/ControlPane';
-import PreviewPane from '../PreviewPane/PreviewPane';
-import Toolbar from './EntryEditorToolbar';
-import styles from './EntryEditor.css';
+import React, { Component, PropTypes } from "react";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import SplitPane from "react-split-pane";
+import Button from "react-toolbox/lib/button";
+import { ScrollSync, ScrollSyncPane } from "../ScrollSync";
+import ControlPane from "../ControlPanel/ControlPane";
+import PreviewPane from "../PreviewPane/PreviewPane";
+import Toolbar from "./EntryEditorToolbar";
+import styles from "./EntryEditor.css";
 
-const PREVIEW_VISIBLE = 'cms.preview-visible';
+const PREVIEW_VISIBLE = "cms.preview-visible";
 
 class EntryEditor extends Component {
   state = {
@@ -37,31 +37,33 @@ class EntryEditor extends Component {
 
   render() {
     const {
-        collection,
-        entry,
-        fields,
-        fieldsMetaData,
-        fieldsErrors,
-        getAsset,
-        onChange,
-        onValidate,
-        onAddAsset,
-        onRemoveAsset,
-        onCancelEdit,
+      collection,
+      entry,
+      fields,
+      fieldsMetaData,
+      fieldsErrors,
+      getAsset,
+      onChange,
+      onValidate,
+      onAddAsset,
+      onRemoveAsset,
+      onCancelEdit,
     } = this.props;
 
-    const controlClassName = `${ styles.controlPane } ${ this.state.showEventBlocker && styles.blocker }`;
-    const previewClassName = `${ styles.previewPane } ${ this.state.showEventBlocker && styles.blocker }`;
+    const controlClassName = `${styles.controlPane} ${this.state.showEventBlocker && styles.blocker}`;
+    const previewClassName = `${styles.previewPane} ${this.state.showEventBlocker && styles.blocker}`;
 
-    const collectionPreviewEnabled = collection.getIn(['editor', 'preview'], true);
+    const collectionPreviewEnabled = collection.getIn(["editor", "preview"], true);
 
     const togglePreviewButton = (
-      <Button className={styles.previewToggle} onClick={this.handleTogglePreview}>Toggle Preview</Button>
+      <Button className={styles.previewToggle} onClick={this.handleTogglePreview}>
+        Toggle Preview
+      </Button>
     );
 
     const editor = (
       <div className={controlClassName}>
-        { collectionPreviewEnabled ? togglePreviewButton : null }
+        {collectionPreviewEnabled ? togglePreviewButton : null}
         <ControlPane
           collection={collection}
           entry={entry}
@@ -109,10 +111,10 @@ class EntryEditor extends Component {
 
     return (
       <div className={styles.root}>
-        { collectionPreviewEnabled && this.state.previewVisible ? editorWithPreview : editorWithoutPreview }
+        {collectionPreviewEnabled && this.state.previewVisible ? editorWithPreview : editorWithoutPreview}
         <div className={styles.footer}>
           <Toolbar
-            isPersisting={entry.get('isPersisting')}
+            isPersisting={entry.get("isPersisting")}
             onPersist={this.handleOnPersist}
             onCancelEdit={onCancelEdit}
           />

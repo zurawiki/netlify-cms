@@ -1,8 +1,8 @@
 import fs from "fs";
 import path from "path";
 import process from "process";
-import yaml from 'js-yaml';
-import deepEqual from 'deep-equal';
+import yaml from "js-yaml";
+import deepEqual from "deep-equal";
 import { formatByExtension } from "../src/formats/formats";
 
 const looksLikeMarkdown = /(\[.+\]\(.+\)|\n?[#]+ [a-z0-9])/; // eslint-disable-line
@@ -14,50 +14,57 @@ function capitalize(name) {
 
 function inferWidget(name, value) {
   if (value == null) {
-    return { widget: 'string' };
+    return { widget: "string" };
   }
   if (value instanceof Date) {
-    return { widget: value.toJSON().match(/T00:00:00\.000Z$/) ? 'date' : 'datetime' };
+    return {
+      widget: value.toJSON().match(/T00:00:00\.000Z$/) ? "date" : "datetime",
+    };
   }
   if (value instanceof Array) {
-    if (typeof value[0] === 'string') {
-      return { widget: 'list' };
+    if (typeof value[0] === "string") {
+      return { widget: "list" };
     }
-    return { widget: 'list', fields: inferFields(value) };
+    return { widget: "list", fields: inferFields(value) };
   }
-  if (typeof value === 'object') {
-    return { widget: 'object', fields: inferFields([value]) };
+  if (typeof value === "object") {
+    return { widget: "object", fields: inferFields([value]) };
   }
   if (value === false || value === true) {
-    return { widget: 'checkbox' };
+    return { widget: "checkbox" };
   }
-  if (typeof value === 'number') {
-    return { widget: 'number' };
+  if (typeof value === "number") {
+    return { widget: "number" };
   }
-  if (name === 'body' || value.match(looksLikeMarkdown)) {
-    return { widget: 'markdown' };
+  if (name === "body" || value.match(looksLikeMarkdown)) {
+    return { widget: "markdown" };
   }
   if (value.match(/\n/)) {
-    return { widget: 'text' };
+    return { widget: "text" };
   }
   if (value.match(looksLikeAnImage)) {
-    return { widget: 'image' };
+    return { widget: "image" };
   }
-  return { widget: 'string' };
+  return { widget: "string" };
 }
 
 function inferField(name, value) {
-  return Object.assign({
-    label: capitalize(name.replace(/_-/g, ' ')),
-    name,
-  }, inferWidget(name, value));
+  return Object.assign(
+    {
+      label: capitalize(name.replace(/_-/g, " ")),
+      name,
+    },
+    inferWidget(name, value),
+  );
 }
 
 function inferFields(entries) {
   const fields = {};
-  entries.forEach((entry) => {
-    if (entry == null) { return; }
-    Object.keys(entry).forEach((fieldName) => {
+  entries.forEach(entry => {
+    if (entry == null) {
+      return;
+    }
+    Object.keys(entry).forEach(fieldName => {
       const field = inferField(fieldName, entry[fieldName]);
       if (fields[fieldName]) {
         fields[fieldName] = combineFields(fields[fieldName], field);
@@ -98,15 +105,17 @@ function combineFields(a, b) {
   if (a.widget === b.widget) {
     if (a.fields && b.fields) {
       const newFields = {};
-      a.fields.forEach((field) => {
+      a.fields.forEach(field => {
         newFields[field.name] = combineFields(field, b.fields.find(f => f.name === field.name));
       });
-      b.fields.forEach((field) => {
+      b.fields.forEach(field => {
         if (!newFields[field.name]) {
           newFields[field.name] = field;
         }
       });
-      return Object.assign({}, a, { fields: Object.keys(newFields).map(k => newFields[k]) });
+      return Object.assign({}, a, {
+        fields: Object.keys(newFields).map(k => newFields[k]),
+      });
     }
     return a;
   }
@@ -118,11 +127,11 @@ if (process.argv.length !== 3) {
   process.exit(1);
 }
 
-const folder = process.argv[2].replace(/\/$/, '');
+const folder = process.argv[2].replace(/\/$/, "");
 const files = fs.readdirSync(folder);
 const extensions = {};
 
-files.forEach((file) => {
+files.forEach(file => {
   const ext = file.split(".").pop();
   if (ext) {
     extensions[ext] = extensions[ext] || 0;
@@ -130,14 +139,14 @@ files.forEach((file) => {
   }
 });
 
-const name = folder.split('/').filter(s => s).pop();
+const name = folder.split("/").filter(s => s).pop();
 const extension = Object.keys(extensions).sort((a, b) => extensions[b] - extensions[a])[0];
 const format = formatByExtension(extension);
-const entries = files.filter(name => name.split(".").pop() === extension).slice(0, 100).map(file => (
-  format.fromFile(fs.readFileSync(path.join(folder, file), { encoding: 'utf8' }))
-));
+const entries = files
+  .filter(name => name.split(".").pop() === extension)
+  .slice(0, 100)
+  .map(file => format.fromFile(fs.readFileSync(path.join(folder, file), { encoding: "utf8" })));
 const fields = inferFields(entries);
-
 
 const collection = {
   label: capitalize(name),

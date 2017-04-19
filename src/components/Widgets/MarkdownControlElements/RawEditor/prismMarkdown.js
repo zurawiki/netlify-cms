@@ -1,23 +1,23 @@
 const marks = {
-  'blockquote': {
+  blockquote: {
     // > ...
     pattern: /^>(?:[\t ]*>)*/m,
-    alias: 'punctuation',
+    alias: "punctuation",
   },
-  'code': [
+  code: [
     {
       // Prefixed by 4 spaces or 1 tab
       pattern: /^(?: {4}|\t).+/m,
-      alias: 'keyword',
+      alias: "keyword",
     },
     {
       // `code`
       // ``code``
       pattern: /``.+?``|`[^`\n]+`/,
-      alias: 'keyword',
+      alias: "keyword",
     },
   ],
-  'title': [
+  title: [
     {
       // title 1
       // =======
@@ -25,7 +25,7 @@ const marks = {
       // title 2
       // -------
       pattern: /\w+.*(?:\r?\n|\r)(?:==+|--+)/,
-      alias: 'important',
+      alias: "important",
       inside: {
         punctuation: /==+$|--+$/,
       },
@@ -35,31 +35,31 @@ const marks = {
       // ###### title 6
       pattern: /(^\s*)#+.+/m,
       lookbehind: true,
-      alias: 'important',
+      alias: "important",
       inside: {
         punctuation: /^#+|#+$/,
       },
     },
   ],
-  'hr': {
+  hr: {
     // ***
     // ---
     // * * *
     // -----------
     pattern: /(^\s*)([*-])([\t ]*\2){2,}(?=\s*$)/m,
     lookbehind: true,
-    alias: 'punctuation',
+    alias: "punctuation",
   },
-  'list': {
+  list: {
     // * item
     // + item
     // - item
     // 1. item
     pattern: /(^\s*)(?:[*+-]|\d+\.)(?=[\t ].)/m,
     lookbehind: true,
-    alias: 'punctuation',
+    alias: "punctuation",
   },
-  'url-reference': {
+  "url-reference": {
     // [id]: http://example.com "Optional title"
     // [id]: http://example.com 'Optional title'
     // [id]: http://example.com (Optional title)
@@ -73,9 +73,9 @@ const marks = {
       string: /(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\))$/,
       punctuation: /^[\[\]!:]|[<>]/,
     },
-    alias: 'url',
+    alias: "url",
   },
-  'bold': {
+  bold: {
     // **strong**
     // __strong__
 
@@ -86,7 +86,7 @@ const marks = {
       punctuation: /^\*\*|^__|\*\*$|__$/,
     },
   },
-  'italic': {
+  italic: {
     // *em*
     // _em_
 
@@ -97,7 +97,7 @@ const marks = {
       punctuation: /^[*_]|[*_]$/,
     },
   },
-  'url': {
+  url: {
     // [example](http://example.com "Optional title")
     // [example] [id]
     pattern: /!?\[[^\]]+\](?:\([^\s)]+(?:[\t ]+"(?:\\.|[^"\\])*")?\)| ?\[[^\]\n]*\])/,

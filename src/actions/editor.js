@@ -1,7 +1,7 @@
-import history from '../routing/history';
+import history from "../routing/history";
 
-export const SWITCH_VISUAL_MODE = 'SWITCH_VISUAL_MODE';
-export const CLOSED_ENTRY = 'CLOSED_ENTRY';
+export const SWITCH_VISUAL_MODE = "SWITCH_VISUAL_MODE";
+export const CLOSED_ENTRY = "CLOSED_ENTRY";
 
 export function switchVisualMode(useVisualMode) {
   return {
@@ -11,9 +11,9 @@ export function switchVisualMode(useVisualMode) {
 }
 
 export function closeEntry(collection) {
-  return (dispatch) => {
-    if (collection && collection.get('name', false)) {
-      history.push(`collections/${ collection.get('name') }`);
+  return dispatch => {
+    if (collection && collection.get("name", false)) {
+      history.push(`collections/${collection.get("name")}`);
     } else {
       history.goBack();
     }

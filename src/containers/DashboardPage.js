@@ -1,14 +1,13 @@
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { SIMPLE, EDITORIAL_WORKFLOW } from '../constants/publishModes';
-import history from '../routing/history';
-import UnpublishedEntriesPanel from './editorialWorkflow/UnpublishedEntriesPanel';
-
+import React, { Component, PropTypes } from "react";
+import { connect } from "react-redux";
+import { SIMPLE, EDITORIAL_WORKFLOW } from "../constants/publishModes";
+import history from "../routing/history";
+import UnpublishedEntriesPanel from "./editorialWorkflow/UnpublishedEntriesPanel";
 
 class DashboardPage extends Component {
   componentWillMount() {
     if (this.props.publishMode === SIMPLE) {
-      history.push(`/collections/${ this.props.firstCollection }`);
+      history.push(`/collections/${this.props.firstCollection}`);
     }
   }
 
@@ -30,8 +29,8 @@ DashboardPage.propTypes = {
 function mapStateToProps(state) {
   const { config, collections } = state;
   return {
-    firstCollection: collections.first().get('name'),
-    publishMode: config.get('publish_mode'),
+    firstCollection: collections.first().get("name"),
+    publishMode: config.get("publish_mode"),
   };
 }
 

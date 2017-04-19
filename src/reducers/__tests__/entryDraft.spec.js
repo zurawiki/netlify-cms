@@ -1,6 +1,6 @@
-import { Map, List, fromJS } from 'immutable';
-import * as actions from '../../actions/entries';
-import reducer from '../entryDraft';
+import { Map, List, fromJS } from "immutable";
+import * as actions from "../../actions/entries";
+import reducer from "../entryDraft";
 
 let initialState = Map({
   entry: Map(),
@@ -11,24 +11,19 @@ let initialState = Map({
 });
 
 const entry = {
-  collection: 'posts',
-  slug: 'slug',
-  path: 'content/blog/art-and-wine-festival.md',
+  collection: "posts",
+  slug: "slug",
+  path: "content/blog/art-and-wine-festival.md",
   partial: false,
-  raw: '',
+  raw: "",
   data: {},
   metaData: null,
 };
 
-describe('entryDraft reducer', () => {
-  describe('DRAFT_CREATE_FROM_ENTRY', () => {
-    it('should create draft from the entry', () => {
-      expect(
-        reducer(
-          initialState,
-          actions.createDraftFromEntry(fromJS(entry))
-        )
-      ).toEqual(
+describe("entryDraft reducer", () => {
+  describe("DRAFT_CREATE_FROM_ENTRY", () => {
+    it("should create draft from the entry", () => {
+      expect(reducer(initialState, actions.createDraftFromEntry(fromJS(entry)))).toEqual(
         fromJS({
           entry: {
             ...entry,
@@ -38,19 +33,14 @@ describe('entryDraft reducer', () => {
           fieldsMetaData: Map(),
           fieldsErrors: Map(),
           hasChanged: false,
-        })
+        }),
       );
     });
   });
 
-  describe('DRAFT_CREATE_EMPTY', () => {
-    it('should create a new draft ', () => {
-      expect(
-        reducer(
-          initialState,
-          actions.emptyDraftCreated(fromJS(entry))
-        )
-      ).toEqual(
+  describe("DRAFT_CREATE_EMPTY", () => {
+    it("should create a new draft ", () => {
+      expect(reducer(initialState, actions.emptyDraftCreated(fromJS(entry)))).toEqual(
         fromJS({
           entry: {
             ...entry,
@@ -60,46 +50,46 @@ describe('entryDraft reducer', () => {
           fieldsMetaData: Map(),
           fieldsErrors: Map(),
           hasChanged: false,
-        })
+        }),
       );
     });
   });
 
-  describe('DRAFT_DISCARD', () => {
-    it('should discard the draft and return initial state', () => {
-      expect(reducer(initialState, actions.discardDraft()))
-        .toEqual(initialState);
+  describe("DRAFT_DISCARD", () => {
+    it("should discard the draft and return initial state", () => {
+      expect(reducer(initialState, actions.discardDraft())).toEqual(initialState);
     });
   });
 
-  describe('DRAFT_CHANGE', () => {
-    it.skip('should update the draft', () => {
+  describe("DRAFT_CHANGE", () => {
+    it.skip("should update the draft", () => {
       const newEntry = {
         ...entry,
-        raw: 'updated',
+        raw: "updated",
       };
-      expect(reducer(initialState, actions.changeDraft(newEntry)))
-        .toEqual(fromJS({
+      expect(reducer(initialState, actions.changeDraft(newEntry))).toEqual(
+        fromJS({
           entry: {
             ...entry,
-            raw: 'updated',
+            raw: "updated",
           },
           mediaFiles: [],
           hasChanged: true,
-        }));
+        }),
+      );
     });
   });
 
-  describe('persisting', () => {
+  describe("persisting", () => {
     beforeEach(() => {
       initialState = fromJS({
         entities: {
-          'posts.slug': {
-            collection: 'posts',
-            slug: 'slug',
-            path: 'content/blog/art-and-wine-festival.md',
+          "posts.slug": {
+            collection: "posts",
+            slug: "slug",
+            path: "content/blog/art-and-wine-festival.md",
             partial: false,
-            raw: '',
+            raw: "",
             data: {},
             metaData: null,
           },
@@ -108,32 +98,24 @@ describe('entryDraft reducer', () => {
       });
     });
 
-    it('should handle persisting request', () => {
-      const newState = reducer(
-        initialState,
-        actions.entryPersisting(Map({ name: 'posts' }), Map({ slug: 'slug' }))
-      );
-      expect(newState.getIn(['entry', 'isPersisting'])).toBe(true);
+    it("should handle persisting request", () => {
+      const newState = reducer(initialState, actions.entryPersisting(Map({ name: "posts" }), Map({ slug: "slug" })));
+      expect(newState.getIn(["entry", "isPersisting"])).toBe(true);
     });
 
-    it('should handle persisting success', () => {
-      let newState = reducer(initialState,
-        actions.entryPersisting(Map({ name: 'posts' }), Map({ slug: 'slug' }))
-      );
-      newState = reducer(newState,
-        actions.entryPersisted(Map({ name: 'posts' }), Map({ slug: 'slug' }))
-      );
-      expect(newState.getIn(['entry', 'isPersisting'])).toBeUndefined();
+    it("should handle persisting success", () => {
+      let newState = reducer(initialState, actions.entryPersisting(Map({ name: "posts" }), Map({ slug: "slug" })));
+      newState = reducer(newState, actions.entryPersisted(Map({ name: "posts" }), Map({ slug: "slug" })));
+      expect(newState.getIn(["entry", "isPersisting"])).toBeUndefined();
     });
 
-    it('should handle persisting error', () => {
-      let newState = reducer(initialState,
-        actions.entryPersisting(Map({ name: 'posts' }), Map({ slug: 'slug' }))
+    it("should handle persisting error", () => {
+      let newState = reducer(initialState, actions.entryPersisting(Map({ name: "posts" }), Map({ slug: "slug" })));
+      newState = reducer(
+        newState,
+        actions.entryPersistFail(Map({ name: "posts" }), Map({ slug: "slug" }), "Error message"),
       );
-      newState = reducer(newState,
-        actions.entryPersistFail(Map({ name: 'posts' }), Map({ slug: 'slug' }), 'Error message')
-      );
-      expect(newState.getIn(['entry', 'isPersisting'])).toBeUndefined();
+      expect(newState.getIn(["entry", "isPersisting"])).toBeUndefined();
     });
   });
 });

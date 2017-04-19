@@ -1,12 +1,12 @@
-import React, { Component, PropTypes } from 'react';
-import { Map, fromJS } from 'immutable';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import { resolveWidget } from '../Widgets';
-import ControlHOC from '../Widgets/ControlHOC';
-import styles from './ControlPane.css';
+import React, { Component, PropTypes } from "react";
+import { Map, fromJS } from "immutable";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import { resolveWidget } from "../Widgets";
+import ControlHOC from "../Widgets/ControlHOC";
+import styles from "./ControlPane.css";
 
 function isHidden(field) {
-  return field.get('widget') === 'hidden';
+  return field.get("widget") === "hidden";
 }
 
 export default class ControlPane extends Component {
@@ -17,7 +17,7 @@ export default class ControlPane extends Component {
   }
 
   validate = () => {
-    this.props.fields.forEach((field) => {
+    this.props.fields.forEach(field => {
       if (isHidden(field)) return;
       this.componentValidate[field.get("name")]();
     });
@@ -25,24 +25,29 @@ export default class ControlPane extends Component {
 
   controlFor(field) {
     const { entry, fieldsMetaData, fieldsErrors, getAsset, onChange, onAddAsset, onRemoveAsset } = this.props;
-    const widget = resolveWidget(field.get('widget'));
-    const fieldName = field.get('name');
-    const value = entry.getIn(['data', fieldName]);
+    const widget = resolveWidget(field.get("widget"));
+    const fieldName = field.get("name");
+    const value = entry.getIn(["data", fieldName]);
     const metadata = fieldsMetaData.get(fieldName);
     const errors = fieldsErrors.get(fieldName);
     const labelClass = errors ? styles.labelWithError : styles.label;
-    if (entry.size === 0 || entry.get('partial') === true) return null;
+    if (entry.size === 0 || entry.get("partial") === true) return null;
     return (
       <div className={styles.control}>
-        <label className={labelClass} htmlFor={fieldName}>{field.get('label')}</label>
+        <label className={labelClass} htmlFor={fieldName}>
+          {field.get("label")}
+        </label>
         <ul className={styles.errors}>
-          {
-            errors && errors.map(error => (
-              typeof error === 'string' && <li key={error.trim().replace(/[^a-z0-9]+/gi, '-')}>{error}</li>
-            ))
-          }
+          {errors &&
+            errors.map(
+              error =>
+                typeof error === "string" &&
+                <li key={error.trim().replace(/[^a-z0-9]+/gi, "-")}>
+                  {error}
+                </li>,
+            )}
         </ul>
-        <ControlHOC 
+        <ControlHOC
           controlComponent={widget.control}
           field={field}
           value={value}
@@ -66,14 +71,16 @@ export default class ControlPane extends Component {
 
     return (
       <div>
-        {
-          fields.map((field) => {
-            if (isHidden(field)) {
-              return null;
-            }
-            return <div key={field.get('name')} className={styles.widget}>{this.controlFor(field)}</div>;
-          })
-        }
+        {fields.map(field => {
+          if (isHidden(field)) {
+            return null;
+          }
+          return (
+            <div key={field.get("name")} className={styles.widget}>
+              {this.controlFor(field)}
+            </div>
+          );
+        })}
       </div>
     );
   }

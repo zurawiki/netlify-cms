@@ -1,5 +1,5 @@
-import React, { PropTypes } from 'react';
-import DateTime from 'react-datetime';
+import React, { PropTypes } from "react";
+import DateTime from "react-datetime";
 
 export default class DateTimeControl extends React.Component {
   componentDidMount() {
@@ -8,7 +8,7 @@ export default class DateTimeControl extends React.Component {
     }
   }
 
-  handleChange = (datetime) => {
+  handleChange = datetime => {
     this.props.onChange(datetime);
   };
 
