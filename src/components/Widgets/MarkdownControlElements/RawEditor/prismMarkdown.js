@@ -64,14 +64,14 @@ const marks = {
     // [id]: http://example.com 'Optional title'
     // [id]: http://example.com (Optional title)
     // [id]: <http://example.com> "Optional title"
-    pattern: /!?\[[^\]]+\]:[\t ]+(?:\S+|<(?:\\.|[^>\\])+>)(?:[\t ]+(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\)))?/,
+    pattern: /!?\[[^\]]+]:[\t ]+(?:\S+|<(?:\\.|[^>\\])+>)(?:[\t ]+(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\)))?/,
     inside: {
       variable: {
         pattern: /^(!?\[)[^\]]+/,
         lookbehind: true,
       },
       string: /(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\))$/,
-      punctuation: /^[\[\]!:]|[<>]/,
+      punctuation: /^[[\]!:]|[<>]/,
     },
     alias: "url",
   },
@@ -100,10 +100,10 @@ const marks = {
   url: {
     // [example](http://example.com "Optional title")
     // [example] [id]
-    pattern: /!?\[[^\]]+\](?:\([^\s)]+(?:[\t ]+"(?:\\.|[^"\\])*")?\)| ?\[[^\]\n]*\])/,
+    pattern: /!?\[[^\]]+](?:\([^\s)]+(?:[\t ]+"(?:\\.|[^"\\])*")?\)| ?\[[^\]\n]*])/,
     inside: {
       variable: {
-        pattern: /(!?\[)[^\]]+(?=\]$)/,
+        pattern: /(!?\[)[^\]]+(?=]$)/,
         lookbehind: true,
       },
       string: {

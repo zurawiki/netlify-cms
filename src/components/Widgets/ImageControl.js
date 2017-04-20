@@ -65,9 +65,8 @@ export default class ImageControl extends React.Component {
     if (!this.props.value) return null;
     if (this.value instanceof AssetProxy) {
       return truncateMiddle(this.props.value.path, MAX_DISPLAY_LENGTH);
-    } else {
-      return truncateMiddle(this.props.value, MAX_DISPLAY_LENGTH);
     }
+    return truncateMiddle(this.props.value, MAX_DISPLAY_LENGTH);
   };
 
   render() {

@@ -1,3 +1,8 @@
+/* eslint-disable */
+// This file will be removed from the repo soon, as we're replacing
+// markup-it. It's also riddled with errors, so for now eslint is
+// disabled for this file.
+
 import React, { PropTypes } from "react";
 import MarkupIt, { Syntax, BLOCKS, STYLES, ENTITIES } from "markup-it";
 import { omit } from "lodash";

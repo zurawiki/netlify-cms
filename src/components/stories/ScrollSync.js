@@ -1,7 +1,7 @@
 import React from "react";
+import { storiesOf } from "@kadira/storybook";
 import ScrollSync from "../ScrollSync/ScrollSync";
 import ScrollSyncPane from "../ScrollSync/ScrollSyncPane";
-import { storiesOf } from "@kadira/storybook";
 
 const paneStyle = {
   border: "1px solid green",

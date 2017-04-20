@@ -17,6 +17,7 @@ export function runCommand(command, payload) {
         history.push(getNewEntryUrl(payload.collectionName));
         break;
       case HELP:
+        // eslint-disable-next-line no-alert
         window.alert("Find Bar Help (PLACEHOLDER)\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit.");
         break;
       case SEARCH:

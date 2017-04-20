@@ -1,15 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import { EDITORIAL_WORKFLOW } from "../../constants/publishModes";
-import { selectUnpublishedEntry, selectEntry } from "../../reducers";
+import { selectUnpublishedEntry } from "../../reducers";
 import { loadUnpublishedEntry, persistUnpublishedEntry } from "../../actions/editorialWorkflow";
 
 export default function EntryPageHOC(EntryPage) {
-  class EntryPageHOC extends React.Component {
-    render() {
-      return <EntryPage {...this.props} />;
-    }
-  }
+  const EntryPageHOC = props => <EntryPage {...props} />;
 
   function mapStateToProps(state, ownProps) {
     const { collections } = state;

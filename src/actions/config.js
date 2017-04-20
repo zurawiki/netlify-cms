@@ -30,10 +30,10 @@ function parseConfig(data) {
   const config = yaml.safeLoad(data);
   if (typeof CMS_ENV === "string" && config[CMS_ENV]) {
     // TODO: Add tests and refactor
+    // eslint-disable-next-line no-restricted-syntax
     for (const key in config[CMS_ENV]) {
-      // eslint-disable-line no-restricted-syntax
+      // eslint-disable-next-line no-prototype-builtins
       if (config[CMS_ENV].hasOwnProperty(key)) {
-        // eslint-disable-line no-prototype-builtins
         config[key] = config[CMS_ENV][key];
       }
     }

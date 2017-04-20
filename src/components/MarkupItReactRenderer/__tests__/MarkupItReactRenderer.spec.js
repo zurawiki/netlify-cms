@@ -155,6 +155,7 @@ I get 10 times more traffic from [Google] [1] than from [Yahoo] [2] or [MSN] [3]
 
   describe("custom elements", () => {
     it("should extend default renderers with custom ones", () => {
+      // eslint-disable-next-line new-cap
       const myRule = MarkupIt.Rule("mediaproxy").regExp(reInline.link, (state, match) => {
         // eslint-disable-line
         if (match[0].charAt(0) !== "!") {

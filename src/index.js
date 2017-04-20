@@ -46,7 +46,7 @@ const buildtInPlugins = [
       },
     toBlock: data => `![${data.alt}](${data.image})`,
     toPreview: data => <img src={data.image} alt={data.alt} />,
-    pattern: /^!\[([^\]]+)\]\(([^\)]+)\)$/,
+    pattern: /^!\[([^\]]+)]\(([^)]+)\)$/,
     fields: [
       {
         label: "Image",
@@ -63,8 +63,8 @@ const buildtInPlugins = [
 buildtInPlugins.forEach(plugin => registry.registerEditorComponent(plugin));
 
 const CMS = {};
+// eslint-disable-next-line
 for (const method in registry) {
-  // eslint-disable-line
   CMS[method] = registry[method];
 }
 

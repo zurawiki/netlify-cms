@@ -1,8 +1,8 @@
 import React from "react";
 import markdownSyntax from "markup-it/syntaxes/markdown";
 import htmlSyntax from "markup-it/syntaxes/html";
-import MarkupItReactRenderer from "../MarkupItReactRenderer";
 import { storiesOf } from "@kadira/storybook";
+import MarkupItReactRenderer from "../MarkupItReactRenderer";
 
 const mdContent = `
 # Title

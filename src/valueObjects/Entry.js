@@ -1,6 +1,6 @@
 import { isBoolean } from "lodash";
 
-export function createEntry(collection, slug = "", path = "", options = {}) {
+export default function createEntry(collection, slug = "", path = "", options = {}) {
   const returnObj = {};
   returnObj.collection = collection;
   returnObj.slug = slug;

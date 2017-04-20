@@ -1,9 +1,9 @@
 import { flatten } from "lodash";
-import { createEntry } from "../../../valueObjects/Entry";
+import createEntry from "../../../valueObjects/Entry";
 import { selectEntrySlug } from "../../../reducers/collections";
 
 function getSlug(path) {
-  return path.split("/").pop().replace(/\.[^\.]+$/, "");
+  return path.split("/").pop().replace(/\.[^.]+$/, "");
 }
 
 export default class Algolia {
@@ -114,21 +114,20 @@ export default class Algolia {
         page: this.entriesCache.page,
         entries: this.entriesCache.entries,
       });
-    } else {
-      return this.request(`${this.searchURL}/indexes/${this.indexPrefix}${collection.get("name")}`, {
-        params: { page },
-      }).then(response => {
-        const entries = response.hits.map(hit => {
-          const slug = selectEntrySlug(collection, hit.path);
-          return createEntry(collection.get("name"), slug, hit.path, {
-            data: hit.data,
-            partial: true,
-          });
-        });
-        this.entriesCache = { collection, pagination: response.page, entries };
-        return { entries, pagination: response.page };
-      });
     }
+    return this.request(`${this.searchURL}/indexes/${this.indexPrefix}${collection.get("name")}`, {
+      params: { page },
+    }).then(response => {
+      const entries = response.hits.map(hit => {
+        const slug = selectEntrySlug(collection, hit.path);
+        return createEntry(collection.get("name"), slug, hit.path, {
+          data: hit.data,
+          partial: true,
+        });
+      });
+      this.entriesCache = { collection, pagination: response.page, entries };
+      return { entries, pagination: response.page };
+    });
   }
 
   getEntry(collection, slug) {

@@ -27,7 +27,7 @@ function processUrl(url) {
   if (url.match(/^(https?:\/\/|mailto:|\/)/)) {
     return url;
   }
-  if (url.match(/^[^\/]+\.[^\/]+/)) {
+  if (url.match(/^[^/]+\.[^/]+/)) {
     return `https://${url}`;
   }
   return `/${url}`;
@@ -140,7 +140,7 @@ export default class Editor extends Component {
   }
 
   handleAction = action => {
-    const { schema, serializer } = this.state;
+    const { serializer } = this.state;
     const newState = this.view.state.applyAction(action);
     const md = serializer.serialize(newState.doc);
     this.props.onChange(md);
@@ -221,6 +221,7 @@ export default class Editor extends Component {
   handleLink = () => {
     let url = null;
     if (!markActive(this.view.state, this.state.schema.marks.link)) {
+      // eslint-disable-next-line no-alert
       url = prompt("Link URL:");
     }
     const command = toggleMark(this.state.schema.marks.link, {

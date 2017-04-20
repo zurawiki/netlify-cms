@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from "react";
-import { Map, fromJS } from "immutable";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import { resolveWidget } from "../Widgets";
 import ControlHOC from "../Widgets/ControlHOC";
@@ -53,6 +52,7 @@ export default class ControlPane extends Component {
           value={value}
           metadata={metadata}
           onChange={(newValue, newMetadata) => onChange(fieldName, newValue, newMetadata)}
+          // eslint-disable-next-line react/jsx-no-bind
           onValidate={this.props.onValidate.bind(this, fieldName)}
           onAddAsset={onAddAsset}
           onRemoveAsset={onRemoveAsset}

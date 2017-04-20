@@ -40,7 +40,7 @@ registry.registerWidget("object", ObjectControl, ObjectPreview);
 registry.registerWidget("relation", RelationControl, RelationPreview);
 registry.registerWidget("unknown", UnknownControl, UnknownPreview);
 
+// eslint-disable-next-line import/prefer-default-export
 export function resolveWidget(name) {
-  // eslint-disable-line
   return registry.getWidget(name || "string") || registry.getWidget("unknown");
 }

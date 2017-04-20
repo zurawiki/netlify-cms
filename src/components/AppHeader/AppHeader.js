@@ -2,7 +2,7 @@ import React, { PropTypes } from "react";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import pluralize from "pluralize";
 import { IndexLink } from "react-router";
-import { IconMenu, Menu, MenuItem } from "react-toolbox/lib/menu";
+import { IconMenu, MenuItem } from "react-toolbox/lib/menu";
 import Avatar from "react-toolbox/lib/avatar";
 import AppBar from "react-toolbox/lib/app_bar";
 import FontIcon from "react-toolbox/lib/font_icon";

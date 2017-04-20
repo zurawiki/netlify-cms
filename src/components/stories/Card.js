@@ -1,6 +1,6 @@
 import React from "react";
-import { Card } from "../UI";
 import { storiesOf } from "@kadira/storybook";
+import { Card } from "../UI";
 
 const styles = {
   footer: {
@@ -19,7 +19,7 @@ storiesOf("Card", module)
       <h2>Subtitle</h2>
       <p>
         Margins are applied to all elements inside a card. <br />
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. lobortis vel. Nulla porttitor enim at tellus eget
+        Lorem ipsum dolor sit amet, consectetur adipsscing elit. lobortis vel. Nulla porttitor enim at tellus eget
         malesuada eleifend. Nunc tellus turpis, tincidunt sed felis facilisis, lacinia condimentum quam. Cras quis
         tortor fermentum, aliquam tortor eu, consequat ligula. Nulla eget nulla act odio varius ullamcorper turpis.
         In consequat egestas nulla condimentum faucibus. Donec scelerisque convallis est nec fringila. Suspendisse
@@ -29,7 +29,7 @@ storiesOf("Card", module)
   ))
   .add("Full width content", () => (
     <Card>
-      <img src="https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg" />
+      <img src="https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg" alt="" />
       <h1>Card & cat</h1>
       <p>
         Media Elements such as video, img (and iFrame for embeds) don't have margin
@@ -38,7 +38,7 @@ storiesOf("Card", module)
   ))
   .add("Footer", () => (
     <Card>
-      <img src="http://www.top13.net/wp-content/uploads/2015/10/perfectly-timed-funny-cat-pictures-5.jpg" />
+      <img src="http://www.top13.net/wp-content/uploads/2015/10/perfectly-timed-funny-cat-pictures-5.jpg" alt="" />
       <h1>Now with footer.</h1>
       <p>header and footer elements are also not subject to margin</p>
       <footer style={styles.footer}>© Thousand Cats Corp</footer>

@@ -20,9 +20,11 @@ const integrations = (state = null, action) => {
             : collections;
           integrationCollections.forEach(collection => {
             hooks.forEach(hook => {
-              acc.hooks[collection]
-                ? (acc.hooks[collection][hook] = provider)
-                : (acc.hooks[collection] = { [hook]: provider });
+              if (acc.hooks[collection]) {
+                acc.hooks[collection][hook] = provider;
+              } else {
+                acc.hooks[collection] = { [hook]: provider };
+              }
             });
           });
           return acc;

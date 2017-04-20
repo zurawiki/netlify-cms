@@ -43,7 +43,7 @@ class EntryPage extends React.Component {
   };
 
   componentDidMount() {
-    const { entry, newEntry, collection, slug, loadEntry, createEmptyDraft } = this.props;
+    const { newEntry, collection, slug, loadEntry, createEmptyDraft } = this.props;
     this.props.openSidebar();
     if (newEntry) {
       createEmptyDraft(collection);
@@ -100,7 +100,6 @@ class EntryPage extends React.Component {
       changeDraftFieldValidation,
       addAsset,
       removeAsset,
-      closeEntry,
     } = this.props;
 
     if (entry && entry.get("error")) {

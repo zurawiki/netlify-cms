@@ -4,7 +4,7 @@ import { closeEntry } from "./editor";
 import { currentBackend } from "../backends/backend";
 import { getIntegrationProvider } from "../integrations";
 import { getAsset, selectIntegration } from "../reducers";
-import { createEntry } from "../valueObjects/Entry";
+import createEntry from "../valueObjects/Entry";
 
 const { notifSend } = notifActions;
 

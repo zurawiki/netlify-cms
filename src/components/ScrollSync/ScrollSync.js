@@ -11,14 +11,14 @@ export default class ScrollSync extends Component {
     unregisterPane: PropTypes.func,
   };
 
-  panes = [];
-
   getChildContext() {
     return {
       registerPane: this.registerPane,
       unregisterPane: this.unregisterPane,
     };
   }
+
+  panes = [];
 
   registerPane = node => {
     if (!this.findPane(node)) {

@@ -27,12 +27,14 @@ class UnpublishedListing extends React.Component {
   };
 
   requestDelete = (collection, slug, ownStatus) => {
+    // eslint-disable-next-line no-alert
     if (window.confirm("Are you sure you want to delete this entry?")) {
       this.props.handleDelete(collection, slug, ownStatus);
     }
   };
   requestPublish = (collection, slug, ownStatus) => {
     if (ownStatus !== status.last()) return;
+    // eslint-disable-next-line no-alert
     if (window.confirm("Are you sure you want to publish this entry?")) {
       this.props.handlePublish(collection, slug, ownStatus);
     }
@@ -93,9 +95,11 @@ class UnpublishedListing extends React.Component {
                     <Link to={link}>
                       <Button>Edit</Button>
                     </Link>
+                    {/* eslint-disable react/jsx-no-bind */}
                     <Button onClick={this.requestDelete.bind(this, collection, slug, ownStatus)}>
                       Delete
                     </Button>
+                    {/* eslint-enable react/jsx-no-bind */}
                     {ownStatus === status.last() &&
                       !entry.get("isPersisting", false) &&
                       <Button

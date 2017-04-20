@@ -8,3 +8,5 @@ export default function Card({ style, className = "", onClick, children }) {
     </div>
   );
 }
+
+Card.PropTypes = {};

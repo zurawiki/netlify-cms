@@ -25,6 +25,7 @@ function processEditorPlugins(plugins) {
   if (plugins === processedPlugins) return;
 
   plugins.forEach(plugin => {
+    // eslint-disable-next-line new-cap
     const basicRule = MarkupIt.Rule(plugin.id).regExp(plugin.pattern, (state, match) => ({
       data: plugin.fromBlock(match),
     }));
@@ -58,10 +59,11 @@ function processEditorPlugins(plugins) {
 }
 
 function processAssetProxyPlugins(getAsset) {
+  // eslint-disable-next-line new-cap
   const assetProxyRule = MarkupIt.Rule("assetproxy").regExp(reInline.link, (state, match) => {
     if (match[0].charAt(0) !== "!") {
       // Return if this is not an image
-      return;
+      return null;
     }
 
     const imgData = Map({
@@ -82,9 +84,8 @@ function processAssetProxyPlugins(getAsset) {
 
     if (title) {
       return `![${alt}](${src} "${title}")`;
-    } else {
-      return `![${alt}](${src})`;
     }
+    return `![${alt}](${src})`;
   });
   const assetProxyHTMLRule = assetProxyRule.toText((state, token) => {
     const data = token.getData();
@@ -99,7 +100,7 @@ function processAssetProxyPlugins(getAsset) {
     const isFocused = state.selection.hasEdgeIn(node);
     const className = isFocused ? "active" : null;
     const src = node.data.get("src");
-    return <img {...props.attributes} src={getAsset(src)} className={className} />;
+    return <img {...props.attributes} src={getAsset(src)} className={className} alt="" />;
   };
   augmentedMarkdownSyntax = augmentedMarkdownSyntax.addInlineRules(assetProxyMarkdownRule);
   augmentedHTMLSyntax = augmentedHTMLSyntax.addInlineRules(assetProxyHTMLRule);

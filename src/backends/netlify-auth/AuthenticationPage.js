@@ -8,6 +8,7 @@ import styles from "./AuthenticationPage.css";
 export default class AuthenticationPage extends React.Component {
   static propTypes = {
     onLogin: React.PropTypes.func.isRequired,
+    error: React.PropTypes.object,
   };
 
   state = { username: "", password: "", errors: {} };

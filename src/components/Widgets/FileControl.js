@@ -43,7 +43,6 @@ export default class FileControl extends React.Component {
 
     const fileList = e.dataTransfer ? e.dataTransfer.files : e.target.files;
     const files = [...fileList];
-    const imageType = /^image\//;
 
     // Return the first file on the list
     const file = files[0];
@@ -70,9 +69,8 @@ export default class FileControl extends React.Component {
     if (!this.props.value) return null;
     if (this.value instanceof AssetProxy) {
       return truncateMiddle(this.props.value.path, MAX_DISPLAY_LENGTH);
-    } else {
-      return truncateMiddle(this.props.value, MAX_DISPLAY_LENGTH);
     }
+    return truncateMiddle(this.props.value, MAX_DISPLAY_LENGTH);
   };
 
   render() {

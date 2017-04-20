@@ -136,7 +136,8 @@ export default class API {
       if (cached && cached.expires > Date.now()) {
         return cached.data;
       }
-      console.log("%c Checking for MetaData files", "line-height: 30px;text-align: center;font-weight: bold"); // eslint-disable-line
+      // eslint-disable-next-line no-console
+      console.log("%c Checking for MetaData files", "line-height: 30px;text-align: center;font-weight: bold");
       return this.request(`${this.repoURL}/contents/${key}.json`, {
         params: { ref: "refs/meta/_netlify_cms" },
         headers: { Accept: "application/vnd.github.VERSION.raw" },
@@ -144,8 +145,9 @@ export default class API {
       })
         .then(response => JSON.parse(response))
         .catch(error =>
+          // eslint-disable-next-line no-console
           console.log("%c %s does not have metadata", "line-height: 30px;text-align: center;font-weight: bold", key),
-        ); // eslint-disable-line
+        );
     });
   }
 
@@ -271,6 +273,8 @@ export default class API {
         }));
         return this.editorialWorkflowGit(fileTree, entry, mediaFilesList, options);
       }
+
+      throw new Error(`Mode ${options.mode} not recognized`);
     });
   }
 
@@ -313,41 +317,40 @@ export default class API {
             }),
           ),
         );
-    } else {
-      // Entry is already on editorial review workflow - just update metadata and commit to existing branch
-      return this.getBranch(branchName)
-        .then(branchData => this.updateTree(branchData.commit.sha, "/", fileTree))
-        .then(changeTree => this.commit(options.commitMessage, changeTree))
-        .then(response => {
-          const contentKey = entry.slug;
-          const branchName = `cms/${contentKey}`;
-          return this.user()
-            .then(user => (user.name ? user.name : user.login))
-            .then(username => this.retrieveMetadata(contentKey))
-            .then(metadata => {
-              let files = (metadata.objects && metadata.objects.files) || [];
-              files = files.concat(filesList);
-              const updatedPR = metadata.pr;
-              updatedPR.head = response.sha;
-              return {
-                ...metadata,
-                pr: updatedPR,
-                title: options.parsedData && options.parsedData.title,
-                description: options.parsedData && options.parsedData.description,
-                objects: {
-                  entry: {
-                    path: entry.path,
-                    sha: entry.sha,
-                  },
-                  files: uniq(files),
-                },
-                timeStamp: new Date().toISOString(),
-              };
-            })
-            .then(updatedMetadata => this.storeMetadata(contentKey, updatedMetadata))
-            .then(this.patchBranch(branchName, response.sha));
-        });
     }
+    // Entry is already on editorial review workflow - just update metadata and commit to existing branch
+    return this.getBranch(branchName)
+      .then(branchData => this.updateTree(branchData.commit.sha, "/", fileTree))
+      .then(changeTree => this.commit(options.commitMessage, changeTree))
+      .then(response => {
+        const contentKey = entry.slug;
+        const branchName = `cms/${contentKey}`;
+        return this.user()
+          .then(user => (user.name ? user.name : user.login))
+          .then(username => this.retrieveMetadata(contentKey))
+          .then(metadata => {
+            let files = (metadata.objects && metadata.objects.files) || [];
+            files = files.concat(filesList);
+            const updatedPR = metadata.pr;
+            updatedPR.head = response.sha;
+            return {
+              ...metadata,
+              pr: updatedPR,
+              title: options.parsedData && options.parsedData.title,
+              description: options.parsedData && options.parsedData.description,
+              objects: {
+                entry: {
+                  path: entry.path,
+                  sha: entry.sha,
+                },
+                files: uniq(files),
+              },
+              timeStamp: new Date().toISOString(),
+            };
+          })
+          .then(updatedMetadata => this.storeMetadata(contentKey, updatedMetadata))
+          .then(this.patchBranch(branchName, response.sha));
+      });
   }
 
   updateUnpublishedEntryStatus(collection, slug, status) {
@@ -362,7 +365,6 @@ export default class API {
 
   deleteUnpublishedEntry(collection, slug) {
     const contentKey = slug;
-    let prNumber;
     return this.retrieveMetadata(contentKey)
       .then(metadata => this.closePR(metadata.pr, metadata.objects))
       .then(() => this.deleteBranch(`cms/${contentKey}`));
@@ -370,7 +372,6 @@ export default class API {
 
   publishUnpublishedEntry(collection, slug) {
     const contentKey = slug;
-    let prNumber;
     return this.retrieveMetadata(contentKey)
       .then(metadata => this.mergePR(metadata.pr, metadata.objects))
       .then(() => this.deleteBranch(`cms/${contentKey}`));
@@ -421,7 +422,6 @@ export default class API {
   }
 
   closePR(pullrequest, objects) {
-    const headSha = pullrequest.head;
     const prNumber = pullrequest.number;
     console.log("%c Deleting PR", "line-height: 30px;text-align: center;font-weight: bold"); // eslint-disable-line
     return this.request(`${this.repoURL}/pulls/${prNumber}`, {
@@ -458,10 +458,11 @@ export default class API {
     files.forEach(file => {
       commitMessage += `\n* "${file.path}"`;
     });
+    // eslint-disable-next-line no-console
     console.log(
       "%c Automatic merge not possible - Forcing merge.",
       "line-height: 30px;text-align: center;font-weight: bold",
-    ); // eslint-disable-line
+    );
     return this.getBranch()
       .then(branchData => this.updateTree(branchData.commit.sha, "/", fileTree))
       .then(changeTree => this.commit(commitMessage, changeTree))
@@ -497,7 +498,6 @@ export default class API {
   updateTree(sha, path, fileTree) {
     return this.getTree(sha).then(tree => {
       let obj;
-      let filename;
       let fileOrDir;
       const updates = [];
       const added = {};

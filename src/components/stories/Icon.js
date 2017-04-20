@@ -1,6 +1,6 @@
 import React from "react";
-import { Icon } from "../UI";
 import { storiesOf } from "@kadira/storybook";
+import { Icon } from "../UI";
 
 const style = {
   width: 600,
@@ -32,6 +32,7 @@ storiesOf("Icon", module).add("Default View", () => (
     <Icon type="header" />
     <Icon type="h1" />
     <Icon type="h2" />
+    import {storiesOf} from "@kadira/storybook";
     <Icon type="paragraph" />
     <Icon type="link" />
     <Icon type="unlink" />

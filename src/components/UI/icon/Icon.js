@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PropTypes } from "react";
 import styles from "./Icon.css";
 
 const availableIcons = [
@@ -328,9 +328,10 @@ const iconPropType = (props, propName) => {
       return new Error(`Invalid type "${value}" supplied to Icon Component.`);
     }
   }
+  return undefined;
 };
 
-const noop = function() {};
+const noop = () => {};
 
 export default function Icon({ style, className = "", type, onClick = noop }) {
   return <span className={`${styles.root} ${styles[type]} ${className}`} style={style} onClick={onClick} />;
@@ -338,4 +339,7 @@ export default function Icon({ style, className = "", type, onClick = noop }) {
 
 Icon.propTypes = {
   type: iconPropType,
+  className: PropTypes.string,
+  style: PropTypes.object,
+  onClick: PropTypes.func,
 };

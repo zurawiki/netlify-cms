@@ -1,20 +1,19 @@
 import React, { PropTypes } from "react";
+import { connect } from "react-redux";
 import registry from "../../lib/registry";
 import RawEditor from "./MarkdownControlElements/RawEditor";
 import VisualEditor from "./MarkdownControlElements/VisualEditor";
 import { processEditorPlugins } from "./richText";
-import { connect } from "react-redux";
 import { switchVisualMode } from "../../actions/editor";
 
 const MODE_STORAGE_KEY = "cms.md-mode";
 
 class MarkdownControl extends React.Component {
   static propTypes = {
-    editor: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
     onAddAsset: PropTypes.func.isRequired,
+    onRemoveAsset: PropTypes.func.isRequired,
     getAsset: PropTypes.func.isRequired,
-    switchVisualMode: PropTypes.func.isRequired,
     value: PropTypes.node,
   };
 

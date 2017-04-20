@@ -18,7 +18,7 @@ function processUrl(url) {
   if (url.match(/^(https?:\/\/|mailto:|\/)/)) {
     return url;
   }
-  if (url.match(/^[^\/]+\.[^\/]+/)) {
+  if (url.match(/^[^/]+\.[^/]+/)) {
     return `https://${url}`;
   }
   return `/${url}`;
@@ -197,6 +197,7 @@ export default class RawEditor extends React.Component {
   };
 
   handleLink = () => {
+    // eslint-disable-next-line no-alert
     const url = prompt("URL:");
     const selection = this.getSelection();
     this.replaceSelection(`[${selection.selected}](${processUrl(url)})`);

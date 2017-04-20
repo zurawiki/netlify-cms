@@ -13,6 +13,7 @@ export default class ScrollSyncPane extends Component {
   };
 
   componentDidMount() {
+    // eslint-disable-next-line react/no-find-dom-node
     this.node = this.props.attachTo || ReactDOM.findDOMNode(this);
     this.context.registerPane(this.node);
   }

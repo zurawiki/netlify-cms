@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from "react";
 import { List, Map, fromJS } from "immutable";
+import ImmutablePropTypes from "react-immutable-proptypes";
 import { sortable } from "react-sortable";
 import FontIcon from "react-toolbox/lib/font_icon";
 import ObjectControl from "./ObjectControl";
@@ -35,6 +36,7 @@ export default class ListControl extends Component {
     value: PropTypes.node,
     field: PropTypes.node,
     forID: PropTypes.string.isRequired,
+    metadata: ImmutablePropTypes.Map,
     getAsset: PropTypes.func.isRequired,
     onAddAsset: PropTypes.func.isRequired,
     onRemoveAsset: PropTypes.func.isRequired,

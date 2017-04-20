@@ -22,8 +22,6 @@ export default function Preview({ collection, fields, widgetFor }) {
 
 Preview.propTypes = {
   collection: ImmutablePropTypes.map.isRequired,
-  entry: ImmutablePropTypes.map.isRequired,
   fields: ImmutablePropTypes.list.isRequired,
-  getAsset: PropTypes.func.isRequired,
   widgetFor: PropTypes.func.isRequired,
 };

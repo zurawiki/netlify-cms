@@ -1,11 +1,11 @@
 import uuid from "uuid";
 import { actions as notifActions } from "redux-notifications";
-import { closeEntry } from "./editor";
 import { BEGIN, COMMIT, REVERT } from "redux-optimist";
+import { closeEntry } from "./editor";
 import { currentBackend } from "../backends/backend";
 import { getAsset } from "../reducers";
 import { loadEntry } from "./entries";
-import { status, EDITORIAL_WORKFLOW } from "../constants/publishModes";
+import { EDITORIAL_WORKFLOW } from "../constants/publishModes";
 import { EditorialWorkflowError } from "../valueObjects/errors";
 
 const { notifSend } = notifActions;

@@ -1,15 +1,10 @@
 import React, { Component, PropTypes } from "react";
 import Autosuggest from "react-autosuggest";
 import uuid from "uuid";
-import { Map } from "immutable";
 import { connect } from "react-redux";
 import { debounce } from "lodash";
 import { Loader } from "../../components/UI/index";
 import { query, clearSearch } from "../../actions/search";
-
-function escapeRegexCharacters(str) {
-  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
 
 class RelationControl extends Component {
   static propTypes = {

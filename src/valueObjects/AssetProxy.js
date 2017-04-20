@@ -18,7 +18,7 @@ export default function AssetProxy(value, fileObj, uploaded = false) {
   this.public_path = !uploaded ? resolvePath(value, config.get("public_folder")) : value;
 }
 
-AssetProxy.prototype.toString = function() {
+AssetProxy.prototype.toString = () => {
   if (this.uploaded) return this.public_path;
   try {
     return window.URL.createObjectURL(this.fileObj);
@@ -27,8 +27,8 @@ AssetProxy.prototype.toString = function() {
   }
 };
 
-AssetProxy.prototype.toBase64 = function() {
-  return new Promise((resolve, reject) => {
+AssetProxy.prototype.toBase64 = () =>
+  new Promise((resolve, reject) => {
     const fr = new FileReader();
     fr.onload = readerEvt => {
       const binaryString = readerEvt.target.result;
@@ -37,7 +37,6 @@ AssetProxy.prototype.toBase64 = function() {
     };
     fr.readAsDataURL(this.fileObj);
   });
-};
 
 export function createAssetProxy(value, fileObj, uploaded = false, privateUpload = false) {
   const state = store.getState();

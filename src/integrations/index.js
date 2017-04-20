@@ -1,6 +1,6 @@
+import { Map } from "immutable";
 import Algolia from "./providers/algolia/implementation";
 import AssetStore from "./providers/assetStore/implementation";
-import { Map } from "immutable";
 
 export function resolveIntegrations(interationsConfig, getToken) {
   let integrationInstances = Map({});
@@ -19,15 +19,14 @@ export function resolveIntegrations(interationsConfig, getToken) {
   return integrationInstances;
 }
 
-export const getIntegrationProvider = (function() {
+export const getIntegrationProvider = (() => {
   let integrations = null;
 
   return (interationsConfig, getToken, provider) => {
     if (integrations) {
       return integrations.get(provider);
-    } else {
-      integrations = resolveIntegrations(interationsConfig, getToken);
-      return integrations.get(provider);
     }
+    integrations = resolveIntegrations(interationsConfig, getToken);
+    return integrations.get(provider);
   };
 })();

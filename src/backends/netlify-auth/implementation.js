@@ -51,9 +51,9 @@ export default class NetlifyAuth extends GitHubBackend {
           commitAuthor: pick(userData, ["name", "email"]),
         });
         return userData;
-      } else {
-        throw new Error("User is not authorized");
       }
+
+      throw new Error("User is not authorized");
     });
   }
 

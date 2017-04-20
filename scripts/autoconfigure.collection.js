@@ -123,6 +123,7 @@ function combineFields(a, b) {
 }
 
 if (process.argv.length !== 3) {
+  // eslint-disable-next-line no-console
   console.log("Usage: autoconfigure.collections.js <path-to-my-folder>");
   process.exit(1);
 }
@@ -156,4 +157,5 @@ const collection = {
   fields,
 };
 
+// eslint-disable-next-line no-console
 console.log(yaml.safeDump([collection], { flowLevel: 3 }));

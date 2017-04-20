@@ -180,6 +180,7 @@ function localSearch(searchTerm, getState, dispatch) {
             })
             .map(f => f.original);
           if (allCollections.size > 3 || localResults.entries.length > 30) {
+            // eslint-disable-next-line no-console
             console.warn(
               "The Netlify CMS is currently using a Built-in search." +
                 "\nWhile this works great for small sites, bigger projects might benefit from a separate search integration." +

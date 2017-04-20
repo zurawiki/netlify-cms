@@ -29,7 +29,8 @@ const mac = typeof navigator !== "undefined" ? /Mac/.test(navigator.platform) : 
 // argument, which maps key names (say `"Mod-B"` to either `false`, to
 // remove the binding, or a new key name string.
 function buildKeymap(schema, mapKeys) {
-  let keys = {}, type;
+  const keys = {};
+  let type;
   function bind(key, cmd) {
     if (mapKeys) {
       const mapped = mapKeys[key];
@@ -62,11 +63,11 @@ function buildKeymap(schema, mapKeys) {
     bind("Ctrl->", wrapIn(type));
   }
   if ((type = schema.nodes.hard_break)) {
-    let br = type,
-      cmd = chainCommands(newlineInCode, (state, onAction) => {
-        onAction(state.tr.replaceSelection(br.create()).scrollAction());
-        return true;
-      });
+    const br = type;
+    const cmd = chainCommands(newlineInCode, (state, onAction) => {
+      onAction(state.tr.replaceSelection(br.create()).scrollAction());
+      return true;
+    });
     bind("Mod-Enter", cmd);
     bind("Shift-Enter", cmd);
     if (mac) bind("Ctrl-Enter", cmd);

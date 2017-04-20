@@ -3,7 +3,7 @@ import GitHubBackend from "./github/implementation";
 import NetlifyAuthBackend from "./netlify-auth/implementation";
 import { resolveFormat } from "../formats/formats";
 import { selectListMethod, selectEntrySlug, selectEntryPath, selectAllowNewEntries } from "../reducers/collections";
-import { createEntry } from "../valueObjects/Entry";
+import createEntry from "../valueObjects/Entry";
 
 class LocalStorageAuthStore {
   storageKey = "netlify-cms-user";
@@ -25,7 +25,7 @@ class LocalStorageAuthStore {
 const slugFormatter = (template = "{{slug}}", entryData) => {
   const date = new Date();
   const identifier = entryData.get("title", entryData.get("path"));
-  return template.replace(/\{\{([^\}]+)\}\}/g, (_, field) => {
+  return template.replace(/\{\{([^}]+)\}\}/g, (_, field) => {
     switch (field) {
       case "year":
         return date.getFullYear();
@@ -36,7 +36,7 @@ const slugFormatter = (template = "{{slug}}", entryData) => {
       case "slug":
         return identifier.trim().toLowerCase().replace(/[^a-z0-9\-_]+/gi, "-");
       default:
-        return entryData.get(field, "").trim().toLowerCase().replace(/[^a-z0-9\.\-_]+/gi, "-");
+        return entryData.get(field, "").trim().toLowerCase().replace(/[^a-z0-9.\-_]+/gi, "-");
     }
   });
 };
@@ -168,7 +168,6 @@ class Backend {
       description: entryDraft.getIn(["entry", "data", "description"], "No Description!"),
     };
 
-    const entryData = entryDraft.getIn(["entry", "data"]).toJS();
     let entryObj;
     if (newEntry) {
       if (!selectAllowNewEntries(collection)) {
@@ -266,7 +265,7 @@ export function resolveBackend(config) {
   }
 }
 
-export const currentBackend = (function() {
+export const currentBackend = (() => {
   let backend = null;
 
   return config => {
@@ -277,5 +276,6 @@ export const currentBackend = (function() {
       backend = resolveBackend(config);
       return backend;
     }
+    throw new Error("No backend available.");
   };
 })();

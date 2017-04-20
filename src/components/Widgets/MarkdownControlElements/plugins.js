@@ -22,8 +22,8 @@ const EditorComponent = Record({
   },
 });
 
+// eslint-disable-next-line no-unused-vars
 class Plugin extends Component {
-  // eslint-disable-line
   static propTypes = {
     children: PropTypes.element.isRequired,
   };
@@ -41,9 +41,10 @@ class Plugin extends Component {
   }
 }
 
+// eslint-disable-next-line import/prefer-default-export
 export function newEditorPlugin(config) {
   const configObj = new EditorComponent({
-    id: config.id || config.label.replace(/[^A-Z0-9]+/ig, "_"),
+    id: config.id || config.label.replace(/[^A-Z0-9]+/gi, "_"),
     label: config.label,
     icon: config.icon,
     fields: fromJS(config.fields),
