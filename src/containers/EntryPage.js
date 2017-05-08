@@ -45,6 +45,7 @@ class EntryPage extends React.Component {
   componentDidMount() {
     const { entry, newEntry, collection, slug, loadEntry, createEmptyDraft } = this.props;
     this.props.openSidebar();
+    console.log(collection.toJS());
     if (newEntry) {
       createEmptyDraft(collection);
     } else {
@@ -133,10 +134,10 @@ class EntryPage extends React.Component {
 function mapStateToProps(state, ownProps) {
   const { collections, entryDraft } = state;
   const slug = ownProps.params.slug;
-  const collection = collections.get(ownProps.params.name);
+  const collection = ownProps.collection || collections.get(ownProps.params.name);
   const newEntry = ownProps.route && ownProps.route.newRecord === true;
-  const fields = selectFields(collection, slug);
-  const entry = newEntry ? null : selectEntry(state, collection.get('name'), slug);
+  const fields = ownProps.fields || selectFields(collection, slug);
+  const entry = ownProps.entry || (newEntry ? null : selectEntry(state, collection.get('name'), slug));
   const boundGetAsset = getAsset.bind(null, state);
   return {
     collection,

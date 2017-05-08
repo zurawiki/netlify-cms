@@ -180,6 +180,8 @@ export function loadEntry(collection, slug) {
     const state = getState();
     const backend = currentBackend(state.config);
     dispatch(entryLoading(collection, slug));
+    console.log(collection.toJS());
+    console.log(slug);
     return backend.getEntry(collection, slug)
       .then(loadedEntry => (
         dispatch(entryLoaded(collection, loadedEntry))
