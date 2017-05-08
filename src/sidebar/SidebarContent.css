@@ -1,21 +1,11 @@
 @import '../components/UI/theme';
 
-.root {
-  margin-top: 64px;
-}
-
-.sidebar {
-  width: 220px;
-  background-color: #fff;
-  padding: 0 16px;
+.nav {
+  padding: 0;
 }
 
 .heading {
   margin-bottom: 8px;
-}
-
-.nav {
-  padding: 0;
 }
 
 .linkWrapper {

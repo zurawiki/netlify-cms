@@ -1,14 +1,11 @@
 import React, { PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import pluralize from 'pluralize';
 import { connect } from 'react-redux';
-import { IndexLink } from "react-router";
-import FontIcon from 'react-toolbox/lib/font_icon';
 import { Layout, Panel } from 'react-toolbox/lib/layout';
-import { Navigation } from 'react-toolbox/lib/navigation';
 import { Notifs } from 'redux-notifications';
 import TopBarProgress from 'react-topbar-progress-indicator';
-import Sidebar from './Sidebar';
+import Sidebar from '../sidebar/Sidebar';
+import SidebarContent from '../sidebar/SidebarContent';
 import { loadConfig as actionLoadConfig } from '../actions/config';
 import { loginUser as actionLoginUser, logoutUser as actionLogoutUser } from '../actions/auth';
 import { toggleSidebar as actionToggleSidebar } from '../actions/globalUI';
@@ -20,10 +17,8 @@ import {
 } from '../actions/findbar';
 import AppHeader from '../components/AppHeader/AppHeader';
 import { Loader, Toast } from '../components/UI/index';
-import { getCollectionUrl, getNewEntryUrl } from '../lib/urlHelper';
 import { SIMPLE, EDITORIAL_WORKFLOW } from '../constants/publishModes';
 import styles from './App.css';
-import sidebarStyles from './Sidebar.css';
 
 TopBarProgress.config({
   barColors: {
@@ -47,8 +42,7 @@ class App extends React.Component {
     dispatch: PropTypes.func.isRequired,
     toggleSidebar: PropTypes.func.isRequired,
     navigateToCollection: PropTypes.func.isRequired,
-    user: ImmutablePropTypes.map,
-    runCommand: PropTypes.func.isRequired,
+    user: ImmutablePropTypes.map, runCommand: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
     publishMode: PropTypes.oneOf([SIMPLE, EDITORIAL_WORKFLOW]),
     siteId: PropTypes.string,
@@ -95,7 +89,7 @@ class App extends React.Component {
     );
   }
 
-  handleLinkClick(event, handler, ...args) {
+  handleLinkClick = (event, handler, ...args) => {
     event.preventDefault();
     handler(...args);
   }
@@ -133,49 +127,13 @@ class App extends React.Component {
     }
 
     const sidebarContent = (
-      <div>
-        <Navigation type="vertical" className={sidebarStyles.nav}>
-          {
-            publishMode === SIMPLE ? null :
-            <section>
-              <h1 className={sidebarStyles.heading}>Publishing</h1>
-              <div className={sidebarStyles.linkWrapper}>
-                <IndexLink to="/" className={sidebarStyles.viewEntriesLink}>Editorial Workflow</IndexLink>
-              </div>
-            </section>
-          }
-          <section>
-            <h1 className={sidebarStyles.heading}>Collections</h1>
-            {
-              collections.valueSeq().map((collection) => {
-                const collectionName = collection.get('name');
-                return (
-                  <div key={collectionName} className={sidebarStyles.linkWrapper}>
-                    <a
-                      href={getCollectionUrl(collectionName, true)}
-                      className={sidebarStyles.viewEntriesLink}
-                      onClick={e => this.handleLinkClick(e, navigateToCollection, collectionName)}
-                    >
-                      {pluralize(collection.get('label'))}
-                    </a>
-                    {
-                      collection.get('create') ? (
-                        <a
-                          href={getNewEntryUrl(collectionName, true)}
-                          className={sidebarStyles.createEntryLink}
-                          onClick={e => this.handleLinkClick(e, createNewEntryInCollection, collectionName)}
-                        >
-                          <FontIcon value="add_circle_outline" />
-                        </a>
-                      ) : null
-                    }
-                  </div>
-                );
-              })
-            }
-          </section>
-        </Navigation>
-      </div>
+      <SidebarContent
+        editorialWorkflow={publishMode !== SIMPLE}
+        collections={collections}
+        onLinkClick={this.handleLinkClick}
+        navigateToCollection={navigateToCollection}
+        createNewEntryInCollection={createNewEntryInCollection}
+      />
     );
 
     return (

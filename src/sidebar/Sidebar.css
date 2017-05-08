@@ -1,0 +1,9 @@
+.root {
+  margin-top: 64px;
+}
+
+.sidebar {
+  width: 220px;
+  background-color: #fff;
+  padding: 0 16px;
+}
