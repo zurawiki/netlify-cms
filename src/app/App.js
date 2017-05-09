@@ -5,10 +5,10 @@ import { Layout, Panel } from 'react-toolbox/lib/layout';
 import { Notifs } from 'redux-notifications';
 import TopBarProgress from './TopBarProgress';
 import Sidebar from '../sidebar/Sidebar';
+import Auth from './Auth.js';
 import { loadConfig as actionLoadConfig } from '../actions/config';
-import { loginUser as actionLoginUser, logoutUser as actionLogoutUser } from '../actions/auth';
+import { logoutUser as actionLogoutUser } from '../actions/auth';
 import { toggleSidebar as actionToggleSidebar } from '../actions/globalUI';
-import { currentBackend } from '../backends/backend';
 import { runCommand as actionRunCommand } from '../actions/findbar';
 import AppHeader from '../components/AppHeader/AppHeader';
 import { Loader, Toast } from '../components/UI/index';
@@ -17,7 +17,6 @@ import styles from './App.css';
 class App extends React.Component {
 
   static propTypes = {
-    auth: ImmutablePropTypes.map,
     children: PropTypes.node,
     config: ImmutablePropTypes.map,
     collections: ImmutablePropTypes.orderedMap,
@@ -26,7 +25,6 @@ class App extends React.Component {
     toggleSidebar: PropTypes.func.isRequired,
     user: ImmutablePropTypes.map, runCommand: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
-    siteId: PropTypes.string,
   };
 
   static configError(config) {
@@ -42,32 +40,6 @@ class App extends React.Component {
 
   componentDidMount() {
     this.props.dispatch(actionLoadConfig());
-  }
-
-  handleLogin(credentials) {
-    this.props.dispatch(actionLoginUser(credentials));
-  }
-
-  authenticating() {
-    const { auth } = this.props;
-    const backend = currentBackend(this.props.config);
-
-    if (backend == null) {
-      return <div><h1>Waiting for backend...</h1></div>;
-    }
-
-    return (
-      <div>
-        {
-          React.createElement(backend.authComponent(), {
-            onLogin: this.handleLogin.bind(this),
-            error: auth && auth.get('error'),
-            isFetching: auth && auth.get('isFetching'),
-            siteId: this.props.config.getIn(["backend", "site_domain"]),
-          })
-        }
-      </div>
-    );
   }
 
   render() {
@@ -95,7 +67,7 @@ class App extends React.Component {
     }
 
     if (user == null) {
-      return this.authenticating();
+      return <Auth/>
     }
 
     return (
@@ -126,7 +98,7 @@ function mapStateToProps(state) {
   const { auth, config, collections, globalUI } = state;
   const user = auth && auth.get('user');
   const isFetching = globalUI.get('isFetching');
-  return { auth, config, collections, user, isFetching };
+  return { config, collections, user, isFetching };
 }
 
 function mapDispatchToProps(dispatch) {
