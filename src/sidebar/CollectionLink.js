@@ -10,16 +10,16 @@ export default function CollectionLink({
   createLinkHref,
   handleCreateClick,
 }) {
+  const renderCreateLink = (
+    <a href={createLinkHref} className={styles.createEntryLink} onClick={handleCreateClick}>
+      <FontIcon value="add_circle_outline" />
+    </a>
+  );
+
   return (
     <div className={styles.linkWrapper}>
       <a href={href} className={styles.viewEntriesLink} onClick={handleClick}>{label}</a>
-      {
-        showCreateLink ? (
-          <a href={createLinkHref} className={styles.createEntryLink} onClick={handleCreateClick}>
-            <FontIcon value="add_circle_outline" />
-          </a>
-        ) : null
-      }
+      { showCreateLink && renderCreateLink}
     </div>
   );
 };
