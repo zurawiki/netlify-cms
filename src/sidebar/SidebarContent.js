@@ -11,18 +11,19 @@ export default function SidebarContent({
   navigateToCollection,
   createNewEntryInCollection,
 }) {
+  const renderPublishingSection = (
+    <section>
+      <h1 className={styles.heading}>Publishing</h1>
+      <div className={styles.linkWrapper}>
+        <IndexLink to="/" className={styles.viewEntriesLink}>Editorial Workflow</IndexLink>
+      </div>
+    </section>
+  );
+
   return (
     <div>
       <Navigation type="vertical" className={styles.nav}>
-        {
-          editorialWorkflow &&
-          <section>
-            <h1 className={styles.heading}>Publishing</h1>
-            <div className={styles.linkWrapper}>
-              <IndexLink to="/" className={styles.viewEntriesLink}>Editorial Workflow</IndexLink>
-            </div>
-          </section>
-        }
+        { editorialWorkflow && renderPublishingSection }
         <section>
           <h1 className={styles.heading}>Collections</h1>
           <CollectionLinks collections={collections}/>
