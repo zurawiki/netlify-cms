@@ -3,7 +3,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 import { Layout, Panel } from 'react-toolbox/lib/layout';
 import { Notifs } from 'redux-notifications';
-import TopBarProgress from 'react-topbar-progress-indicator';
+import TopBarProgress from './TopBarProgress';
 import Sidebar from '../sidebar/Sidebar';
 import { loadConfig as actionLoadConfig } from '../actions/config';
 import { loginUser as actionLoginUser, logoutUser as actionLogoutUser } from '../actions/auth';
@@ -13,16 +13,6 @@ import { runCommand as actionRunCommand } from '../actions/findbar';
 import AppHeader from '../components/AppHeader/AppHeader';
 import { Loader, Toast } from '../components/UI/index';
 import styles from './App.css';
-
-TopBarProgress.config({
-  barColors: {
-    "0": '#3ab7a5',
-    '1.0': '#3ab7a5',
-  },
-  shadowBlur: 5,
-  shadowColor: '#3ab7a5',
-  barThickness: 2,
-});
 
 class App extends React.Component {
 
