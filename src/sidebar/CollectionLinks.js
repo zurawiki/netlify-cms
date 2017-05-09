@@ -12,12 +12,10 @@ export default function CollectionLinks({ collections }) {
           return (
             <CollectionLink
               key={collectionName}
-              href={getCollectionUrl(collectionName, true)}
+              href={getCollectionUrl(collectionName)}
               label={pluralize(collection.get('label'))}
-              handleClick={e => onLinkClick(e, navigateToCollection, collectionName)}
               showCreateLink={collection.get('create')}
-              createLinkHref={getNewEntryUrl(collectionName, true)}
-              handleCreateLinkClick={e => onLinkClick(e, createNewEntryInCollection, collectionName)}
+              createLinkHref={getNewEntryUrl(collectionName)}
             />
           );
         })

@@ -7,6 +7,8 @@ import Avatar from "react-toolbox/lib/avatar";
 import AppBar from "react-toolbox/lib/app_bar";
 import FontIcon from "react-toolbox/lib/font_icon";
 import FindBar from "../FindBar/FindBar";
+import history from '../../routing/history';
+import { getCollectionUrl, getNewEntryUrl } from '../../lib/urlHelper';
 import { stringToRGB } from "../../lib/textHelper";
 import styles from "./AppHeader.css";
 
@@ -17,20 +19,12 @@ export default class AppHeader extends React.Component {
     collections: ImmutablePropTypes.orderedMap.isRequired,
     runCommand: PropTypes.func.isRequired,
     toggleDrawer: PropTypes.func.isRequired,
-    onCreateEntryClick: PropTypes.func.isRequired,
     onLogoutClick: PropTypes.func.isRequired,
   };
 
   state = {
     createMenuActive: false,
     userMenuActive: false,
-  };
-
-  handleCreatePostClick = (collectionName) => {
-    const { onCreateEntryClick } = this.props;
-    if (onCreateEntryClick) {
-      onCreateEntryClick(collectionName);
-    }
   };
 
   handleCreateButtonClick = () => {
@@ -80,7 +74,7 @@ export default class AppHeader extends React.Component {
               <MenuItem
                 key={collection.get("name")}
                 value={collection.get("name")}
-                onClick={this.handleCreatePostClick.bind(this, collection.get('name'))} // eslint-disable-line
+                onClick={e => history.push(getNewEntryUrl(collection.get("name")))}
                 caption={pluralize(collection.get("label"), 1)}
               />
             )

@@ -12,8 +12,6 @@ import { toggleSidebar as actionToggleSidebar } from '../actions/globalUI';
 import { currentBackend } from '../backends/backend';
 import {
   runCommand as actionRunCommand,
-  navigateToCollection as actionNavigateToCollection,
-  createNewEntryInCollection as actionCreateNewEntryInCollection,
 } from '../actions/findbar';
 import AppHeader from '../components/AppHeader/AppHeader';
 import { Loader, Toast } from '../components/UI/index';
@@ -37,11 +35,9 @@ class App extends React.Component {
     children: PropTypes.node,
     config: ImmutablePropTypes.map,
     collections: ImmutablePropTypes.orderedMap,
-    createNewEntryInCollection: PropTypes.func.isRequired,
     logoutUser: PropTypes.func.isRequired,
     dispatch: PropTypes.func.isRequired,
     toggleSidebar: PropTypes.func.isRequired,
-    navigateToCollection: PropTypes.func.isRequired,
     user: ImmutablePropTypes.map, runCommand: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
     publishMode: PropTypes.oneOf([SIMPLE, EDITORIAL_WORKFLOW]),
@@ -89,11 +85,6 @@ class App extends React.Component {
     );
   }
 
-  handleLinkClick = (event, handler, ...args) => {
-    event.preventDefault();
-    handler(...args);
-  }
-
   render() {
     const {
       user,
@@ -102,8 +93,6 @@ class App extends React.Component {
       collections,
       toggleSidebar,
       runCommand,
-      navigateToCollection,
-      createNewEntryInCollection,
       logoutUser,
       isFetching,
       publishMode,
@@ -127,13 +116,7 @@ class App extends React.Component {
     }
 
     const sidebarContent = (
-      <SidebarContent
-        editorialWorkflow={publishMode !== SIMPLE}
-        collections={collections}
-        onLinkClick={this.handleLinkClick}
-        navigateToCollection={navigateToCollection}
-        createNewEntryInCollection={createNewEntryInCollection}
-      />
+      <SidebarContent editorialWorkflow={publishMode !== SIMPLE} collections={collections}/>
     );
 
     return (
@@ -144,7 +127,6 @@ class App extends React.Component {
             user={user}
             collections={collections}
             runCommand={runCommand}
-            onCreateEntryClick={createNewEntryInCollection}
             onLogoutClick={logoutUser}
             toggleDrawer={toggleSidebar}
           />
@@ -175,12 +157,6 @@ function mapDispatchToProps(dispatch) {
     toggleSidebar: () => dispatch(actionToggleSidebar()),
     runCommand: (type, payload) => {
       dispatch(actionRunCommand(type, payload));
-    },
-    navigateToCollection: (collection) => {
-      dispatch(actionNavigateToCollection(collection));
-    },
-    createNewEntryInCollection: (collectionName) => {
-      dispatch(actionCreateNewEntryInCollection(collectionName));
     },
     logoutUser: () => {
       dispatch(actionLogoutUser());

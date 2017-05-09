@@ -7,9 +7,6 @@ import styles from './SidebarContent.css';
 export default function SidebarContent({
   editorialWorkflow,
   collections,
-  onLinkClick,
-  navigateToCollection,
-  createNewEntryInCollection,
 }) {
   const renderPublishingSection = (
     <section>
