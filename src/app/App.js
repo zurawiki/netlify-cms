@@ -5,17 +5,13 @@ import { Layout, Panel } from 'react-toolbox/lib/layout';
 import { Notifs } from 'redux-notifications';
 import TopBarProgress from 'react-topbar-progress-indicator';
 import Sidebar from '../sidebar/Sidebar';
-import SidebarContent from '../sidebar/SidebarContent';
 import { loadConfig as actionLoadConfig } from '../actions/config';
 import { loginUser as actionLoginUser, logoutUser as actionLogoutUser } from '../actions/auth';
 import { toggleSidebar as actionToggleSidebar } from '../actions/globalUI';
 import { currentBackend } from '../backends/backend';
-import {
-  runCommand as actionRunCommand,
-} from '../actions/findbar';
+import { runCommand as actionRunCommand } from '../actions/findbar';
 import AppHeader from '../components/AppHeader/AppHeader';
 import { Loader, Toast } from '../components/UI/index';
-import { SIMPLE, EDITORIAL_WORKFLOW } from '../constants/publishModes';
 import styles from './App.css';
 
 TopBarProgress.config({
@@ -40,7 +36,6 @@ class App extends React.Component {
     toggleSidebar: PropTypes.func.isRequired,
     user: ImmutablePropTypes.map, runCommand: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
-    publishMode: PropTypes.oneOf([SIMPLE, EDITORIAL_WORKFLOW]),
     siteId: PropTypes.string,
   };
 
@@ -95,9 +90,7 @@ class App extends React.Component {
       runCommand,
       logoutUser,
       isFetching,
-      publishMode,
     } = this.props;
-
 
     if (config === null) {
       return null;
@@ -115,12 +108,8 @@ class App extends React.Component {
       return this.authenticating();
     }
 
-    const sidebarContent = (
-      <SidebarContent editorialWorkflow={publishMode !== SIMPLE} collections={collections}/>
-    );
-
     return (
-      <Sidebar content={sidebarContent}>
+      <Sidebar>
         <Layout>
           <Notifs CustomComponent={Toast} />
           <AppHeader
@@ -147,8 +136,7 @@ function mapStateToProps(state) {
   const { auth, config, collections, globalUI } = state;
   const user = auth && auth.get('user');
   const isFetching = globalUI.get('isFetching');
-  const publishMode = config && config.get('publish_mode');
-  return { auth, config, collections, user, isFetching, publishMode };
+  return { auth, config, collections, user, isFetching };
 }
 
 function mapDispatchToProps(dispatch) {
