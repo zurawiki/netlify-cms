@@ -24,7 +24,3 @@
 .columnHeading {
   font-size: var(--defaultFontSize);
 }
-
-.draggable {
-  cursor: move;
-}
