@@ -1,0 +1,16 @@
+.column {
+  flex: 1 33%;
+  margin: -10px;
+  padding: 10px;
+  max-width: 33%;
+  transition: background-color .5s ease;
+}
+
+.columnHovered {
+  composes: column;
+  background-color: #e1eeea;
+}
+
+.columnHeading {
+  font-size: 1em;
+}

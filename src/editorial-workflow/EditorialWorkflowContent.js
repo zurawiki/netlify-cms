@@ -1,7 +1,9 @@
 import React, { PropTypes } from 'react';
-import { DropTarget, HTML5DragDrop } from 'react-simple-dnd';
+import { HTML5DragDrop } from 'react-simple-dnd';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import { partial } from 'lodash';
 import { status, statusDescriptions } from '../constants/publishModes';
+import EditorialWorkflowColumn from './EditorialWorkflowColumn';
 import EditorialWorkflowCardList from './EditorialWorkflowCardList';
 import styles from './EditorialWorkflowContent.css';
 
@@ -26,50 +28,34 @@ class EditorialWorkflowContent extends React.Component {
     }
   };
   requestPublish = (collection, slug, ownStatus) => {
-    if (ownStatus !== status.last()) return;
+    if (ownStatus !== status.last()) {
+      return;
+    }
     if (window.confirm('Are you sure you want to publish this entry?')) {
       this.props.handlePublish(collection, slug, ownStatus);
     }
   };
 
-  renderColumns = (entries, column) => {
-    if (!entries) return null;
-
-    if (!column) {
-      return entries.entrySeq().map(([currColumn, currEntries]) => (
-        <DropTarget
-          key={currColumn}
-          /* eslint-disable */
-          onDrop={this.handleChangeStatus.bind(this, currColumn)}
-          /* eslint-enable */
-        >
-          {isHovered => (
-            <div className={isHovered ? styles.columnHovered : styles.column}>
-              <h2 className={styles.columnHeading}>
-                {statusDescriptions.get(currColumn)}
-              </h2>
-              {this.renderColumns(currEntries, currColumn)}
-            </div>
-          )}
-        </DropTarget>
-      ));
-    }
-    return (
-      <EditorialWorkflowCardList
-        entries={entries}
-        requestDelete={this.requestDelete}
-        requestPublish={this.requestPublish}
-      />
-    );
-  };
-
   render() {
-    const columns = this.renderColumns(this.props.entries);
+    const { entries } = this.props;
     return (
       <div>
         <h1>Editorial Workflow</h1>
         <div className={styles.container}>
-          {columns}
+          { entries && entries.entrySeq().map(([columnName, columnEntries]) => (
+            <EditorialWorkflowColumn
+              key={columnName}
+              columnName={columnName}
+              onChangeColumn={partial(this.handleChangeStatus, columnName)}
+              heading={statusDescriptions.get(columnName)}
+            >
+              <EditorialWorkflowCardList
+                entries={columnEntries}
+                requestDelete={this.requestDelete}
+                requestPublish={this.requestPublish}
+              />
+            </EditorialWorkflowColumn>
+          ))}
         </div>
       </div>
     );

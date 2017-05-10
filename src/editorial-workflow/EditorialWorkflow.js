@@ -35,7 +35,7 @@ class EditorialWorkflow extends Component {
     const { isEditorialWorkflow, isFetching, unpublishedEntries, updateUnpublishedEntryStatus, publishUnpublishedEntry, deleteUnpublishedEntry } = this.props;
     if (!isEditorialWorkflow) return null;
     if (isFetching) return <Loader active>Loading Editorial Workflow Entries</Loader>;
-   
+
     return (
       <EditorialWorkflowContent
         entries={unpublishedEntries}
