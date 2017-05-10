@@ -3,15 +3,16 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 import { Layout, Panel } from 'react-toolbox/lib/layout';
 import { Notifs } from 'redux-notifications';
+import ConfigMessaging from './ConfigMessaging';
+import Auth from './Auth.js';
 import TopBarProgress from './TopBarProgress';
 import Sidebar from '../sidebar/Sidebar';
-import Auth from './Auth.js';
 import { loadConfig as actionLoadConfig } from '../actions/config';
 import { logoutUser as actionLogoutUser } from '../actions/auth';
 import { toggleSidebar as actionToggleSidebar } from '../actions/globalUI';
 import { runCommand as actionRunCommand } from '../actions/findbar';
 import AppHeader from '../components/AppHeader/AppHeader';
-import { Loader, Toast } from '../components/UI/index';
+import { Toast } from '../components/UI/index';
 import styles from './App.css';
 
 class App extends React.Component {
@@ -26,17 +27,6 @@ class App extends React.Component {
     user: ImmutablePropTypes.map, runCommand: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
   };
-
-  static configError(config) {
-    return (<div>
-      <h1>Error loading the CMS configuration</h1>
-
-      <div>
-        <p>The <code>config.yml</code> file could not be loaded or failed to parse properly.</p>
-        <p><strong>Error message:</strong> {config.get('error')}</p>
-      </div>
-    </div>);
-  }
 
   componentDidMount() {
     this.props.dispatch(actionLoadConfig());
@@ -54,22 +44,24 @@ class App extends React.Component {
       isFetching,
     } = this.props;
 
+    // Require config, use ConfigMessaging component to communicate status in the UI
     if (config === null) {
       return null;
     }
 
-    if (config.get('error')) {
-      return App.configError(config);
+    const configError = config.get('error');
+    const configFetching = config.get('isFetching');
+
+    if (configError || configFetching) {
+      return <ConfigMessaging error={configError} fetching={configFetching}/>
     }
 
-    if (config.get('isFetching')) {
-      return <Loader active>Loading configuration...</Loader>;
-    }
-
+    // Render the auth component if there's no user
     if (user == null) {
       return <Auth/>
     }
 
+    // Render the app - essentially a wrapper around whatever children are provided through routes
     return (
       <Sidebar>
         <Layout>
