@@ -1,14 +1,9 @@
 import React, { PropTypes } from 'react';
 import { DragSource, DropTarget, HTML5DragDrop } from 'react-simple-dnd';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Link } from 'react-router';
 import moment from 'moment';
-import pluralize from 'pluralize';
-import { capitalize } from 'lodash'
-import { Card, CardTitle, CardText, CardActions } from 'react-toolbox/lib/card';
-import Button from 'react-toolbox/lib/button';
-import EditorialWorkflowCardMeta from './EditorialWorkflowCardMeta.js';
 import { status, statusDescriptions } from '../constants/publishModes';
+import EditorialWorkflowCard from './EditorialWorkflowCard';
 import styles from './EditorialWorkflowContent.css';
 
 class EditorialWorkflowContent extends React.Component {
@@ -65,13 +60,13 @@ class EditorialWorkflowContent extends React.Component {
         {
           entries.map((entry) => {
             // Look for an "author" field. Fallback to username on backend implementation;
-            const author = entry.getIn(['data', 'author'], entry.getIn(['metaData', 'user']));
+            const username = entry.getIn(['metaData', 'user']);
+            const author = entry.getIn(['data', 'author'], username);
             const timeStamp = moment(entry.getIn(['metaData', 'timeStamp'])).format('llll');
             const link = `collections/${ entry.getIn(['metaData', 'collection']) }/entries/${ entry.get('slug') }`;
             const slug = entry.get('slug');
             const ownStatus = entry.getIn(['metaData', 'status']);
             const collection = entry.getIn(['metaData', 'collection']);
-            const isModification = entry.get('isModification');
             return (
               <DragSource
                 key={slug}
@@ -80,39 +75,18 @@ class EditorialWorkflowContent extends React.Component {
                 ownStatus={ownStatus}
               >
                 <div className={styles.draggable}>
-                  <Card className={styles.card}>
-                    <EditorialWorkflowCardMeta
-                      meta={capitalize(pluralize(collection))}
-                      label={isModification ? "" : "New"}
-                    />
-                    <CardTitle
-                      title={entry.getIn(['data', 'title'])}
-                      subtitle={`by ${ author }`}
-                    />
-                    <CardText>
-                      Last updated: {timeStamp} by {entry.getIn(['metaData', 'user'])}
-                    </CardText>
-                    <CardActions>
-                      <Link to={link}>
-                        <Button>Edit</Button>
-                      </Link>
-                      <Button
-                      onClick={this.requestDelete.bind(this, collection, slug, ownStatus)}>
-                        Delete
-                      </Button>
-                      {
-                        (ownStatus === status.last() && !entry.get('isPersisting', false)) &&
-                        <Button
-                          accent
-                          /* eslint-disable */
-                          onClick={this.requestPublish.bind(this, collection, slug, ownStatus)}
-                          /* eslint-enable */
-                        >
-                          Publish now
-                        </Button>
-                      }
-                    </CardActions>
-                  </Card>
+                  <EditorialWorkflowCard
+                    collection={collection}
+                    isModification={entry.get('isModification')}
+                    title={entry.getIn(['data', 'title'])}
+                    author={author}
+                    timeStamp={timeStamp}
+                    username={username}
+                    linkUrl={link}
+                    handleDeleteClick={this.requestDelete.bind(this, collection, slug, ownStatus)}
+                    allowPublish={ownStatus === status.last() && !entry.get('isPersisting', false)}
+                    handlePublishClick={this.requestPublish.bind(this, collection, slug, ownStatus)}
+                  />
                 </div>
               </DragSource>
             );
