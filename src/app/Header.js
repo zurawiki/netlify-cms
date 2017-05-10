@@ -6,11 +6,11 @@ import { IconMenu, Menu, MenuItem } from "react-toolbox/lib/menu";
 import Avatar from "react-toolbox/lib/avatar";
 import AppBar from "react-toolbox/lib/app_bar";
 import FontIcon from "react-toolbox/lib/font_icon";
-import FindBar from "../FindBar/FindBar";
-import history from '../../routing/history';
-import { getCollectionUrl, getNewEntryUrl } from '../../lib/urlHelper';
-import { stringToRGB } from "../../lib/textHelper";
-import styles from "./AppHeader.css";
+import FindBar from "../components/FindBar/FindBar";
+import history from '../routing/history';
+import { getCollectionUrl, getNewEntryUrl } from '../lib/urlHelper';
+import { stringToRGB } from "../lib/textHelper";
+import styles from "./Header.css";
 
 export default class AppHeader extends React.Component {
 

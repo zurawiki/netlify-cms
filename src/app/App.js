@@ -11,7 +11,7 @@ import { loadConfig as actionLoadConfig } from '../actions/config';
 import { logoutUser as actionLogoutUser } from '../actions/auth';
 import { toggleSidebar as actionToggleSidebar } from '../actions/globalUI';
 import { runCommand as actionRunCommand } from '../actions/findbar';
-import AppHeader from '../components/AppHeader/AppHeader';
+import Header from './Header';
 import { Toast } from '../components/UI/index';
 import styles from './App.css';
 
@@ -66,7 +66,7 @@ class App extends React.Component {
       <Sidebar>
         <Layout>
           <Notifs CustomComponent={Toast} />
-          <AppHeader
+          <Header
             user={user}
             collections={collections}
             runCommand={runCommand}
