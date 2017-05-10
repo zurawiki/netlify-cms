@@ -10,7 +10,6 @@ import Sidebar from '../sidebar/Sidebar';
 import { loadConfig as actionLoadConfig } from '../actions/config';
 import { logoutUser as actionLogoutUser } from '../actions/auth';
 import { toggleSidebar as actionToggleSidebar } from '../actions/globalUI';
-import { runCommand as actionRunCommand } from '../actions/findbar';
 import Header from './Header';
 import { Toast } from '../components/UI/index';
 import styles from './App.css';
@@ -24,7 +23,6 @@ class App extends React.Component {
     logoutUser: PropTypes.func.isRequired,
     dispatch: PropTypes.func.isRequired,
     toggleSidebar: PropTypes.func.isRequired,
-    user: ImmutablePropTypes.map, runCommand: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
   };
 
@@ -39,7 +37,6 @@ class App extends React.Component {
       children,
       collections,
       toggleSidebar,
-      runCommand,
       logoutUser,
       isFetching,
     } = this.props;
@@ -66,7 +63,6 @@ class App extends React.Component {
           <Header
             user={user}
             collections={collections}
-            runCommand={runCommand}
             onLogoutClick={logoutUser}
             toggleDrawer={toggleSidebar}
           />
@@ -94,9 +90,6 @@ function mapDispatchToProps(dispatch) {
   return {
     dispatch,
     toggleSidebar: () => dispatch(actionToggleSidebar()),
-    runCommand: (type, payload) => {
-      dispatch(actionRunCommand(type, payload));
-    },
     logoutUser: () => {
       dispatch(actionLogoutUser());
     },

@@ -1,51 +1,27 @@
 import React, { Component, PropTypes } from 'react';
+import history from '../routing/history';
 import styles from './SearchBar.css';
 
-export const SEARCH = 'SEARCH';
-const PLACEHOLDER = 'Search entry titles...';
-
 class SearchBar extends Component {
-  static propTypes = {
-    runCommand: PropTypes.func.isRequired,
-  };
-
   constructor() {
     super();
-    this._searchCommand = {
-      regexp: `(?:${ SEARCH })?(.*)`,
-      param: { name: 'searchTerm', display: '' },
-    };
-    this.state = {
-      value: '',
-      placeholder: PLACEHOLDER,
-    };
+    this.state = { value: '' };
   }
 
-  search = () => {
-    const string = this.state.value;
-    const command = this._searchCommand;
-    const match = string.match(RegExp(`^${ this._searchCommand.regexp }`, 'i'));
-    const enteredParamValue = command && command.param && match[1] ? match[1].trim() : null;
-
-    if (enteredParamValue) {
-      this.props.runCommand(SEARCH, { searchTerm: enteredParamValue });
-    }
-  };
-
-  handleKeyDown = event => (event.key === 'Enter' && this.search());
   handleChange = event => this.setState({ value: event.target.value });
+
+  // Executing search only requires a url update
+  handleKeyDown = event => (event.key === 'Enter' && this.search(this.state.value.trim()));
+  search = query => (query && history.push(`/search/${ query }`));
 
   render() {
     return (
       <div className={styles.root}>
-        <label htmlFor="searchInput" />
         <input
-          id="searchInput"
           className={styles.inputField}
-          ref={c => this._input = c} // eslint-disable-line no-return-assign
           onChange={this.handleChange}
           onKeyDown={this.handleKeyDown}
-          placeholder={this.state.placeholder}
+          placeholder="Search entry titles..."
           value={this.state.value}
         />
       </div>

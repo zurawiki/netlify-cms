@@ -12,7 +12,7 @@ import { getCollectionUrl, getNewEntryUrl } from '../lib/urlHelper';
 import { stringToRGB } from "../lib/textHelper";
 import styles from "./Header.css";
 
-const Header = ({ user, collections, runCommand, toggleDrawer, onLogoutClick }) => {
+const Header = ({ user, collections, toggleDrawer, onLogoutClick }) => {
   const avatarStyle = { backgroundColor: `#${ stringToRGB(user.get("name")) }` };
 
   return (
@@ -32,7 +32,7 @@ const Header = ({ user, collections, runCommand, toggleDrawer, onLogoutClick }) 
           ))
         }
       </IconMenu>
-      <SearchBar runCommand={runCommand} />
+      <SearchBar/>
       <Avatar style={avatarStyle} title={user.get("name")} image={user.get("avatar_url")} />
       <IconMenu icon="settings" position="topRight" theme={styles}>
         <MenuItem onClick={onLogoutClick} value="log out" caption="Log Out" />
@@ -44,7 +44,6 @@ const Header = ({ user, collections, runCommand, toggleDrawer, onLogoutClick }) 
 Header.propTypes = {
   user: ImmutablePropTypes.map.isRequired,
   collections: ImmutablePropTypes.orderedMap.isRequired,
-  runCommand: PropTypes.func.isRequired,
   toggleDrawer: PropTypes.func.isRequired,
   onLogoutClick: PropTypes.func.isRequired,
 };
