@@ -25,7 +25,6 @@ import styles from './EditorialWorkflow.css';
  */
 class EditorialWorkflow extends Component {
   static propTypes = {
-    isEditorialWorkflow: PropTypes.bool.isRequired,
     isFetching: PropTypes.bool,
     unpublishedEntries: ImmutablePropTypes.map,
     loadUnpublishedEntries: PropTypes.func.isRequired,
@@ -33,14 +32,6 @@ class EditorialWorkflow extends Component {
     publishUnpublishedEntry: PropTypes.func.isRequired,
     deleteUnpublishedEntry: PropTypes.func.isRequired,
   };
-
-  componentWillMount() {
-    // Ensure that editorial workflow is inaccessible for projects that aren't
-    // configured for it.
-    if (!this.props.isEditorialWorkflow) {
-      history.push('/');
-    }
-  }
 
   componentDidMount() {
     this.props.loadUnpublishedEntries();
@@ -106,7 +97,6 @@ class EditorialWorkflow extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  isEditorialWorkflow: state.config.get('publish_mode') === EDITORIAL_WORKFLOW,
   isFetching: state.editorialWorkflow.getIn(['pages', 'isFetching'], false),
 
   /*
