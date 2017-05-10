@@ -49,11 +49,8 @@ class App extends React.Component {
       return null;
     }
 
-    const configError = config.get('error');
-    const configFetching = config.get('isFetching');
-
-    if (configError || configFetching) {
-      return <ConfigMessaging error={configError} fetching={configFetching}/>
+    if (config.get('error') || config.get('isFetching')) {
+      return <ConfigMessaging error={config.get('error')} isFetching={config.get('isFetching')}/>
     }
 
     // Render the auth component if there's no user

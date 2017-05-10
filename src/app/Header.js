@@ -12,80 +12,41 @@ import { getCollectionUrl, getNewEntryUrl } from '../lib/urlHelper';
 import { stringToRGB } from "../lib/textHelper";
 import styles from "./Header.css";
 
-export default class AppHeader extends React.Component {
+const Header = ({ user, collections, runCommand, toggleDrawer, onLogoutClick }) => {
+  const avatarStyle = { backgroundColor: `#${ stringToRGB(user.get("name")) }` };
 
-  static propTypes = {
-    user: ImmutablePropTypes.map.isRequired,
-    collections: ImmutablePropTypes.orderedMap.isRequired,
-    runCommand: PropTypes.func.isRequired,
-    toggleDrawer: PropTypes.func.isRequired,
-    onLogoutClick: PropTypes.func.isRequired,
-  };
+  return (
+    <AppBar fixed theme={styles} leftIcon="menu" onLeftIconClick={toggleDrawer}>
+      <IndexLink to="/" className={styles.homeLink}>
+        <FontIcon value="home" className={styles.icon} />
+      </IndexLink>
+      <IconMenu theme={styles} icon="add">
+        {
+          collections.filter(collection => collection.get('create')).valueSeq().map(collection => (
+            <MenuItem
+              key={collection.get("name")}
+              value={collection.get("name")}
+              onClick={e => history.push(getNewEntryUrl(collection.get("name")))}
+              caption={pluralize(collection.get("label"), 1)}
+            />
+          ))
+        }
+      </IconMenu>
+      <FindBar runCommand={runCommand} />
+      <Avatar style={avatarStyle} title={user.get("name")} image={user.get("avatar_url")} />
+      <IconMenu icon="settings" position="topRight" theme={styles}>
+        <MenuItem onClick={onLogoutClick} value="log out" caption="Log Out" />
+      </IconMenu>
+    </AppBar>
+  );
+};
 
-  state = {
-    createMenuActive: false,
-    userMenuActive: false,
-  };
+Header.propTypes = {
+  user: ImmutablePropTypes.map.isRequired,
+  collections: ImmutablePropTypes.orderedMap.isRequired,
+  runCommand: PropTypes.func.isRequired,
+  toggleDrawer: PropTypes.func.isRequired,
+  onLogoutClick: PropTypes.func.isRequired,
+};
 
-  handleCreateButtonClick = () => {
-    this.setState({
-      createMenuActive: true,
-    });
-  };
-
-  handleCreateMenuHide = () => {
-    this.setState({
-      createMenuActive: false,
-    });
-  };
-
-  render() {
-    const {
-      user,
-      collections,
-      runCommand,
-      toggleDrawer,
-      onLogoutClick,
-    } = this.props;
-
-    const avatarStyle = {
-      backgroundColor: `#${ stringToRGB(user.get("name")) }`,
-    };
-
-    return (
-      <AppBar
-        fixed
-        theme={styles}
-        leftIcon="menu"
-        onLeftIconClick={toggleDrawer}
-        onRightIconClick={this.handleRightIconClick}
-      >
-        <IndexLink to="/" className={styles.homeLink}>
-          <FontIcon value="home" className={styles.icon} />
-        </IndexLink>
-        <IconMenu
-          theme={styles}
-          icon="add"
-          onClick={this.handleCreateButtonClick}
-          onHide={this.handleCreateMenuHide}
-        >
-          {
-            collections.filter(collection => collection.get('create')).valueSeq().map(collection =>
-              <MenuItem
-                key={collection.get("name")}
-                value={collection.get("name")}
-                onClick={e => history.push(getNewEntryUrl(collection.get("name")))}
-                caption={pluralize(collection.get("label"), 1)}
-              />
-            )
-          }
-        </IconMenu>
-        <FindBar runCommand={runCommand} />
-        <Avatar style={avatarStyle} title={user.get("name")} image={user.get("avatar_url")} />
-        <IconMenu icon="settings" position="topRight" theme={styles}>
-          <MenuItem onClick={onLogoutClick} value="log out" caption="Log Out" />
-        </IconMenu>
-      </AppBar>
-    );
-  }
-}
+export default Header;
