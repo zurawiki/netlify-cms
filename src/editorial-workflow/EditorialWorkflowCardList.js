@@ -6,6 +6,10 @@ import { status } from '../constants/publishModes';
 import EditorialWorkflowCard from './EditorialWorkflowCard';
 import styles from './EditorialWorkflowCardList.css';
 
+/**
+ * EditorialWorkflowCardList takes a list of unpublished entries and returns
+ * them as draggable cards.
+ */
 const EditorialWorkflowCardList = ({ entries, requestDelete, requestPublish }) => {
   return (
     <div>

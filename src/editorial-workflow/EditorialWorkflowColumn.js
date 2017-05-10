@@ -2,6 +2,9 @@ import React from 'react';
 import { DropTarget } from 'react-simple-dnd';
 import styles from './EditorialWorkflowColumn.css';
 
+/**
+ * EditorialWorkflowColumn handles drag/drop functionality for columns.
+ */
 const EditorialWorkflowColumn = ({ columnName, onChangeColumn, heading, children }) => (
   <DropTarget onDrop={onChangeColumn}>
     {

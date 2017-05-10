@@ -7,6 +7,10 @@ import Button from 'react-toolbox/lib/button';
 import EditorialWorkflowCardMeta from './EditorialWorkflowCardMeta.js';
 import styles from './EditorialWorkflowCard.css';
 
+/**
+ * EditorialWorkflowCard takes data for an unpublished entry and renders it as
+ * a card.
+ */
 const EditorialWorkflowCard = ({
   collection,
   isModification,
