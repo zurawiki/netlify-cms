@@ -6,7 +6,7 @@ import { IconMenu, Menu, MenuItem } from "react-toolbox/lib/menu";
 import Avatar from "react-toolbox/lib/avatar";
 import AppBar from "react-toolbox/lib/app_bar";
 import FontIcon from "react-toolbox/lib/font_icon";
-import FindBar from "../components/FindBar/FindBar";
+import SearchBar from "./SearchBar";
 import history from '../routing/history';
 import { getCollectionUrl, getNewEntryUrl } from '../lib/urlHelper';
 import { stringToRGB } from "../lib/textHelper";
@@ -32,7 +32,7 @@ const Header = ({ user, collections, runCommand, toggleDrawer, onLogoutClick }) 
           ))
         }
       </IconMenu>
-      <FindBar runCommand={runCommand} />
+      <SearchBar runCommand={runCommand} />
       <Avatar style={avatarStyle} title={user.get("name")} image={user.get("avatar_url")} />
       <IconMenu icon="settings" position="topRight" theme={styles}>
         <MenuItem onClick={onLogoutClick} value="log out" caption="Log Out" />

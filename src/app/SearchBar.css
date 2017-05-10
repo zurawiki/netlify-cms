@@ -1,4 +1,4 @@
-@import '../UI/theme';
+@import '../components/UI/theme';
 
 .root {
   flex: 1;

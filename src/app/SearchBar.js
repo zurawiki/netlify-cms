@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import styles from './FindBar.css';
+import styles from './SearchBar.css';
 
 export const SEARCH = 'SEARCH';
 const PLACEHOLDER = 'Search entry titles...';
 
-class FindBar extends Component {
+class SearchBar extends Component {
   static propTypes = {
     runCommand: PropTypes.func.isRequired,
   };
@@ -53,4 +53,4 @@ class FindBar extends Component {
   }
 }
 
-export default FindBar;
+export default SearchBar;
