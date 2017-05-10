@@ -1,28 +1,23 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { SIMPLE, EDITORIAL_WORKFLOW } from '../constants/publishModes';
-import history from '../routing/history';
-import UnpublishedEntriesPanel from './editorialWorkflow/UnpublishedEntriesPanel';
+import history from './history';
 
-
-class DashboardPage extends Component {
+class HomeRedirect extends Component {
   componentWillMount() {
-    if (this.props.publishMode === SIMPLE) {
+    if (this.props.publishMode === EDITORIAL_WORKFLOW) {
+      history.push('/editorial-workflow');
+    } else {
       history.push(`/collections/${ this.props.firstCollection }`);
     }
   }
 
   render() {
-    return (
-      <div>
-        <h1>Dashboard</h1>
-        <UnpublishedEntriesPanel />
-      </div>
-    );
+    return null;
   }
 }
 
-DashboardPage.propTypes = {
+HomeRedirect.propTypes = {
   firstCollection: PropTypes.string,
   publishMode: PropTypes.oneOf([SIMPLE, EDITORIAL_WORKFLOW]),
 };
@@ -35,4 +30,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(DashboardPage);
+export default connect(mapStateToProps)(HomeRedirect);

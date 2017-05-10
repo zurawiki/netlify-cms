@@ -7,11 +7,11 @@ import pluralize from 'pluralize';
 import { capitalize } from 'lodash'
 import { Card, CardTitle, CardText, CardActions } from 'react-toolbox/lib/card';
 import Button from 'react-toolbox/lib/button';
-import UnpublishedListingCardMeta from './UnpublishedListingCardMeta.js';
-import { status, statusDescriptions } from '../../constants/publishModes';
-import styles from './UnpublishedListing.css';
+import EditorialWorkflowCardMeta from './EditorialWorkflowCardMeta.js';
+import { status, statusDescriptions } from '../constants/publishModes';
+import styles from './EditorialWorkflowContent.css';
 
-class UnpublishedListing extends React.Component {
+class EditorialWorkflowContent extends React.Component {
   static propTypes = {
     entries: ImmutablePropTypes.orderedMap,
     handleChangeStatus: PropTypes.func.isRequired,
@@ -81,7 +81,7 @@ class UnpublishedListing extends React.Component {
               >
                 <div className={styles.draggable}>
                   <Card className={styles.card}>
-                    <UnpublishedListingCardMeta
+                    <EditorialWorkflowCardMeta
                       meta={capitalize(pluralize(collection))}
                       label={isModification ? "" : "New"}
                     />
@@ -126,7 +126,7 @@ class UnpublishedListing extends React.Component {
     const columns = this.renderColumns(this.props.entries);
     return (
       <div>
-        <h5>Editorial Workflow</h5>
+        <h1>Editorial Workflow</h1>
         <div className={styles.container}>
           {columns}
         </div>
@@ -135,4 +135,4 @@ class UnpublishedListing extends React.Component {
   }
 }
 
-export default HTML5DragDrop(UnpublishedListing); // eslint-disable-line
+export default HTML5DragDrop(EditorialWorkflowContent); // eslint-disable-line

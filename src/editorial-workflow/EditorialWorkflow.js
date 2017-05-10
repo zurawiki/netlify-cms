@@ -7,13 +7,13 @@ import {
   updateUnpublishedEntryStatus,
   publishUnpublishedEntry,
   deleteUnpublishedEntry 
-} from '../../actions/editorialWorkflow';
-import { selectUnpublishedEntriesByStatus } from '../../reducers';
-import { EDITORIAL_WORKFLOW, status } from '../../constants/publishModes';
-import UnpublishedListing from '../../components/UnpublishedListing/UnpublishedListing';
-import { Loader } from '../../components/UI';
+} from '../actions/editorialWorkflow';
+import { selectUnpublishedEntriesByStatus } from '../reducers';
+import { EDITORIAL_WORKFLOW, status } from '../constants/publishModes';
+import EditorialWorkflowContent from './EditorialWorkflowContent';
+import { Loader } from '../components/UI';
 
-class unpublishedEntriesPanel extends Component {
+class EditorialWorkflow extends Component {
   static propTypes = {
     isEditorialWorkflow: PropTypes.bool.isRequired,
     isFetching: PropTypes.bool,
@@ -37,7 +37,7 @@ class unpublishedEntriesPanel extends Component {
     if (isFetching) return <Loader active>Loading Editorial Workflow Entries</Loader>;
    
     return (
-      <UnpublishedListing
+      <EditorialWorkflowContent
         entries={unpublishedEntries}
         handleChangeStatus={updateUnpublishedEntryStatus}
         handlePublish={publishUnpublishedEntry}
@@ -71,4 +71,4 @@ export default connect(mapStateToProps, {
   updateUnpublishedEntryStatus,
   publishUnpublishedEntry,
   deleteUnpublishedEntry,
-})(unpublishedEntriesPanel);
+})(EditorialWorkflow);

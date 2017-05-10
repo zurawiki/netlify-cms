@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
-import styles from './UnpublishedListingCardMeta.css';
+import styles from './EditorialWorkflowCardMeta.css';
 
-const UnpublishedListingCardMeta = ({ meta, label }) =>
+const EditorialWorkflowCardMeta = ({ meta, label }) =>
   <div className={styles.cardMeta}>
     <span className={styles.meta}>{meta}</span>
     {(label && label.length > 0)
@@ -9,9 +9,9 @@ const UnpublishedListingCardMeta = ({ meta, label }) =>
       : ""}
   </div>;
 
-UnpublishedListingCardMeta.propTypes = {
+EditorialWorkflowCardMeta.propTypes = {
   meta: PropTypes.string.isRequired,
   label: PropTypes.string,
 };
 
-export default UnpublishedListingCardMeta;
+export default EditorialWorkflowCardMeta;

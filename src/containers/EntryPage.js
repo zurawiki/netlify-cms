@@ -17,7 +17,7 @@ import { openSidebar } from '../actions/globalUI';
 import { selectEntry, getAsset } from '../reducers';
 import { selectFields } from '../reducers/collections';
 import EntryEditor from '../components/EntryEditor/EntryEditor';
-import entryPageHOC from './editorialWorkflow/EntryPageHOC';
+import entryPageHOC from './EntryPageHOC';
 import { Loader } from '../components/UI';
 
 class EntryPage extends React.Component {

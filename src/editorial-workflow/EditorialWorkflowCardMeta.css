@@ -1,4 +1,4 @@
-@import '../UI/theme.css';
+@import '../components/UI/theme.css';
 
 .cardMeta {
   display: flex;
