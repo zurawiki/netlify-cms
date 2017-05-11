@@ -14,25 +14,25 @@ const EntriesList = ({
   collections,
   publicFolder,
 }) => {
-  const entriesContent = (
-    <Entries
-      collections={collections}
-      entries={entries}
-      publicFolder={publicFolder}
-      page={page}
-      onPaginate={onLoadMore}
-    >
-      {heading}
-    </Entries>
-  );
+  if (entries && !entries.isEmpty()) {
+    return (
+      <Entries
+        collections={collections}
+        entries={entries}
+        publicFolder={publicFolder}
+        page={page}
+        onPaginate={onLoadMore}
+      >
+        {heading}
+      </Entries>
+    );
+  }
 
-  const fetchingEntriesContent = (<Loader active>
-      {['Loading Entries', 'Caching Entries', 'This might take several minutes']}
-  </Loader>);
-  const noEntriesContent = <div className={styles.noEntries}>No Entries</div>;
-  const fallbackContent = isFetching ? fetchingEntriesContent : noEntriesContent;
+  if (isFetching) {
+    return <Loader active>{['Loading entries...', 'Caching entries...']}</Loader>;
+  }
 
-  return (<div>{entries ? entriesContent : fallbackContent}</div>);
+  return <div className={styles.noEntries}>{noEntriesMessage}</div>;
 }
 
 const mapStateToProps = (state, ownProps) => {
