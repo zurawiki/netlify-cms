@@ -3,9 +3,9 @@ import { Route, IndexRoute } from 'react-router';
 import App from '../app/App';
 import HomeRedirect from './HomeRedirect';
 import EditorialWorkflowCheckpoint from '../editorial-workflow/EditorialWorkflowCheckpoint';
-import CollectionPage from '../containers/CollectionPage';
+import CollectionEntriesList from '../entriesList/CollectionEntriesList';
 import EntryPage from '../containers/EntryPage';
-import SearchPage from '../containers/SearchPage';
+import SearchEntriesList from '../entriesList/SearchEntriesList';
 import NotFoundPage from '../containers/NotFoundPage';
 
 export default (
@@ -17,7 +17,7 @@ export default (
     />
     <Route
       path="/collections/:name"
-      component={CollectionPage}
+      component={CollectionEntriesList}
     />
     <Route
       path="/collections/:name/entries/new"
@@ -30,7 +30,7 @@ export default (
     />
     <Route
       path="/search/:searchTerm"
-      component={SearchPage}
+      component={SearchEntriesList}
     />
     <Route
       path="*"
