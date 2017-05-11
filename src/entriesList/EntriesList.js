@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Loader } from '../components/UI';
-import EntryListing from '../components/EntryListing/EntryListing';
+import Entries from './Entries';
 import styles from "./EntriesList.css";
 
 const EntriesList = ({
@@ -15,7 +15,7 @@ const EntriesList = ({
   publicFolder,
 }) => {
   const entriesContent = (
-    <EntryListing
+    <Entries
       collections={collections}
       entries={entries}
       publicFolder={publicFolder}
@@ -23,7 +23,7 @@ const EntriesList = ({
       onPaginate={onLoadMore}
     >
       {heading}
-    </EntryListing>
+    </Entries>
   );
 
   const fetchingEntriesContent = (<Loader active>

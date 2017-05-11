@@ -2,13 +2,13 @@ import React, { PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Waypoint from 'react-waypoint';
 import { Map } from 'immutable';
-import history from '../../routing/history';
-import { resolvePath } from '../../lib/pathHelper';
-import { selectFields, selectInferedField } from '../../reducers/collections';
-import { Card } from '../UI';
-import styles from './EntryListing.css';
+import history from '../routing/history';
+import { resolvePath } from '../lib/pathHelper';
+import { selectFields, selectInferedField } from '../reducers/collections';
+import { Card } from '../components/UI';
+import styles from './Entries.css';
 
-export default class EntryListing extends React.Component {
+export default class Entries extends React.Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     publicFolder: PropTypes.string.isRequired,
