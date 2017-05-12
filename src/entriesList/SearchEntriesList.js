@@ -39,7 +39,6 @@ class SearchEntriesList extends React.Component {
         page={page}
         onLoadMore={this.handleLoadMore}
         isFetching={isFetching}
-        collections={collections}
       />
     );
   }
@@ -49,7 +48,6 @@ const mapStateToProps = (state, ownProps) => ({
   isFetching: state.entries.getIn(['search', 'isFetching']),
   page: state.entries.getIn(['search', 'page']),
   entries: selectSearchedEntries(state),
-  collections: state.collections.toIndexedSeq(),
   searchTerm: ownProps.params && ownProps.params.searchTerm,
 });
 

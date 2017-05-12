@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Waypoint from 'react-waypoint';
-import { Map } from 'immutable';
+import { Map, Set } from 'immutable';
 import history from '../routing/history';
 import { resolvePath } from '../lib/pathHelper';
 import { selectFields } from '../reducers/collections';
@@ -26,21 +26,11 @@ export default class Entries extends React.Component {
     this.props.onPaginate(this.props.page + 1);
   };
 
-  inferFields(collection) { //eslint-disable-line
-    const titleField = selectFieldNameForRole(collection, 'title');
-    const descriptionField = selectFieldNameForRole(collection, 'description');
-    const imageField = selectFieldNameForRole(collection, 'image');
-    const fields = selectFields(collection);
-    const inferedFields = [titleField, descriptionField, imageField];
-    const remainingFields = fields && fields.filter(f => inferedFields.indexOf(f.get('name')) === -1);
-    return { titleField, descriptionField, imageField, remainingFields };
-  }
-
-  renderCard(collection, entry, inferedFields, publicFolder) {
-    const path = `/collections/${ collection.get('name') }/entries/${ entry.get('slug') }`;
+  renderCard(entry, inferedFields, publicFolder) {
+    const path = `/collections/${ entry.get('collection') }/entries/${ entry.get('slug') }`;
     const label = entry.get('label');
-    const title = label || entry.getIn(['data', inferedFields.titleField]);
-    let image = entry.getIn(['data', inferedFields.imageField]);
+    const title = label || entry.getIn(['data', inferedFields.get('titleField')]);
+    let image = entry.getIn(['data', inferedFields.get('imageField')]);
     image = resolvePath(image, publicFolder);
 
     return (
@@ -53,9 +43,9 @@ export default class Entries extends React.Component {
         <header className={styles.cardImage} style={{ backgroundImage: `url(${ image })` }} />
         }
         <h1>{title}</h1>
-        {inferedFields.descriptionField ?
-          <p>{entry.getIn(['data', inferedFields.descriptionField])}</p>
-          : inferedFields.remainingFields && inferedFields.remainingFields.map(f => (
+        {inferedFields.get('descriptionField') ?
+          <p>{entry.getIn(['data', inferedFields.get('descriptionField')])}</p>
+          : inferedFields.get('remainingFields') && inferedFields.get('remainingFields').map(f => (
             <p key={f.get('name')} className={styles.cardList}>
               <span className={styles.cardListLabel}>{f.get('label')}:</span>{' '}
               { entry.getIn(['data', f.get('name')], '').toString() }
@@ -66,17 +56,25 @@ export default class Entries extends React.Component {
     );
   }
   renderCards = () => {
-    const { collections, entries, publicFolder } = this.props;
+    const { collection, collections, entries, publicFolder } = this.props;
 
-    if (Map.isMap(collections)) {
-      const inferedFields = this.inferFields(collections);
-      return entries.map(entry => this.renderCard(collections, entry, inferedFields, publicFolder));
-    }
-    return entries.map((entry) => {
-      const collection = collections
-        .filter(collection => collection.get('name') === entry.get('collection')).first();
-      const inferedFields = this.inferFields(collection);
-      return this.renderCard(collection, entry, inferedFields, publicFolder);
+    const entriesCollections = collection ? Set([collection]) : entries
+      .reduce((collectionNames, entry) => collectionNames.add(entry.get('collection')), Set())
+      .map(collectionName => collections.find(collection => collection.get('name') === collectionName));
+
+    const fieldsByCollection = entriesCollections.reduce((acc, entryCollection) => {
+      const titleField = selectFieldNameForRole(entryCollection, 'title');
+      const descriptionField = selectFieldNameForRole(entryCollection, 'description');
+      const imageField = selectFieldNameForRole(entryCollection, 'image');
+      const fields = selectFields(entryCollection);
+      const inferedFields = [titleField, descriptionField, imageField];
+      const remainingFields = fields && fields.filter(f => inferedFields.indexOf(f.get('name')) === -1);
+      const collectionFields = Map({ titleField, descriptionField, imageField, remainingFields });
+      return acc.set(entryCollection.get('name'), collectionFields);
+    }, Map());
+
+    return entries.map(entry => {
+      return this.renderCard(entry, fieldsByCollection.get(entry.get('collection')), publicFolder);
     });
   };
 

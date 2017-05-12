@@ -27,12 +27,8 @@ class CollectionEntriesList extends React.Component {
   };
 
   render() {
-    const { page, entries, isFetching, collection, collections } = this.props;
+    const { page, entries, isFetching, collection } = this.props;
     const label = collection.get('label');
-
-    if (!collections) {
-      return <h1>No collections defined in your config.yml</h1>;
-    }
 
     return (
       <EntriesList
@@ -42,7 +38,7 @@ class CollectionEntriesList extends React.Component {
         page={page}
         onLoadMore={this.handleLoadMore}
         isFetching={isFetching}
-        collections={collection}
+        collection={collection}
       />
     );
   }
@@ -53,7 +49,6 @@ function mapStateToProps(state, ownProps) {
 
   return {
     collection,
-    collections: state.collections,
     page: state.entries.getIn(['pages', collection.get('name'), 'page']),
     entries: selectEntries(state, collection.get('name')),
     isFetching: state.entries.getIn(['pages', collection.get('name'), 'isFetching'], false),

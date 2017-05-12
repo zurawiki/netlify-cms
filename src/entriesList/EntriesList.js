@@ -11,12 +11,18 @@ const EntriesList = ({
   noEntriesMessage,
   onLoadMore,
   isFetching,
+  collection,
   collections,
   publicFolder,
 }) => {
+  if (!collections) {
+    return <h1>No collections defined in your config.yml</h1>;
+  }
+
   if (entries && !entries.isEmpty()) {
     return (
       <Entries
+        collection={collection}
         collections={collections}
         entries={entries}
         publicFolder={publicFolder}
@@ -36,7 +42,11 @@ const EntriesList = ({
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return Object.assign({}, { publicFolder: state.config.get('public_folder') }, ...ownProps);
+  const props = {
+    collections: state.collections,
+    publicFolder: state.config.get('public_folder'),
+  };
+  return Object.assign({}, props, ...ownProps);
 };
 
 export default connect(mapStateToProps)(EntriesList);
