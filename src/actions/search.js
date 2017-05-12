@@ -2,7 +2,7 @@ import fuzzy from 'fuzzy';
 import { currentBackend } from '../backends/backend';
 import { getIntegrationProvider } from '../integrations';
 import { selectIntegration, selectEntries } from '../reducers';
-import { selectInferedField } from '../reducers/collections';
+import { selectFieldNameForRole } from '../reducers/fieldRoles';
 import { WAIT_UNTIL_ACTION } from '../redux/middleware/waitUntilAction';
 import { loadEntries, ENTRIES_SUCCESS } from './entries';
 
@@ -149,9 +149,9 @@ function localSearch(searchTerm, getState, dispatch) {
       const state = getState();
       if (state.entries.hasIn(['pages', collectionKey, 'ids'])) {
         const searchFields = [
-          selectInferedField(collection, 'title'),
-          selectInferedField(collection, 'shortTitle'),
-          selectInferedField(collection, 'author'),
+          selectFieldNameForRole(collection, 'title'),
+          selectFieldNameForRole(collection, 'shortTitle'),
+          selectFieldNameForRole(collection, 'author'),
         ];
         const collectionEntries = selectEntries(state, collectionKey).toJS();
         const filteredEntries = fuzzy.filter(searchTerm, collectionEntries, {

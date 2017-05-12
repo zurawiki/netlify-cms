@@ -3,7 +3,6 @@ import { has } from 'lodash';
 import consoleError from '../lib/consoleError';
 import { CONFIG_SUCCESS } from '../actions/config';
 import { FILES, FOLDER } from '../constants/collectionTypes';
-import { INFERABLE_FIELDS } from '../constants/fieldInference';
 
 const collections = (state = null, action) => {
   const configCollections = action.payload && action.payload.collections;
@@ -93,35 +92,5 @@ export const selectEntrySlug = (collection, path) => selectors[collection.get('t
 export const selectListMethod = collection => selectors[collection.get('type')].listMethod();
 export const selectAllowNewEntries = collection => selectors[collection.get('type')].allowNewEntries(collection);
 export const selectTemplateName = (collection, slug) => selectors[collection.get('type')].templateName(collection, slug);
-export const selectInferedField = (collection, fieldName) => {
-  const inferableField = INFERABLE_FIELDS[fieldName];
-  const fields = collection.get('fields');
-  let field;
-
-  // If colllection has no fields or fieldName is not defined within inferables list, return null
-  if (!fields || !inferableField) return null;
-  // Try to return a field of the specified type with one of the synonyms
-  const mainTypeFields = fields.filter(f => f.get('widget', 'string') === inferableField.type).map(f => f.get('name'));
-  field = mainTypeFields.filter(f => inferableField.synonyms.indexOf(f) !== -1);
-  if (field && field.size > 0) return field.first();
-
-  // Try to return a field for each of the specified secondary types
-  const secondaryTypeFields = fields.filter(f => inferableField.secondaryTypes.indexOf(f.get('widget', 'string')) !== -1).map(f => f.get('name'));
-  field = secondaryTypeFields.filter(f => inferableField.synonyms.indexOf(f) !== -1);
-  if (field && field.size > 0) return field.first();
-
-  // Try to return the first field of the specified type
-  if (inferableField.fallbackToFirstField && mainTypeFields.size > 0) return mainTypeFields.first();
-
-  // Coundn't infer the field. Show error and return null.
-  if (inferableField.showError) {
-    consoleError(
-      `The Field ${ fieldName } is missing for the collection “${ collection.get('name') }”`,
-      `Netlify CMS tries to infer the entry ${ fieldName } automatically, but one couldn\'t be found for entries of the collection “${ collection.get('name') }”. Please check your site configuration.`
-    );
-  }
-
-  return null;
-};
 
 export default collections;

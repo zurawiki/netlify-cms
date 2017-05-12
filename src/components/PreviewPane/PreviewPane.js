@@ -5,8 +5,8 @@ import Frame from 'react-frame-component';
 import { ScrollSyncPane } from '../ScrollSync';
 import registry from '../../lib/registry';
 import { resolveWidget } from '../Widgets';
-import { selectTemplateName, selectInferedField } from '../../reducers/collections';
-import { INFERABLE_FIELDS } from '../../constants/fieldInference';
+import { selectTemplateName } from '../../reducers/collections';
+import { FIELD_ROLES, selectFieldNameForRole } from '../../reducers/fieldRoles';
 import Preview from './Preview';
 import styles from './PreviewPane.css';
 
@@ -27,14 +27,14 @@ export default class PreviewPane extends React.Component {
   inferedFields = {};
 
   inferFields() {
-    const titleField = selectInferedField(this.props.collection, 'title');
-    const shortTitleField = selectInferedField(this.props.collection, 'shortTitle');
-    const authorField = selectInferedField(this.props.collection, 'author');
+    const titleField = selectFieldNameForRole(this.props.collection, 'title');
+    const shortTitleField = selectFieldNameForRole(this.props.collection, 'shortTitle');
+    const authorField = selectFieldNameForRole(this.props.collection, 'author');
 
     this.inferedFields = {};
-    if (titleField) this.inferedFields[titleField] = INFERABLE_FIELDS.title;
-    if (shortTitleField) this.inferedFields[shortTitleField] = INFERABLE_FIELDS.shortTitle;
-    if (authorField) this.inferedFields[authorField] = INFERABLE_FIELDS.author;
+    if (titleField) this.inferedFields[titleField] = FIELD_ROLES.title;
+    if (shortTitleField) this.inferedFields[shortTitleField] = FIELD_ROLES.shortTitle;
+    if (authorField) this.inferedFields[authorField] = FIELD_ROLES.author;
   }
 
   widgetFor = (name) => {

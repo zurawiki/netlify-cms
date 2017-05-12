@@ -4,7 +4,8 @@ import Waypoint from 'react-waypoint';
 import { Map } from 'immutable';
 import history from '../routing/history';
 import { resolvePath } from '../lib/pathHelper';
-import { selectFields, selectInferedField } from '../reducers/collections';
+import { selectFields } from '../reducers/collections';
+import { selectFieldNameForRole } from '../reducers/fieldRoles';
 import { Card } from '../components/UI';
 import styles from './Entries.css';
 
@@ -26,9 +27,9 @@ export default class Entries extends React.Component {
   };
 
   inferFields(collection) { //eslint-disable-line
-    const titleField = selectInferedField(collection, 'title');
-    const descriptionField = selectInferedField(collection, 'description');
-    const imageField = selectInferedField(collection, 'image');
+    const titleField = selectFieldNameForRole(collection, 'title');
+    const descriptionField = selectFieldNameForRole(collection, 'description');
+    const imageField = selectFieldNameForRole(collection, 'image');
     const fields = selectFields(collection);
     const inferedFields = [titleField, descriptionField, imageField];
     const remainingFields = fields && fields.filter(f => inferedFields.indexOf(f.get('name')) === -1);
