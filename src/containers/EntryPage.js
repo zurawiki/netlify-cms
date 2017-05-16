@@ -51,6 +51,7 @@ class EntryPage extends React.Component {
       loadEntry(collection, slug);
     }
 
+    // Prompt user before navigating away if the document has been changed
     this.unlisten = history.listenBefore((location) => {
       if (this.props.entryDraft.get('hasChanged')) {
         return "Are you sure you want to leave this page?";
@@ -60,10 +61,12 @@ class EntryPage extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.entry === nextProps.entry) return;
+    if (this.props.entry === nextProps.entry) {
+      return;
+    }
 
     if (nextProps.entry && !nextProps.entry.get('isFetching') && !nextProps.entry.get('error')) {
-      this.createDraft(nextProps.entry);
+      this.props.createDraftFromEntry(nextProps.entry);
     } else if (nextProps.newEntry) {
       this.props.createEmptyDraft(nextProps.collection);
     }
@@ -73,21 +76,6 @@ class EntryPage extends React.Component {
     this.props.discardDraft();
     this.unlisten();
   }
-
-  createDraft = (entry) => {
-    if (entry) this.props.createDraftFromEntry(entry);
-  };
-
-  handleCloseEntry = () => {
-    this.props.closeEntry();
-  };
-
-  handlePersistEntry = () => {
-    const { persistEntry, collection } = this.props;
-    setTimeout(() => {
-      persistEntry(collection);  
-    }, 0);
-  };
 
   render() {
     const {
@@ -100,14 +88,15 @@ class EntryPage extends React.Component {
       changeDraftFieldValidation,
       addAsset,
       removeAsset,
+      persistEntry,
       closeEntry,
     } = this.props;
 
     if (entry && entry.get('error')) {
       return <div><h3>{ entry.get('error') }</h3></div>;
-    } else if (entryDraft == null
-      || entryDraft.get('entry') === undefined
-      || (entry && entry.get('isFetching'))) {
+    }
+
+    if (!entryDraft || entryDraft.get('entry') === undefined || (entry && entry.get('isFetching'))) {
       return <Loader active>Loading entry...</Loader>;
     }
 
@@ -123,8 +112,8 @@ class EntryPage extends React.Component {
         onValidate={changeDraftFieldValidation}
         onAddAsset={addAsset}
         onRemoveAsset={removeAsset}
-        onPersist={this.handlePersistEntry}
-        onCancelEdit={this.handleCloseEntry}
+        onPersist={() => setTimeout(() => persistEntry(collection))}
+        onCancelEdit={closeEntry}
       />
     );
   }
