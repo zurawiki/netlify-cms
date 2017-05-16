@@ -1,3 +1,9 @@
+.cardsGrid {
+  display: flex;
+  flex-flow: row wrap;
+  margin-left: -15px;
+}
+
 .noEntries {
   position: absolute;
   top: 50%;

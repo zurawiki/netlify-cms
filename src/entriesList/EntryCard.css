@@ -14,18 +14,3 @@
   background-size: cover;
   background-repeat: no-repeat;
 }
-
-.cardsGrid {
-  display: flex;
-  flex-flow: row wrap;
-  margin-left: -15px;
-}
-
-.cardList {
-  margin-bottom: 1.1rem;
-}
-
-.cardListLabel {
-  white-space: nowrap;
-  font-weight: bold;
-}

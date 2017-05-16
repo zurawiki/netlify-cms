@@ -24,17 +24,17 @@ export default class PreviewPane extends React.Component {
     });
   };
 
-  inferedFields = {};
+  fieldsForRoles = {};
 
-  inferFields() {
+  setFieldsForRoles() {
     const titleField = selectFieldNameForRole(this.props.collection, 'title');
     const shortTitleField = selectFieldNameForRole(this.props.collection, 'shortTitle');
     const authorField = selectFieldNameForRole(this.props.collection, 'author');
 
-    this.inferedFields = {};
-    if (titleField) this.inferedFields[titleField] = FIELD_ROLES.title;
-    if (shortTitleField) this.inferedFields[shortTitleField] = FIELD_ROLES.shortTitle;
-    if (authorField) this.inferedFields[authorField] = FIELD_ROLES.author;
+    this.fieldsForRoles = {};
+    if (titleField) this.fieldsForRoles[titleField] = FIELD_ROLES.title;
+    if (shortTitleField) this.fieldsForRoles[shortTitleField] = FIELD_ROLES.shortTitle;
+    if (authorField) this.fieldsForRoles[authorField] = FIELD_ROLES.author;
   }
 
   widgetFor = (name) => {
@@ -42,8 +42,8 @@ export default class PreviewPane extends React.Component {
     const field = fields.find(f => f.get('name') === name);
     let value = entry.getIn(['data', field.get('name')]);
     const labelledWidgets = ['string', 'text', 'number'];
-    if (Object.keys(this.inferedFields).indexOf(name) !== -1) {
-      value = this.inferedFields[name].defaultPreview(value);
+    if (Object.keys(this.fieldsForRoles).indexOf(name) !== -1) {
+      value = this.fieldsForRoles[name].defaultPreview(value);
     } else if (value && labelledWidgets.indexOf(field.get('widget')) !== -1 && value.toString().length < 50) {
       value = <div><strong>{field.get('label')}:</strong> {value}</div>;
     }
@@ -75,7 +75,7 @@ export default class PreviewPane extends React.Component {
     if (!entry || !entry.get('data')) return null;
     const component = registry.getPreviewTemplate(selectTemplateName(collection, entry.get('slug'))) || Preview;
 
-    this.inferFields();
+    this.setFieldsForRoles();
 
     const previewProps = {
       ...this.props,
