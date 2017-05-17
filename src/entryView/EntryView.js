@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import history from '../routing/history';
 import {
   loadEntry,
@@ -11,13 +12,14 @@ import {
   changeDraftFieldValidation,
   persistEntry,
 } from '../actions/entries';
+import { EDITORIAL_WORKFLOW } from '../constants/publishModes';
 import { closeEntry } from '../actions/editor';
 import { addAsset, removeAsset } from '../actions/media';
 import { openSidebar } from '../actions/globalUI';
-import { selectEntry, getAsset } from '../reducers';
+import { loadUnpublishedEntry, persistUnpublishedEntry } from '../actions/editorialWorkflow';
+import { selectEntry, getAsset, selectUnpublishedEntry } from '../reducers';
 import { selectFields } from '../reducers/collections';
 import EntryEditor from '../components/EntryEditor/EntryEditor';
-import entryPageHOC from './EntryPageHOC';
 import { Loader } from '../components/UI';
 
 class EntryPage extends React.Component {
@@ -43,8 +45,10 @@ class EntryPage extends React.Component {
   };
 
   componentDidMount() {
-    const { entry, newEntry, collection, slug, loadEntry, createEmptyDraft } = this.props;
-    this.props.openSidebar();
+    const { newEntry, collection, slug, loadEntry, createEmptyDraft, openSidebar, entryDraft } = this.props;
+
+    openSidebar();
+
     if (newEntry) {
       createEmptyDraft(collection);
     } else {
@@ -53,10 +57,7 @@ class EntryPage extends React.Component {
 
     // Prompt user before navigating away if the document has been changed
     this.unlisten = history.listenBefore((location) => {
-      if (this.props.entryDraft.get('hasChanged')) {
-        return "Are you sure you want to leave this page?";
-      }
-      return true;
+      return entryDraft.get('hasChanged') ? 'Are you sure you want to leave this page?' : true;
     });
   }
 
@@ -80,6 +81,7 @@ class EntryPage extends React.Component {
   render() {
     const {
       entry,
+      unpublishedEntry,
       entryDraft,
       fields,
       boundGetAsset,
@@ -121,27 +123,27 @@ class EntryPage extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   const { collections, entryDraft } = state;
+  const isEditorialWorkflow = state.config.get('publish_mode') === EDITORIAL_WORKFLOW;
   const slug = ownProps.params.slug;
   const collection = collections.get(ownProps.params.name);
   const newEntry = ownProps.route && ownProps.route.newRecord === true;
-  const fields = selectFields(collection, slug);
-  const entry = newEntry ? null : selectEntry(state, collection.get('name'), slug);
-  const boundGetAsset = getAsset.bind(null, state);
+  const unpublishedEntry = isEditorialWorkflow && selectUnpublishedEntry(state, collection.get('name'), slug);
+
   return {
+    isEditorialWorkflow,
+    slug,
     collection,
-    collections,
     newEntry,
     entryDraft,
-    boundGetAsset,
-    fields,
-    slug,
-    entry,
+    unpublishedEntry,
+    fields: selectFields(collection, slug),
+    boundGetAsset: getAsset.bind(null, state),
+    entry: unpublishedEntry || (!newEntry && selectEntry(state, collection.get('name'), slug)),
   };
 }
 
-export default connect(
-  mapStateToProps,
-  {
+function mapDispatchToProps(dispatch) {
+  const actionCreators = {
     changeDraftField,
     changeDraftFieldValidation,
     addAsset,
@@ -153,5 +155,23 @@ export default connect(
     persistEntry,
     closeEntry,
     openSidebar,
+  };
+
+  return { ...bindActionCreators(actionCreators, dispatch), dispatch }
+}
+
+function mergeProps(stateProps, dispatchProps, ownProps) {
+  const { isEditorialWorkflow, unpublishedEntry } = stateProps;
+  const { dispatch } = dispatchProps;
+  const result = {};
+
+  // Overrides for the editorial workflow
+  if (isEditorialWorkflow) {
+    result.loadEntry = (collection, slug) => dispatch(loadUnpublishedEntry(collection, slug));
+    result.persistEntry = collection => dispatch(persistUnpublishedEntry(collection, unpublishedEntry));
   }
-)(entryPageHOC(EntryPage));
+
+  return { ...ownProps, ...stateProps, ...dispatchProps, ...result };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(EntryPage);

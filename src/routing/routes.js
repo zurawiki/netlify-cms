@@ -4,7 +4,7 @@ import App from '../app/App';
 import HomeRedirect from './HomeRedirect';
 import EditorialWorkflowCheckpoint from '../editorialWorkflow/EditorialWorkflowCheckpoint';
 import CollectionEntriesList from '../entriesList/CollectionEntriesList';
-import EntryPage from '../containers/EntryPage';
+import EntryView from '../entryEditor/EntryView';
 import SearchEntriesList from '../entriesList/SearchEntriesList';
 import NotFoundPage from '../containers/NotFoundPage';
 
@@ -21,12 +21,12 @@ export default (
     />
     <Route
       path="/collections/:name/entries/new"
-      component={EntryPage}
+      component={EntryView}
       newRecord
     />
     <Route
       path="/collections/:name/entries/:slug"
-      component={EntryPage}
+      component={EntryView}
     />
     <Route
       path="/search/:searchTerm"
