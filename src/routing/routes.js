@@ -6,7 +6,7 @@ import EditorialWorkflowCheckpoint from '../editorialWorkflow/EditorialWorkflowC
 import CollectionEntriesList from '../entriesList/CollectionEntriesList';
 import EntryView from '../entryEditor/EntryView';
 import SearchEntriesList from '../entriesList/SearchEntriesList';
-import NotFoundPage from '../containers/NotFoundPage';
+import NotFoundView from '../notFound/NotFoundView';
 
 export default (
   <Route path="/" component={App}>
@@ -34,7 +34,7 @@ export default (
     />
     <Route
       path="*"
-      component={NotFoundPage}
+      component={NotFoundView}
     />
   </Route>
 );
