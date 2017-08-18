@@ -61,7 +61,7 @@ const repeatable = (WrappedComponent) => {
     };
 
     renderItem = (item, i) =>
-      (<RepeatableItem key={`item-${ i }`} index={i}>
+      (<RepeatableItem key={item} index={i}>
         <button className={styles.removeButton} onClick={this.handleRemoveFor(i)}>
           <FontIcon value="close" />
         </button>
@@ -86,7 +86,7 @@ const repeatable = (WrappedComponent) => {
           items={value || List()}
           renderItem={this.renderItem}
           onSortEnd={this.onSortEnd}
-          useDragHandle={true}
+          useDragHandle
         />
         <button className={styles.addButton} onClick={this.handleAdd}>
           <FontIcon value="add" className={styles.addButtonText} />

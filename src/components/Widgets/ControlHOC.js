@@ -22,6 +22,11 @@ class ControlHOC extends Component {
     onRemoveAsset: PropTypes.func.isRequired,
     getAsset: PropTypes.func.isRequired,
   };
+  
+  constructor(props) {
+    super(props);
+    this.wrappedControlComponent = applyHOCs(this.props.controlComponent);
+  }
 
   processInnerControlRef = (wrappedControl) => {
     if (!wrappedControl) return;
@@ -86,7 +91,7 @@ class ControlHOC extends Component {
   };
 
   render() {
-    const ControlComponent = applyHOCs(this.props.controlComponent);
+    const ControlComponent = this.wrappedControlComponent;
 
     return (<ControlComponent
       {...this.props}

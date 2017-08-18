@@ -1,3 +1,5 @@
+import { Component } from 'react';
+import { List } from 'immutable';
 import collapsible from './WidgetHOCs/collapsible';
 import repeatable from './WidgetHOCs/repeatable';
 

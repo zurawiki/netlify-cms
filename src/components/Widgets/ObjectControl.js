@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Map } from 'immutable';
 import { resolveWidget } from '../Widgets';
 import controlStyles from '../ControlPanel/ControlPane.css';
+import { applyHOCs } from './WidgetHOCs';
 import styles from './ObjectControl.css';
 
 export default class ObjectControl extends Component {
@@ -32,7 +33,7 @@ export default class ObjectControl extends Component {
       <div className={controlStyles.control} key={field.get('name')}>
         <label className={controlStyles.label} htmlFor={field.get('name')}>{field.get('label')}</label>
         {
-          React.createElement(widget.control, {
+          React.createElement(applyHOCs(widget.control), {
             id: field.get('name'),
             field,
             value: fieldValue,
