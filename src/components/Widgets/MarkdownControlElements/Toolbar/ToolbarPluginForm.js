@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Map } from 'immutable';
+import Dialog from 'react-toolbox/lib/dialog';
 import { Button } from 'react-toolbox/lib/button';
 import ToolbarPluginFormControl from './ToolbarPluginFormControl';
 import styles from './ToolbarPluginForm.css';
@@ -40,29 +41,31 @@ export default class ToolbarPluginForm extends React.Component {
     } = this.props;
 
     return (
-      <form className={styles.pluginForm} onSubmit={this.handleSubmit}>
-        <h3 className={styles.header}>Insert {plugin.get('label')}</h3>
-        <div className={styles.body}>
-          {plugin.get('fields').map((field, index) => (
-            <ToolbarPluginFormControl
-              key={index}
-              field={field}
-              value={this.state.data.get(field.get('name'))}
-              onAddAsset={onAddAsset}
-              onRemoveAsset={onRemoveAsset}
-              getAsset={getAsset}
-              onChange={(val) => {
-                this.setState({ data: this.state.data.set(field.get('name'), val) });
-              }}
-            />
-          ))}
-        </div>
-        <div className={styles.footer}>
-          <Button raised onClick={this.handleSubmit}>Insert</Button>
-          {' '}
-          <Button onClick={onCancel}>Cancel</Button>
-        </div>
-      </form>
+      <Dialog active={true} className={styles.dialog}>
+        <form onSubmit={this.handleSubmit}>
+          <h3 className={styles.header}>Insert {plugin.get('label')}</h3>
+          <div className={styles.body}>
+            {plugin.get('fields').map((field, index) => (
+              <ToolbarPluginFormControl
+                key={index}
+                field={field}
+                value={this.state.data.get(field.get('name'))}
+                onAddAsset={onAddAsset}
+                onRemoveAsset={onRemoveAsset}
+                getAsset={getAsset}
+                onChange={(val) => {
+                  this.setState({ data: this.state.data.set(field.get('name'), val) });
+                }}
+              />
+            ))}
+          </div>
+          <div className={styles.footer}>
+            <Button raised onClick={this.handleSubmit}>Insert</Button>
+            {' '}
+            <Button onClick={onCancel}>Cancel</Button>
+          </div>
+        </form>
+      </Dialog>
     );
   }
 }

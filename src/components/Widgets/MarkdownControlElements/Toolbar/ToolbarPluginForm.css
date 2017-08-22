@@ -1,5 +1,9 @@
 @import "../../../UI/theme";
 
+.dialog {
+  overflow-y: auto;
+}
+
 .pluginForm {
   position: absolute;
   background-color: var(--backgroundColor);
