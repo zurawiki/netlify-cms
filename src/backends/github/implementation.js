@@ -76,6 +76,10 @@ export default class GitHub {
     });
     return Promise.all(promises);
   };
+  
+  readFile(path) {
+    return this.api.readFile(path);
+  }
 
   // Fetches a single entry.
   getEntry(collection, slug, path) {

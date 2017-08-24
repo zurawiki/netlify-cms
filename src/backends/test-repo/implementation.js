@@ -39,6 +39,10 @@ export default class TestRepo {
   getToken() {
     return Promise.resolve('');
   }
+  
+  readFile(path) {
+    return getFile(path).content;
+  }
 
   entriesByFolder(collection, extension) {
     const entries = [];

@@ -1,5 +1,12 @@
 import Immutable from 'immutable';
-import { CONFIG_REQUEST, CONFIG_SUCCESS, CONFIG_FAILURE } from '../actions/config';
+import {
+  CONFIG_REQUEST,
+  CONFIG_SUCCESS,
+  CONFIG_FAILURE,
+  CONFIG_EXTENSION_REQUEST,
+  CONFIG_EXTENSION_SUCCESS,
+  CONFIG_EXTENSION_FAILURE
+} from '../actions/config';
 
 const config = (state = null, action) => {
   switch (action.type) {
@@ -9,6 +16,7 @@ const config = (state = null, action) => {
       return Immutable.fromJS(action.payload);
     case CONFIG_FAILURE:
       return Immutable.Map({ error: action.payload.toString() });
+
     default:
       return state;
   }

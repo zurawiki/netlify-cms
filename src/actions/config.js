@@ -1,6 +1,8 @@
 import yaml from "js-yaml";
+import { fromJS, List } from 'immutable';
 import { set, defaultsDeep, get } from "lodash";
 import { authenticateUser } from "../actions/auth";
+import { currentBackend } from '../backends/backend';
 import * as publishModes from "../constants/publishModes";
 
 export const CONFIG_REQUEST = "CONFIG_REQUEST";
@@ -20,7 +22,8 @@ export function applyDefaults(config) {
   return defaultsDeep(config, defaults);
 }
 
-export function validateConfig(config) {
+// Makes sure that the backend information is present
+export function validateConfigBackend(config) {
   if (!get(config, 'backend')) {
     throw new Error("Error in configuration file: A `backend` wasn't found. Check your config.yml file.");
   }
@@ -30,6 +33,11 @@ export function validateConfig(config) {
   if (typeof config.backend.name !== 'string') {
     throw new Error("Error in configuration file: Your `backend.name` must be a string. Check your config.yml file.");
   }
+  return config;
+}
+
+export function validateConfig(config) {
+  validateConfigBackend(config);
   if (!get(config, 'media_folder')) {
     throw new Error("Error in configuration file: A `media_folder` wasn\'t found. Check your config.yml file.");
   }
@@ -76,9 +84,67 @@ export function configFailed(err) {
   };
 }
 
+
+export function configExtending() {
+  return {
+    type: CONFIG_EXTENSION_REQUEST,
+  };
+}
+
+export function configExtended(configExtension) {
+  return {
+    type: CONFIG_EXTENSION_SUCCESS,
+    payload: configExtension,
+  };
+}
+
+export function configExtensionFailed(err) {
+  return {
+    type: CONFIG_EXTENSION_FAILURE,
+    error: "Error loading config extension",
+    payload: err,
+  };
+}
+
 export function configDidLoad(config) {
   return (dispatch) => {
     dispatch(configLoaded(config));
+  };
+}
+
+const mergeAndConcatDeeply = (a, b) => {
+  if (List.isList(a) && List.isList(b)) {
+    return a.concat(b);
+  }
+  
+  if (a && a.mergeWith) {
+    return a.mergeWith(mergeAndConcatDeeply, b);
+  }
+  
+  return b;
+};
+
+export function extendConfig() {
+  return (dispatch, getState) => {
+    const { config } = getState();
+    const backend = currentBackend(config);
+    const configExtensionFilePath = config.get('extend_config_with', false);
+
+
+    if (configExtensionFilePath) {
+      dispatch(configLoading());
+      return backend.readFile(configExtensionFilePath)
+        .then(parseConfig)
+        .then((configExtension) => {
+          const cleanConfigExtension = fromJS(configExtension)
+            .delete('backend')
+            .delete('extend_config_with');
+          const extendedConfig = config.mergeWith(mergeAndConcatDeeply, cleanConfigExtension);
+          return extendedConfig.toJS();
+        });
+    }
+
+    return Promise.resolve(config.toJS());
   };
 }
 
@@ -97,6 +163,12 @@ export function loadConfig() {
       return response.text();
     })
     .then(parseConfig)
+    .then(validateConfigBackend)
+    .then((config) => {
+      dispatch(configDidLoad(config));
+      return dispatch(authenticateUser());
+    })
+    .then(() => dispatch(extendConfig()))
     .then(validateConfig)
     .then(applyDefaults)
     .then((config) => {

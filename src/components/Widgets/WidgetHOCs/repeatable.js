@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { fromJS, List } from 'immutable';
+import { fromJS, List, Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
 import FontIcon from 'react-toolbox/lib/font_icon';
@@ -60,11 +60,13 @@ const repeatable = (WrappedComponent) => {
       onChange((value || List()).push(null));
     };
 
-    renderItem = (item, i) =>
+    renderItem = (options) => (item, i) =>
       (<RepeatableItem key={item} index={i}>
-        <button className={styles.removeButton} onClick={this.handleRemoveFor(i)}>
-          <FontIcon value="close" />
-        </button>
+        {options.create
+          ? (<button className={styles.removeButton} onClick={this.handleRemoveFor(i)}>
+            <FontIcon value="close" />
+          </button>)
+          : ''}
         <WrappedComponent
           {...this.props}
           className={styles.repeatedComponent}
@@ -79,27 +81,37 @@ const repeatable = (WrappedComponent) => {
       this.props.onChange(newValue);
     };
 
-    renderItems() {
+    renderItems(options) {
       const { value, field, forID } = this.props;
       return (<div id={forID}>
         <RepeatableContainer
           items={value || List()}
-          renderItem={this.renderItem}
+          renderItem={this.renderItem(options)}
           onSortEnd={this.onSortEnd}
           useDragHandle
         />
-        <button className={styles.addButton} onClick={this.handleAdd}>
-          <FontIcon value="add" className={styles.addButtonText} />
-          <span className={styles.addButtonText}>
-            new {field.get('label', '').toLowerCase()}
-          </span>
-        </button>
+        {options.create
+          ? (<button className={styles.addButton} onClick={this.handleAdd}>
+            <FontIcon value="add" className={styles.addButtonText} />
+            <span className={styles.addButtonText}>
+              new {options.singularLabel.toLowerCase()}
+            </span>
+          </button>)
+          : ''}
       </div>);
     }
 
     render() {
-      if (this.props.field.get("repeat", false)) {
-        return this.renderItems();
+      const repeatField = this.props.field.get("repeat", false);
+      if (repeatField) {
+        const repeatDefaults = {
+          create: true,
+          singularLabel: this.props.field.get("label", "item"),
+        };
+        const repeatOptions = Map.isMap(repeatField)
+          ? Object.assign({}, repeatDefaults, repeatField.toJS())
+          : repeatDefaults;
+        return this.renderItems(repeatOptions);
       }
 
       return <WrappedComponent {...this.props} />;

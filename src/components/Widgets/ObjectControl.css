@@ -3,7 +3,9 @@
 .root {
   position: relative;
   border: 2px solid rgba(0,0,0,0.1);
+  border-top-width: 28px;
   border-radius: var(--borderRadius);
+  border-top-left-radius: 0;
   margin-bottom: 20px;
   padding: 0 20px 12px;
 }

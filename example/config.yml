@@ -1,240 +1,66 @@
 backend:
-  name: test-repo
-  delay: 0.1
+  name: github
+  repo: Benaiah/netlify-cms-test-Repo
+  branch: master
 
-media_folder: "assets/uploads"
+media_folder: "media"
+public_folder: "content"
+
+extend_config_with: "config-extension.yml"
 
 collections: # A list of collections the CMS should be able to edit
-  - name: "posts" # Used in routes, ie.: /admin/collections/:slug/edit
-    label: "Post" # Used in the UI, ie.: "New Post"
-    folder: "_posts"
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    create: true # Allow users to create new documents in this collection
-    fields: # The fields each document in this collection have
-      - {label: "Title", name: "title", widget: "string", tagname: "h1"}
-      - {label: "Publish Date", name: "date", widget: "datetime", format: "YYYY-MM-DD hh:mma"}
-      - {label: "Cover Image", name: "image", widget: "image", required: false, tagname: ""}
-      - {label: "Body", name: "body", widget: "markdown"}
-    meta:
-      - {label: "SEO Description", name: "description", widget: "text"}
-
-  - name: "faq" # Used in routes, ie.: /admin/collections/:slug/edit
-    label: "FAQ" # Used in the UI, ie.: "New Post"
-    folder: "_faqs"
-    create: true # Allow users to create new documents in this collection
-    fields: # The fields each document in this collection have
-      - {label: "Question", name: "title", widget: "string", tagname: "h1"}
-      - {label: "Answer", name: "body", widget: "markdown"}
-
   - name: "settings"
     label: "Settings"
     files:
-      - name: "general"
+      - name: "config-extension"
         label: "Site Settings"
-        file: "_data/settings.json"
-        description: "General Site Settings"
+        file: "config-extension.yml"
+        description: "CMS Config"
         fields:
-          - {label: "Global title", name: "site_title", widget: "string"}
-          - label: "Post Settings"
-            name: posts
+          - {label: "Publish Mode", name: "publish_mode", widget: "select", options: ["editorial_workflow", "simple"]}
+          - {label: "Media Folder", name: "media_folder", widget: "string"}
+          - {label: "Public Folder", name: "public_folder", widget: "string"}
+          - label: "Collections"
+            name: "collections"
             widget: "object"
-            fields:
-              - {label: "Number of posts on frontpage", name: front_limit, widget: number}
-              - {label: "Default Author", name: author, widget: string}
-              - {label: "Default Thumbnail", name: thumb, widget: image, class: "thumb"}
-
-      - name: "authors"
-        label: "Authors"
-        file: "_data/authors.yml"
-        description: "Author descriptions"
-        fields:
-          - name: authors
-            label: Authors
-            widget: object
-            repeat: true
+            repeat:
+              singularLabel: "Collection"
             collapse:
               startCollapsed: true
               summary:
-                fields: ["name"]
+                fields: ["label"]
             fields:
+              - {label: "Label", name: "label", widget: "string"}
               - {label: "Name", name: "name", widget: "string"}
-              - {label: "Description", name: "description", widget: "markdown"}
-
-  - name: "kitchenSink" # all the things in one entry, for documentation and quick testing
-    label: "Kitchen Sink"
-    folder: "_sink"
-    create: true
-    fields:
-      - label: "Related Post"
-        name: "post"
-        widget: "relationKitchenSinkPost"
-        collection: "posts"
-        searchFields: ["title", "body"]
-        valueField: "title"
-      - {label: "Title", name: "title", widget: "string"}
-      - {label: "Boolean", name: "boolean", widget: "boolean", default: true}
-      - {label: "Text", name: "text", widget: "text"}
-      - {label: "Number", name: "number", widget: "number"}
-      - {label: "Markdown", name: "markdown", widget: "markdown", collapse: { startCollapsed: true, summary: "Markdown" }}
-      - {label: "Datetime", name: "datetime", widget: "datetime"}
-      - {label: "Date", name: "date", widget: "date"}
-      - {label: "Image", name: "image", widget: "image"}
-      - {label: "File", name: "file", widget: "file"}
-      - {label: "Select", name: "select", widget: "select", options: ["a", "b", "c"]}
-      - {label: "Hidden", name: "hidden", widget: "hidden", default: "hidden"}
-      - label: "Object"
-        name: "object"
-        widget: "object"
-        collapse:
-          startCollapsed: true
-          summary:
-            fields: ["string"]
-        fields:
-          - label: "Related Post"
-            name: "post"
-            widget: "relationKitchenSinkPost"
-            collection: "posts"
-            searchFields: ["title", "body"]
-            valueField: "title"
-          - {label: "String", name: "string", widget: "string"}
-          - {label: "Boolean", name: "boolean", widget: "boolean", default: false}
-          - {label: "Text", name: "text", widget: "text"}
-          - {label: "Number", name: "number", widget: "number"}
-          - {label: "Markdown", name: "markdown", widget: "markdown", collapse: true}
-          - {label: "Datetime", name: "datetime", widget: "datetime"}
-          - {label: "Date", name: "date", widget: "date"}
-          - {label: "Image", name: "image", widget: "image"}
-          - {label: "File", name: "file", widget: "file"}
-          - {label: "Select", name: "select", widget: "select", options: ["a", "b", "c"]}
-      - label: "List"
-        name: "list"
-        widget: "object"
-        repeat: true
-        collapse:
-          startCollapsed: true
-          summary:
-            fields: ["string", "text"]
-        fields:
-          - {label: "String", name: "string", widget: "string"}
-          - {label: "Boolean", name: "boolean", widget: "boolean"}
-          - {label: "Text", name: "text", widget: "text"}
-          - {label: "Number", name: "number", widget: "number"}
-          - {label: "Markdown", name: "markdown", widget: "markdown"}
-          - {label: "Datetime", name: "datetime", widget: "datetime"}
-          - {label: "Date", name: "date", widget: "date"}
-          - {label: "Image", name: "image", widget: "image"}
-          - {label: "File", name: "file", widget: "file"}
-          - {label: "Select", name: "select", widget: "select", options: ["a", "b", "c"]}
-          - label: "Object"
-            name: "object"
-            widget: "object"
-            fields:
-              - {label: "String", name: "string", widget: "string"}
-              - {label: "Boolean", name: "boolean", widget: "boolean"}
-              - {label: "Text", name: "text", widget: "text"}
-              - {label: "Number", name: "number", widget: "number"}
-              - {label: "Markdown", name: "markdown", widget: "markdown"}
-              - {label: "Datetime", name: "datetime", widget: "datetime"}
-              - {label: "Date", name: "date", widget: "date"}
-              - {label: "Image", name: "image", widget: "image"}
-              - {label: "File", name: "file", widget: "file"}
-              - {label: "Select", name: "select", widget: "select", options: ["a", "b", "c"]}
-              - label: "List"
-                name: "list"
+              - label: "Can create new entries"
+                name: "create"
+                widget: "boolean"
+              - label: "Editor Settings"
+                name: "editor"
                 widget: "object"
-                repeat: true
+                collapse:
+                  startCollapsed: true
+                  summary: "Settings for the entry editor page."
+                fields:
+                  - {label: "Preview", name: "preview", widget: "boolean", defaultValue: true}
+              - label: "Fields"
+                name: "fields"
+                widget: "object"
+                repeat:
+                  singularLabel: "Field"
                 collapse:
                   startCollapsed: true
                   summary:
-                    fields: ["string", "text"]
+                    fields: ["label"]
                 fields:
-                  - label: "Related Post"
-                    name: "post"
-                    widget: "relationKitchenSinkPost"
-                    collection: "posts"
-                    searchFields: ["title", "body"]
-                    valueField: "title"
-                  - {label: "String", name: "string", widget: "string"}
-                  - {label: "Boolean", name: "boolean", widget: "boolean"}
-                  - {label: "Text", name: "text", widget: "text"}
-                  - {label: "Number", name: "number", widget: "number"}
-                  - {label: "Markdown", name: "markdown", widget: "markdown"}
-                  - {label: "Datetime", name: "datetime", widget: "datetime"}
-                  - {label: "Date", name: "date", widget: "date"}
-                  - {label: "Image", name: "image", widget: "image"}
-                  - {label: "File", name: "file", widget: "file"}
-                  - {label: "Select", name: "select", widget: "select", options: ["a", "b", "c"]}
-                  - {label: "Hidden", name: "hidden", widget: "hidden", default: "hidden"}
-                  - label: "Object"
-                    name: "object"
-                    widget: "object"
-                    fields:
-                      - {label: "String", name: "string", widget: "string"}
-                      - {label: "Boolean", name: "boolean", widget: "boolean"}
-                      - {label: "Text", name: "text", widget: "text"}
-                      - {label: "Number", name: "number", widget: "number"}
-                      - {label: "Markdown", name: "markdown", widget: "markdown"}
-                      - {label: "Datetime", name: "datetime", widget: "datetime"}
-                      - {label: "Date", name: "date", widget: "date"}
-                      - {label: "Image", name: "image", widget: "image"}
-                      - {label: "File", name: "file", widget: "file"}
-                      - {label: "Select", name: "select", widget: "select", options: ["a", "b", "c"]}
-
-      # - label: "Repeated"
-      #   name: "repeated"
-      #   widget: "object"
-      #   repeat: true
-      #   fields:
-      #     - {label: "String", name: "string", widget: "string"}
-      #     - {label: "Boolean", name: "boolean", widget: "boolean"}
-      #     - {label: "Text", name: "text", widget: "text"}
-      #     - {label: "Number", name: "number", widget: "number"}
-      #     - {label: "Markdown", name: "markdown", widget: "markdown"}
-      #     - {label: "Datetime", name: "datetime", widget: "datetime"}
-      #     - {label: "Date", name: "date", widget: "date"}
-      #     - {label: "Image", name: "image", widget: "image"}
-      #     - {label: "File", name: "file", widget: "file"}
-      #     - {label: "Select", name: "select", widget: "select", options: ["a", "b", "c"]}
-      #     - label: "Object"
-      #       name: "object"
-      #       widget: "object"
-      #       fields:
-      #         - {label: "String", name: "string", widget: "string"}
-      #         - {label: "Boolean", name: "boolean", widget: "boolean"}
-      #         - {label: "Text", name: "text", widget: "text"}
-      #         - {label: "Number", name: "number", widget: "number"}
-      #         - {label: "Markdown", name: "markdown", widget: "markdown"}
-      #         - {label: "Datetime", name: "datetime", widget: "datetime"}
-      #         - {label: "Date", name: "date", widget: "date"}
-      #         - {label: "Image", name: "image", widget: "image"}
-      #         - {label: "File", name: "file", widget: "file"}
-      #         - {label: "Select", name: "select", widget: "select", options: ["a", "b", "c"]}
-      #         - label: "Repeated"
-      #           name: "repeated"
-      #           widget: "object"
-      #           repeat: true
-      #           fields:
-      #             - {label: "String", name: "string", widget: "string"}
-      #             - {label: "Boolean", name: "boolean", widget: "boolean"}
-      #             - {label: "Text", name: "text", widget: "text"}
-      #             - {label: "Number", name: "number", widget: "number"}
-      #             - {label: "Markdown", name: "markdown", widget: "markdown"}
-      #             - {label: "Datetime", name: "datetime", widget: "datetime"}
-      #             - {label: "Date", name: "date", widget: "date"}
-      #             - {label: "Image", name: "image", widget: "image"}
-      #             - {label: "File", name: "file", widget: "file"}
-      #             - {label: "Select", name: "select", widget: "select", options: ["a", "b", "c"]}
-      #             - label: "Object"
-      #               name: "object"
-      #               widget: "object"
-      #               fields:
-      #                 - {label: "String", name: "string", widget: "string"}
-      #                 - {label: "Boolean", name: "boolean", widget: "boolean"}
-      #                 - {label: "Text", name: "text", widget: "text"}
-      #                 - {label: "Number", name: "number", widget: "number"}
-      #                 - {label: "Markdown", name: "markdown", widget: "markdown"}
-      #                 - {label: "Datetime", name: "datetime", widget: "datetime"}
-      #                 - {label: "Date", name: "date", widget: "date"}
-      #                 - {label: "Image", name: "image", widget: "image"}
-      #                 - {label: "File", name: "file", widget: "file"}
-      #                 - {label: "Select", name: "select", widget: "select", options: ["a", "b", "c"]}
+                  - {label: "Label", name: "label", widget: "string"}
+                  - {label: "Name", name: "name", widget: "string"}
+                  - label: "Widget"
+                    name: "widget"
+                    widget: "select"
+                    options:
+                      - { label: "Boolean", value: "boolean" }
+                      - { label: "String", value: "string" }
+                      - { label: "Object", value: "object" }
+                      - { label: "List", value: "list" }
+                      - { label: "Markdown", value: "markdown" }

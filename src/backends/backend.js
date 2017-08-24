@@ -97,6 +97,10 @@ class Backend {
 
   getToken = () => this.implementation.getToken();
 
+  readFile(path) {
+    return this.implementation.readFile(path);
+  }
+
   listEntries(collection) {
     const listMethod = this.implementation[selectListMethod(collection)];
     const extension = selectFolderEntryExtension(collection);
