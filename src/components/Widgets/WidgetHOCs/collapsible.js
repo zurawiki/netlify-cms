@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
-import { List } from 'immutable';
+import React, { Component, PropTypes } from 'react';
 import { isString } from 'lodash';
+import { Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import FontIcon from 'react-toolbox/lib/font_icon';
 import styles from './collapsible.css';
 
 const collapsible = WrappedComponent =>
-  class extends Component {
+  class Collapsible extends Component {
     static propTypes = {
+      value: PropTypes.any,
       field: ImmutablePropTypes.map.isRequired,
     };
 

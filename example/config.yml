@@ -20,10 +20,32 @@ collections: # A list of collections the CMS should be able to edit
           - {label: "Publish Mode", name: "publish_mode", widget: "select", options: ["editorial_workflow", "simple"]}
           - {label: "Media Folder", name: "media_folder", widget: "string"}
           - {label: "Public Folder", name: "public_folder", widget: "string"}
+          - label: "Test Things"
+            name: "test_things"
+            widget: "object"
+            collapse:
+              startCollapsed: true
+              summary: "Collapsed!"
+            fields:
+              - label: "Change Me"
+                name: "change_me"
+                widget: "boolean"
+              - label: "Inner test thing"
+                name: "inner_test_thing"
+                widget: "object"
+                collapse:
+                  startCollapsed: true
+                  summary: "Collapsed"
+                fields:
+                  - label: "Change Me"
+                    name: "change_me"
+                    widget: "boolean"
+
           - label: "Collections"
             name: "collections"
             widget: "object"
             repeat:
+              idField: "name"
               singularLabel: "Collection"
             collapse:
               startCollapsed: true
@@ -47,6 +69,7 @@ collections: # A list of collections the CMS should be able to edit
                 name: "fields"
                 widget: "object"
                 repeat:
+                  idField: "name"
                   singularLabel: "Field"
                 collapse:
                   startCollapsed: true

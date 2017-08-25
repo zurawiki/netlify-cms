@@ -5,23 +5,25 @@ import { SortableContainer, SortableElement, SortableHandle } from 'react-sortab
 import FontIcon from 'react-toolbox/lib/font_icon';
 import styles from './repeatable.css';
 
+import uuid from 'uuid';
+
 const RepeatableContainer = SortableContainer(
   ({ items, renderItem }) => <div>{items.map(renderItem)}</div>
+);
+
+const RepeatableItem = SortableElement(
+  props => (<div>
+    <DragHandle />
+    {props.children}
+  </div>)
 );
 
 const DragHandle = SortableHandle(
   () => <FontIcon value="drag_handle" className={styles.dragIcon} />
 );
 
-const repeatable = (WrappedComponent) => {
-  const RepeatableItem = SortableElement(
-    props => (<div {...props}>
-      <DragHandle />
-      {props.children}
-    </div>)
-  );
-
-  return class extends Component {
+const repeatable = WrappedComponent =>
+  class Repeatable extends Component {
     static propTypes = {
       field: ImmutablePropTypes.map.isRequired,
       value: PropTypes.oneOfType([
@@ -37,6 +39,7 @@ const repeatable = (WrappedComponent) => {
 
     constructor(props) {
       super(props);
+      this.collection = uuid.v4();
     }
 
     handleChangeFor = index => (newValueForIndex, newMetadata) => {
@@ -60,8 +63,14 @@ const repeatable = (WrappedComponent) => {
       onChange((value || List()).push(null));
     };
 
-    renderItem = (options) => (item, i) =>
-      (<RepeatableItem key={item} index={i}>
+    renderItem = (options) => (item, i) => {
+      const hashCode = List.isList(item) || Map.isMap(item) ? item.hashCode() : item;
+      const key = options.idField ? this.props.value.getIn([i, options.idField], hashCode) : hashCode;
+      return (<RepeatableItem
+        key={key}
+        collection={this.collection}
+        index={i}
+      >
         {options.create
           ? (<button className={styles.removeButton} onClick={this.handleRemoveFor(i)}>
             <FontIcon value="close" />
@@ -74,6 +83,7 @@ const repeatable = (WrappedComponent) => {
           onChange={this.handleChangeFor(i)}
         />
       </RepeatableItem>);
+    }
 
     onSortEnd = ({ oldIndex, newIndex }) => {
       const oldItem = this.props.value.get(oldIndex);
@@ -86,8 +96,10 @@ const repeatable = (WrappedComponent) => {
       return (<div id={forID}>
         <RepeatableContainer
           items={value || List()}
-          renderItem={this.renderItem(options)}
+          lockAxis="y"
+          lockToContainerEdges
           onSortEnd={this.onSortEnd}
+          renderItem={this.renderItem(options)}
           useDragHandle
         />
         {options.create
@@ -107,6 +119,7 @@ const repeatable = (WrappedComponent) => {
         const repeatDefaults = {
           create: true,
           singularLabel: this.props.field.get("label", "item"),
+          idField: false,
         };
         const repeatOptions = Map.isMap(repeatField)
           ? Object.assign({}, repeatDefaults, repeatField.toJS())
@@ -117,6 +130,5 @@ const repeatable = (WrappedComponent) => {
       return <WrappedComponent {...this.props} />;
     }
   };
-};
 
 export default repeatable;
