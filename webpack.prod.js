@@ -16,7 +16,6 @@ module.exports = merge.smart(require('./webpack.base.js'), {
     umdNamedDefine: true,
   },
   context: path.join(__dirname, 'src'),
-  watch: true,
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
