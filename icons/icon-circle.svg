@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <circle id="icon-circle@2x-a" cx="12" cy="12" r="4"/>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <polygon points="0 0 24 0 24 24 0 24"/>
+    <mask id="icon-circle@2x-b" fill="#fff">
+      <use xlink:href="#icon-circle@2x-a"/>
+    </mask>
+    <use fill="#D8D8D8" xlink:href="#icon-circle@2x-a"/>
+    <g fill="#B3B9C4" mask="url(#icon-circle@2x-b)">
+      <rect width="24" height="24"/>
+    </g>
+  </g>
+</svg>
