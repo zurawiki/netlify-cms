@@ -11,6 +11,12 @@ const store = configureStore();
 
 setStore(store);
 
+history.block(() => {
+  if (store.getState()['entryDraft'].get('hasChanged', false)) {
+    return "Are you sure you want to leave this page?";
+  }
+})
+
 const Root = () => (
   <Provider store={store}>
     <ConnectedRouter history={history}>
