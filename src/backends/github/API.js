@@ -1,6 +1,7 @@
 import LocalForage from "localforage";
 import { Base64 } from "js-base64";
 import { uniq, initial, last } from "lodash";
+import uuid from 'uuid/v4';
 import { filterPromises, resolvePromiseProperties } from "../../lib/promiseHelper";
 import AssetProxy from "../../valueObjects/AssetProxy";
 import { SIMPLE, EDITORIAL_WORKFLOW, status } from "../../constants/publishModes";
@@ -327,16 +328,16 @@ export default class API {
         }
         )));
     } else {
+      const tempBranchName = `${branchName}/tmp-${uuid()}`;
+      let metadata, title;
       // Entry is already on editorial review workflow - just update metadata and commit to existing branch
       return this.getBranch(branchName)
       .then(branchData => this.updateTree(branchData.commit.sha, "/", fileTree))
       .then(changeTree => this.commit(options.commitMessage, changeTree))
       .then((response) => {
-        const contentKey = entry.slug;
-        const branchName = `cms/${ contentKey }`;
         return this.user().then(user => user.name ? user.name : user.login)
-        .then(username => this.retrieveMetadata(contentKey))
-        .then((metadata) => {
+        .then(username => metadata = this.retrieveMetadata(contentKey))
+        .then(() => {
           let files = metadata.objects && metadata.objects.files || [];
           files = files.concat(filesList);
           const updatedPR = metadata.pr;
@@ -357,7 +358,41 @@ export default class API {
           };
         })
         .then(updatedMetadata => this.storeMetadata(contentKey, updatedMetadata))
-        .then(this.patchBranch(branchName, response.sha));
+        .then(this.patchBranch(branchName, response.sha))
+        .then(ref => this.getBranch())
+        .then((branch) => this.createBranch(tempBranchName, branch.sha))
+        .then(ref => this.changePRBase(metadata.pr, tempBranchName))
+        .then(prResponse => {
+          title = prResponse.title;
+          return this.mergePR(metadata.pr, metadata.objects);
+        })
+        .then(() => this.deleteBranch(branchName))
+        .then(() => this.createPR(title, branchName))
+        .then(prResponse => {
+          this.user().then(user => user.name ? user.name : user.login)
+          .then(username => this.storeMetadata(contentKey, {
+            type: "PR",
+            pr: {
+              number: prResponse.number,
+              head: prResponse.head && prResponse.head.sha,
+            },
+            user: username,
+            status: status.first(),
+            branch: branchName,
+            collection: options.collectionName,
+            title: options.parsedData && options.parsedData.title,
+            description: options.parsedData && options.parsedData.description,
+            objects: {
+              entry: {
+                path: entry.path,
+                sha: entry.sha,
+              },
+              files: filesList,
+            },
+            timeStamp: new Date().toISOString(),
+          }
+          ))
+        });
       });
     }
   }
@@ -450,6 +485,14 @@ export default class API {
       body: JSON.stringify({
         state: closed,
       }),
+    });
+  }
+
+  changePRBase(pullrequest, base) {
+    const prNumber = pullrequest.number;
+    return this.request(`${ this.repoURL }/pulls/${ prNumber }`, {
+      method: "PATCH",
+      body: JSON.stringify({ base }),
     });
   }
 
