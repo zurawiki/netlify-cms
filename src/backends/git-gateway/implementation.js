@@ -71,7 +71,10 @@ export default class GitGateway extends GitHubBackend {
           tokenPromise: this.tokenPromise,
           commitAuthor: pick(userData, ["name", "email"]),
         });
-        return userData;
+        return this.api.hasWriteAccess().then(accessPerm => {
+          if (!accessPerm) throw new Error("You don't have sufficient permissions to access Netlify CMS");
+          return userData;
+        });
       } else {
         throw new Error("You don't have sufficient permissions to access Netlify CMS");
       }
