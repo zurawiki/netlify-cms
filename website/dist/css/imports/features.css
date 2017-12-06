@@ -1,0 +1,105 @@
+.features {
+  display: block;
+  *zoom: 1;
+  overflow: hidden;
+  padding-top: 64px;
+  position: relative;
+  margin: 0 auto 40px auto;
+}
+@media screen and (min-width: 480px) {
+  .features {
+    margin: 0 auto 64px auto;
+    padding-top: calc(104px * 1.2);
+  }
+}
+@media screen and (min-width: 768px) {
+  .features {
+    margin-bottom: 40px;
+  }
+}
+.features:before {
+  background: url('/img/wavy-divider.svg') no-repeat top center;
+  background-size: contain;
+  top: 0;
+  content: '';
+  height: 104px;
+  left: -104px;
+  position: absolute;
+  right: -104px;
+  width: calc(100% + (104px * 2));
+}
+.features h1 {
+  text-align: center;
+  margin-bottom: calc(64px * .9);
+  padding: 0 24px;
+}
+@media screen and (min-width: 768px) {
+  .features h1 {
+    padding: 0;
+  }
+}
+@media screen and (min-width: 960px) {
+  .features h1 + .features-column .feature {
+    text-align: right;
+  }
+}
+@media screen and (min-width: 480px) {
+  .features .features-column {
+    display: block;
+    float: left;
+    margin-right: 2.35765160%;
+    width: 48.82117420%;
+  }
+  .features .features-column:last-child {
+    margin-right: 0;
+  }
+}
+@media screen and (min-width: 960px) {
+  .features .features-column {
+    display: block;
+    float: left;
+    margin-right: 2.35765160%;
+    width: 31.76156560%;
+  }
+  .features .features-column:last-child {
+    margin-right: 0;
+  }
+}
+.features .feature {
+  margin-bottom: 24px;
+  padding: 0 24px;
+  text-align: left;
+}
+@media screen and (min-width: 960px) {
+  .features .feature {
+    margin-bottom: calc(64px * 1.37);
+    padding: 0;
+  }
+}
+.features .feature p {
+  font-size: 14px;
+  line-height: 26px;
+}
+.features .features-graphic {
+  display: none;
+  padding-top: 16px;
+}
+@media screen and (min-width: 960px) {
+  .features .features-graphic {
+    display: inline-block;
+    display: block;
+    float: left;
+    margin-right: 2.35765160%;
+    width: 31.76156560%;
+  }
+  .features .features-graphic:last-child {
+    margin-right: 0;
+  }
+}
+.features:before, .features:after {
+  content: " ";
+  display: table;
+}
+.features:after {
+  clear: both;
+}

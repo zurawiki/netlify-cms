@@ -1,0 +1,40 @@
+.inspiration {
+  margin: 24px 24px 64px 24px;
+  text-align: center;
+}
+@media screen and (min-width: 768px) {
+  .inspiration {
+    margin: 104px 24px;
+  }
+}
+.inspiration h1 {
+  margin-bottom: 24px;
+}
+@media screen and (min-width: 768px) {
+  .inspiration h1 {
+    margin-bottom: 44px;
+  }
+}
+.inspiration p {
+  box-sizing: border-box;
+  display: inline-block;
+  padding: 0;
+  margin: 0 auto 24px auto;
+  max-width: 700px;
+  text-align: left;
+  width: 100%;
+}
+.inspiration p:nth-child(2) {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 700;
+}
+@media screen and (min-width: 768px) {
+  .inspiration p:nth-child(2) {
+    font-size: 24px;
+    line-height: 40px;
+  }
+}
+.inspiration a {
+  color: #7CA511;
+}

@@ -1,0 +1,11 @@
+footer {
+  background: #F7F8F8;
+  padding: 24px 0;
+}
+footer p {
+  color: #313D3E;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  opacity: .5;
+  text-align: center;
+}

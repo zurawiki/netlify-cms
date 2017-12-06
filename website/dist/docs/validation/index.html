@@ -1,0 +1,205 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Netlify CMS | Open-Source Content Management System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/img/favicon/manifest.json">
+    <link rel="mask-icon" href="/img/favicon/safari-pinned-tab.svg" color="#96cf05">
+    <meta name="apple-mobile-web-app-title" content="NetlifyCMS">
+    <meta name="application-name" content="NetlifyCMS">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="/css/main.css"/>
+    
+      <link rel="stylesheet" href="/css/lib/prism.css"/>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+  </head>
+  <body>
+    
+      
+        
+      
+        
+          <a href="https://gitter.im/netlify/netlifycms" class="notification notification-loud">We have a community on Gitter - join now to ask questions and discuss the project with other devs!</a>
+        
+      
+    
+    <header id="header" class="docs">
+      <div class="contained">
+        <a href="/" class="logo"><img src="/img/netlify-cms-logo.svg"/></a>
+        <a class="nav-link docs-link" href="/docs">Docs</a>
+        <a class="nav-link contributing-link" href="/docs/contributor-guide">Contributing</a>
+        <a class="nav-link" href="/community">Community</a>
+        <a class="utility-input">
+          <img src="/img/search.svg" />
+          <input type="search" placeholder="Search the docs" class="algolia-search"/>
+        </a>
+        <a href="https://github.com/netlify/netlify-cms" class="btn-secondary small github-btn "><img src="/img/github.svg"/> Fork me on GitHub</a>
+      </div>
+    </header>
+
+
+
+<div class="docs detail page">
+	<div class="container">
+		<aside id="sidebar" class="sidebar">
+			<nav class="docs-nav" id="docs-nav">
+				
+				
+					<a href="/docs/intro/" class="nav-link ">Introduction</a>
+				
+					<a href="/docs/" class="nav-link ">Docs</a>
+				
+					<a href="/docs/test-drive/" class="nav-link ">Test Drive</a>
+				
+					<a href="/docs/quick-start/" class="nav-link ">Quick Start</a>
+				
+					<a href="/docs/authentication-backends/" class="nav-link ">Authentication &amp; Backends</a>
+				
+					<a href="/docs/widgets/" class="nav-link ">Widgets</a>
+				
+					<a href="/docs/editorial-workflow/" class="nav-link ">Editorial Workflow</a>
+				
+					<a href="/docs/customization/" class="nav-link ">Custom Previews</a>
+				
+					<a href="/docs/extending/" class="nav-link ">Extending Widgets</a>
+				
+					<a href="/docs/validation/" class="nav-link active">Validation</a>
+				
+					<a href="/docs/architecture/" class="nav-link ">Architecture</a>
+				
+					<a href="/docs/contributor-guide/" class="nav-link ">Contributing</a>
+				
+					<a href="/docs/examples/" class="nav-link ">Examples</a>
+				
+			</nav>
+			<div class="mobile docs-nav">
+				<select class="btn-primary" id="mobile-docs-nav">
+					<option value="" selected="selected">Select A Topic</option>
+					
+					
+						<option value="/docs/intro/" class="nav-link ">Introduction</option>
+					
+						<option value="/docs/" class="nav-link ">Docs</option>
+					
+						<option value="/docs/test-drive/" class="nav-link ">Test Drive</option>
+					
+						<option value="/docs/quick-start/" class="nav-link ">Quick Start</option>
+					
+						<option value="/docs/authentication-backends/" class="nav-link ">Authentication &amp; Backends</option>
+					
+						<option value="/docs/widgets/" class="nav-link ">Widgets</option>
+					
+						<option value="/docs/editorial-workflow/" class="nav-link ">Editorial Workflow</option>
+					
+						<option value="/docs/customization/" class="nav-link ">Custom Previews</option>
+					
+						<option value="/docs/extending/" class="nav-link ">Extending Widgets</option>
+					
+						<option value="/docs/validation/" class="nav-link active">Validation</option>
+					
+						<option value="/docs/architecture/" class="nav-link ">Architecture</option>
+					
+						<option value="/docs/contributor-guide/" class="nav-link ">Contributing</option>
+					
+						<option value="/docs/examples/" class="nav-link ">Examples</option>
+					
+				</select>
+			</div>
+		</aside>
+		<article class="docs-content" id="docs-content">
+			<a class="edit-this-page" href="https://github.com/netlify/netlify-cms/blob/master/website/site/content/docs/validation.md">
+  <svg version="1.1" id="pencil" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+     width="14px" height="14px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+  <path d="M398.875,248.875L172.578,475.187l-22.625-22.625L376.25,226.265L398.875,248.875z M308.375,158.39L82.063,384.687
+    l45.266,45.25L353.625,203.64L308.375,158.39z M263.094,113.125L36.828,339.437l22.625,22.625L285.75,135.765L263.094,113.125z
+     M308.375,67.875L285.719,90.5L421.5,226.265l22.625-22.625L308.375,67.875z M376.25,0L331,45.25l135.75,135.766L512,135.781
+    L376.25,0z M32,453.5V480h26.5L32,453.5 M0,376.25L135.766,512H0V376.25L0,376.25z"/>
+  </svg>
+  Edit this page
+</a>
+			
+
+<h1 id="collection-field-validation">Collection Field Validation</h1>
+
+<h2 id="available-validations-to-use-on-config-yml">Available validations to use on <code>config.yml</code>:</h2>
+
+<ul>
+<li><p>Presence: By default all widgets are required, unless specified in the config. Example:
+<code>- {label: &quot;Subtitle&quot;, name: &quot;subtitle&quot;, widget: &quot;string&quot;, required: false}</code></p></li>
+
+<li><p>Pattern: Field configuration can specify a regex pattern with the appropriate error message. Example:
+<code>- {label: &quot;Title&quot;, name: &quot;title&quot;, widget: &quot;string&quot;, pattern: ['.{10,}', &quot;Should have more than 10 characters&quot;] }</code></p></li>
+</ul>
+
+<h2 id="advanced-guide-for-widget-authors">Advanced Guide (For widget authors)</h2>
+
+<p>The widget control can optionally implement an <code>isValid</code> method to perform custom validations, in addition to presence and pattern. The <code>isValid</code> method will be automatically called, and it can return either a boolean value, an object with an error message or a promise. Examples:</p>
+
+<p><strong>Boolean</strong>
+No errors:</p>
+
+<pre><code class="language-javascript">  isValid = () =&gt; {
+    // Do internal validation
+    return true;
+  };
+</code></pre>
+
+<p>Existing error:</p>
+
+<pre><code class="language-javascript">  isValid = () =&gt; {
+    // Do internal validation
+    return false;
+  };
+</code></pre>
+
+<p><strong>Object with <code>error</code> (useful for returning custom error messages)</strong>
+Existing error:</p>
+
+<pre><code class="language-javascript">  isValid = () =&gt; {
+    // Do internal validation
+    return { error: 'Your error message.' };
+  };
+</code></pre>
+
+<p><strong>Promise</strong>
+You can also return a promise from <code>isValid</code>. While the promise is pending, the widget will be marked as &ldquo;in error&rdquo;. When the promise resolves, the error is automatically cleared.</p>
+
+<pre><code class="language-javascript">  isValid = () =&gt; {
+    return this.existingPromise;
+  };
+</code></pre>
+
+<p>Note: Do not create a promise inside <code>isValid</code> - <code>isValid</code> is called right before trying to persist. This means that even if a previous promise was already resolved, when the user hits &lsquo;save&rsquo;, <code>isValid</code> will be called again. If it returns a new promise, it will be immediately marked as &ldquo;in error&rdquo; until the new promise resolves.</p>
+
+		</article>
+	</div>
+</div>
+
+<footer>
+  <p class="contained"><a href="https://github.com/netlify/netlify-cms/blob/master/LICENSE" class="text-link">Distributed under MIT License</a> ·
+  <a href="https://github.com/netlify/netlify-cms/blob/master/CODE_OF_CONDUCT.md" class="text-link">Code of Conduct</a></p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+  <script src="/jquery.scrollTo.min.js"></script>
+  <script src="/jquery.localScroll.min.js"></script>
+  <script src="/prism.js"></script>
+
+
+<script src="/app.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: '08d03dc80862e84c70c5a1e769b13019',
+indexName: 'netlifycms',
+inputSelector: '.algolia-search',
+debug: false 
+});
+</script>
+</body>
+</html>
+

@@ -1,0 +1,399 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Netlify CMS | Open-Source Content Management System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/img/favicon/manifest.json">
+    <link rel="mask-icon" href="/img/favicon/safari-pinned-tab.svg" color="#96cf05">
+    <meta name="apple-mobile-web-app-title" content="NetlifyCMS">
+    <meta name="application-name" content="NetlifyCMS">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="/css/main.css"/>
+    
+      <link rel="stylesheet" href="/css/lib/prism.css"/>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+  </head>
+  <body>
+    
+      
+        
+      
+        
+          <a href="https://gitter.im/netlify/netlifycms" class="notification notification-loud">We have a community on Gitter - join now to ask questions and discuss the project with other devs!</a>
+        
+      
+    
+    <header id="header" class="docs">
+      <div class="contained">
+        <a href="/" class="logo"><img src="/img/netlify-cms-logo.svg"/></a>
+        <a class="nav-link docs-link" href="/docs">Docs</a>
+        <a class="nav-link contributing-link" href="/docs/contributor-guide">Contributing</a>
+        <a class="nav-link" href="/community">Community</a>
+        <a class="utility-input">
+          <img src="/img/search.svg" />
+          <input type="search" placeholder="Search the docs" class="algolia-search"/>
+        </a>
+        <a href="https://github.com/netlify/netlify-cms" class="btn-secondary small github-btn "><img src="/img/github.svg"/> Fork me on GitHub</a>
+      </div>
+    </header>
+
+
+
+<div class="docs detail page">
+	<div class="container">
+		<aside id="sidebar" class="sidebar">
+			<nav class="docs-nav" id="docs-nav">
+				
+				
+					<a href="/docs/intro/" class="nav-link ">Introduction</a>
+				
+					<a href="/docs/" class="nav-link ">Docs</a>
+				
+					<a href="/docs/test-drive/" class="nav-link ">Test Drive</a>
+				
+					<a href="/docs/quick-start/" class="nav-link ">Quick Start</a>
+				
+					<a href="/docs/authentication-backends/" class="nav-link ">Authentication &amp; Backends</a>
+				
+					<a href="/docs/widgets/" class="nav-link active">Widgets</a>
+				
+					<a href="/docs/editorial-workflow/" class="nav-link ">Editorial Workflow</a>
+				
+					<a href="/docs/customization/" class="nav-link ">Custom Previews</a>
+				
+					<a href="/docs/extending/" class="nav-link ">Extending Widgets</a>
+				
+					<a href="/docs/validation/" class="nav-link ">Validation</a>
+				
+					<a href="/docs/architecture/" class="nav-link ">Architecture</a>
+				
+					<a href="/docs/contributor-guide/" class="nav-link ">Contributing</a>
+				
+					<a href="/docs/examples/" class="nav-link ">Examples</a>
+				
+			</nav>
+			<div class="mobile docs-nav">
+				<select class="btn-primary" id="mobile-docs-nav">
+					<option value="" selected="selected">Select A Topic</option>
+					
+					
+						<option value="/docs/intro/" class="nav-link ">Introduction</option>
+					
+						<option value="/docs/" class="nav-link ">Docs</option>
+					
+						<option value="/docs/test-drive/" class="nav-link ">Test Drive</option>
+					
+						<option value="/docs/quick-start/" class="nav-link ">Quick Start</option>
+					
+						<option value="/docs/authentication-backends/" class="nav-link ">Authentication &amp; Backends</option>
+					
+						<option value="/docs/widgets/" class="nav-link active">Widgets</option>
+					
+						<option value="/docs/editorial-workflow/" class="nav-link ">Editorial Workflow</option>
+					
+						<option value="/docs/customization/" class="nav-link ">Custom Previews</option>
+					
+						<option value="/docs/extending/" class="nav-link ">Extending Widgets</option>
+					
+						<option value="/docs/validation/" class="nav-link ">Validation</option>
+					
+						<option value="/docs/architecture/" class="nav-link ">Architecture</option>
+					
+						<option value="/docs/contributor-guide/" class="nav-link ">Contributing</option>
+					
+						<option value="/docs/examples/" class="nav-link ">Examples</option>
+					
+				</select>
+			</div>
+		</aside>
+		<article class="docs-content" id="docs-content">
+			<a class="edit-this-page" href="https://github.com/netlify/netlify-cms/blob/master/website/site/content/docs/widgets.md">
+  <svg version="1.1" id="pencil" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+     width="14px" height="14px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+  <path d="M398.875,248.875L172.578,475.187l-22.625-22.625L376.25,226.265L398.875,248.875z M308.375,158.39L82.063,384.687
+    l45.266,45.25L353.625,203.64L308.375,158.39z M263.094,113.125L36.828,339.437l22.625,22.625L285.75,135.765L263.094,113.125z
+     M308.375,67.875L285.719,90.5L421.5,226.265l22.625-22.625L308.375,67.875z M376.25,0L331,45.25l135.75,135.766L512,135.781
+    L376.25,0z M32,453.5V480h26.5L32,453.5 M0,376.25L135.766,512H0V376.25L0,376.25z"/>
+  </svg>
+  Edit this page
+</a>
+			
+
+<h1 id="widgets">Widgets</h1>
+
+<p>Widgets define the data type and interface for entry fields. Netlify CMS comes with several built-in widgets, including:</p>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>UI</th>
+<th>Data Type</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>string</code></td>
+<td>text input</td>
+<td>string</td>
+</tr>
+
+<tr>
+<td><code>boolean</code></td>
+<td>toggle switch</td>
+<td>boolean</td>
+</tr>
+
+<tr>
+<td><code>text</code></td>
+<td>textarea input</td>
+<td>string (multiline)</td>
+</tr>
+
+<tr>
+<td><code>number</code></td>
+<td>number input</td>
+<td>number</td>
+</tr>
+
+<tr>
+<td><code>markdown</code></td>
+<td>rich text editor</td>
+<td>string (markdown)</td>
+</tr>
+
+<tr>
+<td><code>datetime</code></td>
+<td>date picker</td>
+<td>string (ISO date)</td>
+</tr>
+
+<tr>
+<td><code>select</code></td>
+<td>select input (dropdown)</td>
+<td>string</td>
+</tr>
+
+<tr>
+<td><code>image</code></td>
+<td>file picker w/ drag-and-drop</td>
+<td>image file</td>
+</tr>
+
+<tr>
+<td><code>file</code></td>
+<td>file picker w/ drag-and-drop</td>
+<td>file</td>
+</tr>
+
+<tr>
+<td><code>hidden</code></td>
+<td>none</td>
+<td>string</td>
+</tr>
+
+<tr>
+<td><code>object</code></td>
+<td>group of other widgets</td>
+<td>Immutable Map containing field values</td>
+</tr>
+
+<tr>
+<td><code>list</code></td>
+<td>repeatable group of other widgets</td>
+<td>Immutable List of objects containing field values</td>
+</tr>
+
+<tr>
+<td><code>relation</code></td>
+<td>text input w/ suggestions dropdown</td>
+<td>value of <code>valueField</code> in related entry (see below)</td>
+</tr>
+</tbody>
+</table>
+
+<p>We’re always adding new widgets, and you can also <a href="/docs/extending">create your own</a>!</p>
+
+<h3 id="select-widget">Select Widget</h3>
+
+<p>The select widget allows you to pick a string value from a drop down menu</p>
+
+<pre><code class="language-yaml">collections:
+  - name: posts
+    label: Post
+    folder: &quot;_posts&quot;
+    slug: &quot;{{year}}-{{month}}-{{day}}-{{slug}}&quot;
+    create: true
+    fields:
+      - {label: Title, name: title, widget: string, tagname: h1}
+      - {label: Body, name: body, widget: markdown}
+      - {label: Align Content, name: align, widget: select, options: ['left', 'center', 'right']}
+</code></pre>
+
+<h3 id="list-widget">List Widget</h3>
+
+<p>The list widget allows you to map a user-provided string with a comma delimiter into a list. Consider the following example that also demonstrates how to set default values:</p>
+
+<pre><code class="language-yaml">collections:
+  - name: posts
+    label: Post
+    folder: &quot;_posts&quot;
+    slug: &quot;{{year}}-{{month}}-{{day}}-{{slug}}&quot;
+    create: true
+    fields:
+      - {label: Title, name: title, widget: string, tagname: h1}
+      - {label: Body, name: body, widget: markdown}
+      - {label: Categories, name: categories, widget: list}
+      - {label: Tags, name: tags, widget: list, default: ['term_1', 'term_2']}
+</code></pre>
+
+<p>Lists of objects are supported as well and require a nested field list.</p>
+
+<pre><code class="language-yaml">collections:
+  - name: posts
+    label: Post
+    folder: &quot;_posts&quot;
+    slug: &quot;{{year}}-{{month}}-{{day}}-{{slug}}&quot;
+    create: true
+    fields:
+      - {label: Title, name: title, widget: string, tagname: h1}
+      - {label: Body, name: body, widget: markdown}
+      - name: authors
+        label: Authors
+        widget: list
+        fields:
+          - {label: Name, name: name, widget: string}
+          - {label: Description, name: description, widget: markdown}
+</code></pre>
+
+<h3 id="relation-widget">Relation Widget</h3>
+
+<p>The relation widget allows you to reference an existing entry from within the entry you&rsquo;re editing. It provides a search input with a list of entries from the collection you&rsquo;re referencing, and the list automatically updates with matched entries based on what you&rsquo;ve typed.</p>
+
+<p>The following field configuration properties are specific to fields using the relation widget:</p>
+
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Accepted Values</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>collection</code></td>
+<td>string</td>
+<td>name of the collection being referenced</td>
+</tr>
+
+<tr>
+<td><code>searchFields</code></td>
+<td>list</td>
+<td>one or more names of fields in the referenced colleciton to search for the typed value</td>
+</tr>
+
+<tr>
+<td><code>valueField</code></td>
+<td>string</td>
+<td>name a field from the referenced collection whose value will be stored for the relation</td>
+</tr>
+
+<tr>
+<td><code>name</code></td>
+<td>text input</td>
+<td>string</td>
+</tr>
+</tbody>
+</table>
+
+<p>Let&rsquo;s say we have a &ldquo;posts&rdquo; collection and an &ldquo;authors&rdquo; collection, and we want to select an author for each post - our config might look something like this:</p>
+
+<pre><code class="language-yaml">collections:
+  - name: authors
+    label: Authors
+    folder: &quot;authors&quot;
+    create: true
+    fields:
+      - {name: name, label: Name}
+      - {name: twitterHandle, label: &quot;Twitter Handle&quot;}
+      - {name: bio, label: Bio, widget: text}
+  - name: posts
+    label: Posts
+    folder: &quot;posts&quot;
+    create: true
+    fields:
+      - {name: title, label: Title}
+      - {name: body, label: Body, widget: markdown}
+      - name: author
+        label: Author
+        widget: relation
+        collection: authors
+        searchFields: [name, twitterHandle]
+        valueField: name
+</code></pre>
+
+<h3 id="date-widget-datetime-widget">Date Widget / DateTime Widget</h3>
+
+<p>The date and datetime widgets provide date or datetime pickers when the widget is active. The resulting date string can be formatted (uses Moment.js), and accepts a default value. The initial value will be the current date unless <code>false</code> or an empty string are provided as the default value.</p>
+
+<p>The following field configuration properties are specific to fields using the date or datetime widget:</p>
+
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Accepted Values</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>format</code></td>
+<td>string</td>
+<td>format string uses Moment.js <a href="https://momentjs.com/docs/#/parsing/string-format/">tokens</a></td>
+</tr>
+
+<tr>
+<td><code>default</code></td>
+<td>boolean, string</td>
+<td>can be a date string, or else an empty string - defaults to current date</td>
+</tr>
+</tbody>
+</table>
+
+		</article>
+	</div>
+</div>
+
+<footer>
+  <p class="contained"><a href="https://github.com/netlify/netlify-cms/blob/master/LICENSE" class="text-link">Distributed under MIT License</a> ·
+  <a href="https://github.com/netlify/netlify-cms/blob/master/CODE_OF_CONDUCT.md" class="text-link">Code of Conduct</a></p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+  <script src="/jquery.scrollTo.min.js"></script>
+  <script src="/jquery.localScroll.min.js"></script>
+  <script src="/prism.js"></script>
+
+
+<script src="/app.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: '08d03dc80862e84c70c5a1e769b13019',
+indexName: 'netlifycms',
+inputSelector: '.algolia-search',
+debug: false 
+});
+</script>
+</body>
+</html>
+

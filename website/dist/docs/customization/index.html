@@ -1,0 +1,355 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Netlify CMS | Open-Source Content Management System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/img/favicon/manifest.json">
+    <link rel="mask-icon" href="/img/favicon/safari-pinned-tab.svg" color="#96cf05">
+    <meta name="apple-mobile-web-app-title" content="NetlifyCMS">
+    <meta name="application-name" content="NetlifyCMS">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="/css/main.css"/>
+    
+      <link rel="stylesheet" href="/css/lib/prism.css"/>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+  </head>
+  <body>
+    
+      
+        
+      
+        
+          <a href="https://gitter.im/netlify/netlifycms" class="notification notification-loud">We have a community on Gitter - join now to ask questions and discuss the project with other devs!</a>
+        
+      
+    
+    <header id="header" class="docs">
+      <div class="contained">
+        <a href="/" class="logo"><img src="/img/netlify-cms-logo.svg"/></a>
+        <a class="nav-link docs-link" href="/docs">Docs</a>
+        <a class="nav-link contributing-link" href="/docs/contributor-guide">Contributing</a>
+        <a class="nav-link" href="/community">Community</a>
+        <a class="utility-input">
+          <img src="/img/search.svg" />
+          <input type="search" placeholder="Search the docs" class="algolia-search"/>
+        </a>
+        <a href="https://github.com/netlify/netlify-cms" class="btn-secondary small github-btn "><img src="/img/github.svg"/> Fork me on GitHub</a>
+      </div>
+    </header>
+
+
+
+<div class="docs detail page">
+	<div class="container">
+		<aside id="sidebar" class="sidebar">
+			<nav class="docs-nav" id="docs-nav">
+				
+				
+					<a href="/docs/intro/" class="nav-link ">Introduction</a>
+				
+					<a href="/docs/" class="nav-link ">Docs</a>
+				
+					<a href="/docs/test-drive/" class="nav-link ">Test Drive</a>
+				
+					<a href="/docs/quick-start/" class="nav-link ">Quick Start</a>
+				
+					<a href="/docs/authentication-backends/" class="nav-link ">Authentication &amp; Backends</a>
+				
+					<a href="/docs/widgets/" class="nav-link ">Widgets</a>
+				
+					<a href="/docs/editorial-workflow/" class="nav-link ">Editorial Workflow</a>
+				
+					<a href="/docs/customization/" class="nav-link active">Custom Previews</a>
+				
+					<a href="/docs/extending/" class="nav-link ">Extending Widgets</a>
+				
+					<a href="/docs/validation/" class="nav-link ">Validation</a>
+				
+					<a href="/docs/architecture/" class="nav-link ">Architecture</a>
+				
+					<a href="/docs/contributor-guide/" class="nav-link ">Contributing</a>
+				
+					<a href="/docs/examples/" class="nav-link ">Examples</a>
+				
+			</nav>
+			<div class="mobile docs-nav">
+				<select class="btn-primary" id="mobile-docs-nav">
+					<option value="" selected="selected">Select A Topic</option>
+					
+					
+						<option value="/docs/intro/" class="nav-link ">Introduction</option>
+					
+						<option value="/docs/" class="nav-link ">Docs</option>
+					
+						<option value="/docs/test-drive/" class="nav-link ">Test Drive</option>
+					
+						<option value="/docs/quick-start/" class="nav-link ">Quick Start</option>
+					
+						<option value="/docs/authentication-backends/" class="nav-link ">Authentication &amp; Backends</option>
+					
+						<option value="/docs/widgets/" class="nav-link ">Widgets</option>
+					
+						<option value="/docs/editorial-workflow/" class="nav-link ">Editorial Workflow</option>
+					
+						<option value="/docs/customization/" class="nav-link active">Custom Previews</option>
+					
+						<option value="/docs/extending/" class="nav-link ">Extending Widgets</option>
+					
+						<option value="/docs/validation/" class="nav-link ">Validation</option>
+					
+						<option value="/docs/architecture/" class="nav-link ">Architecture</option>
+					
+						<option value="/docs/contributor-guide/" class="nav-link ">Contributing</option>
+					
+						<option value="/docs/examples/" class="nav-link ">Examples</option>
+					
+				</select>
+			</div>
+		</aside>
+		<article class="docs-content" id="docs-content">
+			<a class="edit-this-page" href="https://github.com/netlify/netlify-cms/blob/master/website/site/content/docs/customization.md">
+  <svg version="1.1" id="pencil" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+     width="14px" height="14px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+  <path d="M398.875,248.875L172.578,475.187l-22.625-22.625L376.25,226.265L398.875,248.875z M308.375,158.39L82.063,384.687
+    l45.266,45.25L353.625,203.64L308.375,158.39z M263.094,113.125L36.828,339.437l22.625,22.625L285.75,135.765L263.094,113.125z
+     M308.375,67.875L285.719,90.5L421.5,226.265l22.625-22.625L308.375,67.875z M376.25,0L331,45.25l135.75,135.766L512,135.781
+    L376.25,0z M32,453.5V480h26.5L32,453.5 M0,376.25L135.766,512H0V376.25L0,376.25z"/>
+  </svg>
+  Edit this page
+</a>
+			
+
+<h1 id="customizing-the-preview-pane">Customizing the Preview Pane</h1>
+
+<p>The NetlifyCMS exposes a <code>window.CMS</code> global object that you can use to register custom widgets, previews and editor plugins. The available customization methods are:</p>
+
+<ul>
+<li><strong>registerPreviewStyle:</strong> Register a custom stylesheet to use on the preview pane.</li>
+<li><strong>registerPreviewTemplate:</strong> Registers a template for a collection.</li>
+</ul>
+
+<p>Explore the <a href="https://github.com/netlify/netlify-cms/blob/9ced3f16c8bcc3d1a36773b126842d023c589eaf/example/index.html#L90-L91">NetlifyCMS GitHub example</a>, a working example you can review on GitHub.</p>
+
+<h3 id="react-components-inline-interaction">React Components inline interaction</h3>
+
+<p>NetlifyCMS is a collection of React components and exposes two constructs globally to allow you to create components inline: ‘createClass’ and ‘h’ (alias for React.createElement).</p>
+
+<h2 id="registerpreviewstyle"><code>registerPreviewStyle</code></h2>
+
+<p>Register a custom stylesheet to use on the preview pane.</p>
+
+<pre><code class="language-js">CMS.registerPreviewStyle(file);
+</code></pre>
+
+<p><strong>Params:</strong></p>
+
+<ul>
+<li><strong>file:</strong> css file path</li>
+</ul>
+
+<p><strong>Example:</strong></p>
+
+<pre><code class="language-html">// index.html
+&lt;script src=&quot;https://unpkg.com/netlify-cms@^0.7.0/dist/cms.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+  CMS.registerPreviewStyle(&quot;/example.css&quot;);
+&lt;/script&gt;
+</code></pre>
+
+<pre><code class="language-css">/* example.css */
+
+html,
+body {
+  color: #444;
+  font-size: 14px;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+body {
+  padding: 20px;
+}
+
+
+</code></pre>
+
+<h2 id="registerpreviewtemplate"><code>registerPreviewTemplate</code></h2>
+
+<p>Registers a template for a collection.</p>
+
+<p><code>CMS.registerPreviewTemplate(collection, react_component);</code></p>
+
+<p><strong>Params:</strong></p>
+
+<ul>
+<li>collection: The name of the collection which this preview component will be used for.</li>
+
+<li><p>react_component: A React component that renders the collection data. Four props will be passed to your component during render:</p>
+
+<ul>
+<li>entry: Immutable collection containing the entry data.</li>
+<li>widgetFor: Returns the appropriate widget preview component for a given field.</li>
+<li><a href="#lists-and-objects">widgetsFor</a>: Returns an array of objects with widgets and associated field data. For use with list and object type entries.</li>
+<li>getAsset: Returns the correct filePath or in-memory preview for uploaded images.
+<br /></li>
+</ul>
+
+<p><strong>Example:</strong></p>
+
+<pre><code class="language-html">&lt;script src=&quot;https://unpkg.com/netlify-cms@^0.7.0/dist/cms.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+var PostPreview = createClass({
+  render: function() {
+    var entry = this.props.entry;
+    var image = entry.getIn(['data', 'image']);
+    var bg = this.props.getAsset(image);
+    return h('div', {},
+      h('h1', {}, entry.getIn(['data', 'title'])),
+      h('img', {src: bg.toString()}),
+      h('div', {&quot;className&quot;: &quot;text&quot;}, this.props.widgetFor('body'))
+    );
+  }
+});
+    
+CMS.registerPreviewTemplate(&quot;posts&quot;, PostPreview);
+&lt;/script&gt;
+</code></pre>
+
+<h3 id="lists-and-objects">Lists and Objects</h3>
+
+<p>The API for accessing the individual fields of list- and object-type entries is similar to the API
+for accessing fields in standard entries, but there are a few key differences. Access to these
+nested fields is facilitated through the <code>widgetsFor</code> function, which is passed to the preview
+template component during render.</p>
+
+<p><strong>Note</strong>: as is often the case with the NetlifyCMS API, arrays and objects are created with
+Immutable.js. If some of the methods that we use are unfamiliar, such as <code>getIn</code>, check out
+<a href="https://facebook.github.io/immutable-js/docs/#/">their docs</a> to get a better understanding.</p>
+
+<p><strong>List Example:</strong></p>
+
+<pre><code class="language-html">&lt;script&gt;
+var AuthorsPreview = createClass({
+  // For list fields, the widgetFor function returns an array of objects
+  // that you can map over in your template. If our field is a list of
+  // authors containing two entries, with fields `name` and `description`,
+  // the return value of `widgetsFor` would look like this:
+  //
+  // [{
+  //   data: { name: 'Mathias', description: 'Co-Founder'},
+  //   widgets: { name: (&lt;WidgetComponent&gt;), description: (WidgetComponent&gt;)}
+  // },
+  // {
+  //   data: { name: 'Chris', description: 'Co-Founder'},
+  //   widgets: { name: (&lt;WidgetComponent&gt;), description: (WidgetComponent&gt;)}
+  // }]
+  //
+  // Templating would look something like this:
+    
+  render: function() {
+    return h('div', {},
+    
+      // This is a static header that would only be rendered once for the entire list
+      h('h1', {}, 'Authors'),
+    
+      // Here we provide a simple mapping function that will be applied to each
+      // object in the array of authors
+      this.props.widgetsFor('authors').map(function(author, index) {
+        return h('div', {key: index},
+          h('hr', {}),
+          h('strong', {}, author.getIn(['data', 'name'])),
+          author.getIn(['widgets', 'description'])
+        );
+      })
+    );
+  }
+});
+    
+CMS.registerPreviewTemplate(&quot;authors&quot;, AuthorsPreview);
+&lt;/script&gt;
+</code></pre>
+
+<p><strong>Object Example:</strong></p>
+
+<pre><code class="language-html">&lt;script&gt;
+var GeneralPreview = createClass({
+  // Object fields are simpler than lists - instead of `widgetsFor` returning
+  // an array of objects, it returns a single object. Accessing the shape of
+  // that object is the same as the shape of objects returned for list fields:
+  //
+  // {
+  //   data: { front_limit: 0, author: 'Chris' },
+  //   widgets: { front_limit: (&lt;WidgetComponent&gt;), author: (WidgetComponent&gt;)}
+  // }
+  render: function() {
+    var entry = this.props.entry;
+    var title = entry.getIn(['data', 'site_title']);
+    var posts = entry.getIn(['data', 'posts']);
+    
+    return h('div', {},
+      h('h1', {}, title),
+      h('dl', {},
+        h('dt', {}, 'Posts on Frontpage'),
+        h('dd', {}, this.props.widgetsFor('posts').getIn(['widgets', 'front_limit']) || 0),
+    
+        h('dt', {}, 'Default Author'),
+        h('dd', {}, this.props.widgetsFor('posts').getIn(['data', 'author']) || 'None'),
+      )
+    );
+  }
+});
+    
+CMS.registerPreviewTemplate(&quot;general&quot;, GeneralPreview);
+&lt;/script&gt;
+</code></pre>
+
+<h3 id="accessing-metadata">Accessing Metadata</h3>
+
+<p>Preview Components also receive an additional prop: <code>fieldsMetaData</code>. It contains aditional information (besides the plain plain textual value of each field) that can be useful for preview purposes.</p>
+
+<p>For example, the Relation widget passes the whole selected relation data in <code>fieldsMetaData</code>.</p>
+
+<pre><code class="language-js">export default class ArticlePreview extends React.Component {
+  render() {
+    const {entry, fieldsMetaData} = this.props;
+    const author = fieldsMetaData.getIn(['authors', data.author]);
+    
+    return &lt;article&gt;&lt;h2&gt;{ entry.getIn(['data', 'title']) }&lt;/h2&gt;
+      {author &amp;&amp;&lt;AuthorBio author={author.toJS()}/&gt;}
+    &lt;/article&gt;
+  }
+}
+</code></pre></li>
+</ul>
+
+		</article>
+	</div>
+</div>
+
+<footer>
+  <p class="contained"><a href="https://github.com/netlify/netlify-cms/blob/master/LICENSE" class="text-link">Distributed under MIT License</a> ·
+  <a href="https://github.com/netlify/netlify-cms/blob/master/CODE_OF_CONDUCT.md" class="text-link">Code of Conduct</a></p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+  <script src="/jquery.scrollTo.min.js"></script>
+  <script src="/jquery.localScroll.min.js"></script>
+  <script src="/prism.js"></script>
+
+
+<script src="/app.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: '08d03dc80862e84c70c5a1e769b13019',
+indexName: 'netlifycms',
+inputSelector: '.algolia-search',
+debug: false 
+});
+</script>
+</body>
+</html>
+

@@ -1,0 +1,80 @@
+.collab,
+.how-it-works {
+  margin: 40px 16px;
+}
+
+@media screen and (min-width: 480px) {
+
+  .collab,
+.how-it-works {
+    margin: 64px auto;
+  }
+}
+
+.collab h1 {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+@media screen and (min-width: 480px) {
+
+  .collab h1 {
+    margin-bottom: 64px;
+  }
+}
+
+@media screen and (min-width: 480px) {
+
+  .collab .collab-graphic {
+    display: block;
+    float: left;
+    margin-right: 2.35765160%;
+    width: 31.76156560%;
+    margin-left: 8.52980430%;
+  }
+
+  .collab .collab-graphic:last-child {
+    margin-right: 0;
+  }
+}
+
+.collab p {
+  margin-top: 40px;
+}
+
+@media screen and (min-width: 480px) {
+
+  .collab p {
+    margin-top: 0;
+    text-align: left;
+    display: block;
+    float: left;
+    margin-right: 2.35765160%;
+    width: 40.29136990%;
+    margin-left: 8.52980430%;
+  }
+
+  .collab p:last-child {
+    margin-right: 0;
+  }
+}
+
+@media screen and (min-width: 768px) {
+
+  .collab p {
+    margin-top: 40px;
+  }
+}
+
+.how-it-works {
+  padding-bottom: 104px;
+  text-align: left;
+}
+
+.how-it-works .section-label:not(:first-child) {
+  margin-top: 64px;
+}
+
+.how-it-works a {
+  color: #7CA511;
+}

@@ -1,0 +1,280 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Netlify CMS | Open-Source Content Management System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/img/favicon/manifest.json">
+    <link rel="mask-icon" href="/img/favicon/safari-pinned-tab.svg" color="#96cf05">
+    <meta name="apple-mobile-web-app-title" content="NetlifyCMS">
+    <meta name="application-name" content="NetlifyCMS">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="/css/main.css"/>
+    
+      <link rel="stylesheet" href="/css/lib/prism.css"/>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+  </head>
+  <body>
+    
+      
+        
+      
+        
+          <a href="https://gitter.im/netlify/netlifycms" class="notification notification-loud">We have a community on Gitter - join now to ask questions and discuss the project with other devs!</a>
+        
+      
+    
+    <header id="header" class="docs">
+      <div class="contained">
+        <a href="/" class="logo"><img src="/img/netlify-cms-logo.svg"/></a>
+        <a class="nav-link docs-link" href="/docs">Docs</a>
+        <a class="nav-link contributing-link" href="/docs/contributor-guide">Contributing</a>
+        <a class="nav-link" href="/community">Community</a>
+        <a class="utility-input">
+          <img src="/img/search.svg" />
+          <input type="search" placeholder="Search the docs" class="algolia-search"/>
+        </a>
+        <a href="https://github.com/netlify/netlify-cms" class="btn-secondary small github-btn "><img src="/img/github.svg"/> Fork me on GitHub</a>
+      </div>
+    </header>
+
+
+
+<div class="docs detail page">
+	<div class="container">
+		<aside id="sidebar" class="sidebar">
+			<nav class="docs-nav" id="docs-nav">
+				
+				
+					<a href="/docs/intro/" class="nav-link active">Introduction</a>
+				
+					<a href="/docs/" class="nav-link ">Docs</a>
+				
+					<a href="/docs/test-drive/" class="nav-link ">Test Drive</a>
+				
+					<a href="/docs/quick-start/" class="nav-link ">Quick Start</a>
+				
+					<a href="/docs/authentication-backends/" class="nav-link ">Authentication &amp; Backends</a>
+				
+					<a href="/docs/widgets/" class="nav-link ">Widgets</a>
+				
+					<a href="/docs/editorial-workflow/" class="nav-link ">Editorial Workflow</a>
+				
+					<a href="/docs/customization/" class="nav-link ">Custom Previews</a>
+				
+					<a href="/docs/extending/" class="nav-link ">Extending Widgets</a>
+				
+					<a href="/docs/validation/" class="nav-link ">Validation</a>
+				
+					<a href="/docs/architecture/" class="nav-link ">Architecture</a>
+				
+					<a href="/docs/contributor-guide/" class="nav-link ">Contributing</a>
+				
+					<a href="/docs/examples/" class="nav-link ">Examples</a>
+				
+			</nav>
+			<div class="mobile docs-nav">
+				<select class="btn-primary" id="mobile-docs-nav">
+					<option value="" selected="selected">Select A Topic</option>
+					
+					
+						<option value="/docs/intro/" class="nav-link active">Introduction</option>
+					
+						<option value="/docs/" class="nav-link ">Docs</option>
+					
+						<option value="/docs/test-drive/" class="nav-link ">Test Drive</option>
+					
+						<option value="/docs/quick-start/" class="nav-link ">Quick Start</option>
+					
+						<option value="/docs/authentication-backends/" class="nav-link ">Authentication &amp; Backends</option>
+					
+						<option value="/docs/widgets/" class="nav-link ">Widgets</option>
+					
+						<option value="/docs/editorial-workflow/" class="nav-link ">Editorial Workflow</option>
+					
+						<option value="/docs/customization/" class="nav-link ">Custom Previews</option>
+					
+						<option value="/docs/extending/" class="nav-link ">Extending Widgets</option>
+					
+						<option value="/docs/validation/" class="nav-link ">Validation</option>
+					
+						<option value="/docs/architecture/" class="nav-link ">Architecture</option>
+					
+						<option value="/docs/contributor-guide/" class="nav-link ">Contributing</option>
+					
+						<option value="/docs/examples/" class="nav-link ">Examples</option>
+					
+				</select>
+			</div>
+		</aside>
+		<article class="docs-content" id="docs-content">
+			<a class="edit-this-page" href="https://github.com/netlify/netlify-cms/blob/master/website/site/content/docs/intro.md">
+  <svg version="1.1" id="pencil" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+     width="14px" height="14px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+  <path d="M398.875,248.875L172.578,475.187l-22.625-22.625L376.25,226.265L398.875,248.875z M308.375,158.39L82.063,384.687
+    l45.266,45.25L353.625,203.64L308.375,158.39z M263.094,113.125L36.828,339.437l22.625,22.625L285.75,135.765L263.094,113.125z
+     M308.375,67.875L285.719,90.5L421.5,226.265l22.625-22.625L308.375,67.875z M376.25,0L331,45.25l135.75,135.766L512,135.781
+    L376.25,0z M32,453.5V480h26.5L32,453.5 M0,376.25L135.766,512H0V376.25L0,376.25z"/>
+  </svg>
+  Edit this page
+</a>
+			
+
+<h1 id="introduction">Introduction</h1>
+
+<p>Netlify CMS is a Content Management System for static sites, allowing collaborators to create, edit, review, and publish content without writing code or dealing with version control. It brings the ease of WordPress-style editing to the simplicity and speed of static sites.</p>
+
+<p>At its core, Netlify CMS is an open-source React app that acts as a wrapper for the Git workflow, using the GitHub API. This provides many advantages, including:</p>
+
+<ul>
+<li><strong>Fast, web-based UI:</strong> with rich-text editing, real-time preview, and drag-and-drop media uploads.</li>
+<li><strong>Platform agnostic:</strong> works with most static site generators.</li>
+<li><strong>Easy installation:</strong> add two files to your site and hook up the backend by including in your build process or linking to our CDN.</li>
+<li><strong>Modern authentication:</strong> using GitHub and JSON web tokens.</li>
+<li><strong>Flexible content types:</strong> specify an unlimited number of content types with custom fields.</li>
+<li><strong>Fully extensible:</strong> create custom-styled previews, UI widgets, and editor plugins.</li>
+</ul>
+
+<h1 id="core-concepts">Core Concepts</h1>
+
+<h2 id="the-admin-interface">The Admin Interface</h2>
+
+<p>The admin interface is a single-page app with the entry point stored in a static <code>/admin</code> folder you add to the root of your site. You can include it with a simple <code>index.html</code> file that loads the necessary CSS and JS files from a CDN:</p>
+
+<pre><code class="language-html">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot; /&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+  &lt;title&gt;Content Manager&lt;/title&gt;
+  
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;https://unpkg.com/netlify-cms@^0.7.0/dist/cms.css&quot; /&gt;
+  
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;script src=&quot;https://unpkg.com/netlify-cms@^0.7.0/dist/cms.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>The JS is also available via npm and can be integrated into your regular build process.</p>
+
+<h3 id="editorial-workflow">Editorial Workflow</h3>
+
+<p>Netlify CMS has an optional <a href="/docs/editorial-workflow">editorial workflow</a> that translates common Git commands into familiar language in a simple UI:</p>
+
+<table>
+<thead>
+<tr>
+<th>Actions in Netlify UI &hellip;</th>
+<th>Perform these Git actions</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Save draft</td>
+<td>Commits to a new branch, and opens a pull request</td>
+</tr>
+
+<tr>
+<td>Edit draft</td>
+<td>Pushes another commit to the draft branch/pull request</td>
+</tr>
+
+<tr>
+<td>Approve and publish draft</td>
+<td>Merges pull request and deletes branch</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="configuration">Configuration</h2>
+
+<p>All configuration is handled in a single <code>config.yml</code> file, also stored in the <code>/admin</code> folder. A simple version might look like this:</p>
+
+<pre><code class="language-yaml">backend:
+  name: github
+  repo: owner/repo # Path to your Github repository
+  branch: master # Branch to update (master by default)
+
+media_folder: &quot;img/uploads&quot; # Folder where user uploaded files should go
+
+collections: # A list of collections the CMS should be able to edit
+  - name: &quot;post&quot; # Used in routes, e.g., /admin/collections/:slug/edit
+    label: &quot;Post&quot; # Used in the UI, e.g., &quot;New Post&quot;
+    folder: &quot;_posts&quot; # The path to the folder where the documents are stored
+    create: true # Allow users to create new documents in this collection
+    fields: # The fields each document in this collection have
+      - {label: &quot;Title&quot;, name: &quot;title&quot;, widget: &quot;string&quot;, tagname: &quot;h1&quot;}
+      - {label: &quot;Body&quot;, name: &quot;body&quot;, widget: &quot;markdown&quot;}
+      - {label: &quot;Foo&quot;, name: &quot;foo&quot;, widget: &quot;foo&quot;}
+      - {label: &quot;Publish Date&quot;, name: &quot;date&quot;, widget: &quot;datetime&quot;}
+</code></pre>
+
+<h3 id="backend">Backend</h3>
+
+<p>Because Netlify CMS is a wrapper for the GitHub API, the &ldquo;backend&rdquo; is a repo stored on GitHub. <em>(Using a different Git host? File a <a href="https://github.com/netlify/netlify-cms/issues">feature request</a>, or <a href="https://github.com/netlify/netlify-cms/blob/master/CONTRIBUTING.md">help us add it</a>!)</em> For authentication, you can connect to GitHub using Netlify’s <a href="https://www.netlify.com/docs/authentication-providers">Authentication Provider feature</a>, or you can roll your own.</p>
+
+<h3 id="collections">Collections</h3>
+
+<p>All content managed by Netlify CMS is organized in Collections (groups of files), such as:</p>
+
+<ul>
+<li>blog posts</li>
+<li>portfolio samples</li>
+<li>product listings</li>
+<li>podcast episodes</li>
+</ul>
+
+<p>You point to where the files are stored, and specify the fields that define them. The <code>body</code> field typically stores the main text of a file, while any other fields are included at the top of the document in the front matter. They can be required, optional, or hidden, and can have preset defaults.</p>
+
+<h3 id="widgets">Widgets</h3>
+
+<p>Widgets define the data type and interface for entry fields. Netlify CMS comes with several built-in <a href="/docs/widgets">widgets</a>.</p>
+
+<h2 id="customization">Customization</h2>
+
+<p>Netlify CMS exposes a <code>window.CMS</code> global object that you can use to register custom widgets, previews, and editor plugins. The available methods are:</p>
+
+<ul>
+<li><p><code>registerPreviewStyle</code>: register a custom stylesheet to match the editor preview pane to your site style.</p></li>
+
+<li><p><code>registerPreviewTemplate</code>: registers a template to determine how fields are displayed in the preview, customizable for each collection.</p></li>
+
+<li><p><code>registerWidget</code>: registers a custom widget.</p></li>
+
+<li><p><code>registerEditorComponent</code>: adds a block component to the Markdown editor.</p></li>
+</ul>
+
+		</article>
+	</div>
+</div>
+
+<footer>
+  <p class="contained"><a href="https://github.com/netlify/netlify-cms/blob/master/LICENSE" class="text-link">Distributed under MIT License</a> ·
+  <a href="https://github.com/netlify/netlify-cms/blob/master/CODE_OF_CONDUCT.md" class="text-link">Code of Conduct</a></p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+  <script src="/jquery.scrollTo.min.js"></script>
+  <script src="/jquery.localScroll.min.js"></script>
+  <script src="/prism.js"></script>
+
+
+<script src="/app.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: '08d03dc80862e84c70c5a1e769b13019',
+indexName: 'netlifycms',
+inputSelector: '.algolia-search',
+debug: false 
+});
+</script>
+</body>
+</html>
+

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>/docs/architecture/</loc>
+  </url>
+  
+  <url>
+    <loc>/docs/authentication-backends/</loc>
+  </url>
+  
+  <url>
+    <loc>/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/community/</loc>
+  </url>
+  
+  <url>
+    <loc>/docs/contributor-guide/</loc>
+  </url>
+  
+  <url>
+    <loc>/docs/customization/</loc>
+  </url>
+  
+  <url>
+    <loc>/docs/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/docs/editorial-workflow/</loc>
+  </url>
+  
+  <url>
+    <loc>/docs/examples/</loc>
+  </url>
+  
+  <url>
+    <loc>/docs/extending/</loc>
+  </url>
+  
+  <url>
+    <loc>/docs/intro/</loc>
+  </url>
+  
+  <url>
+    <loc>/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/pages/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/docs/quick-start/</loc>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/docs/test-drive/</loc>
+  </url>
+  
+  <url>
+    <loc>/docs/validation/</loc>
+  </url>
+  
+  <url>
+    <loc>/docs/widgets/</loc>
+  </url>
+  
+</urlset>

@@ -1,0 +1,298 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Netlify CMS | Open-Source Content Management System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/img/favicon/manifest.json">
+    <link rel="mask-icon" href="/img/favicon/safari-pinned-tab.svg" color="#96cf05">
+    <meta name="apple-mobile-web-app-title" content="NetlifyCMS">
+    <meta name="application-name" content="NetlifyCMS">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="/css/main.css"/>
+    
+      <link rel="stylesheet" href="/css/lib/prism.css"/>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+  </head>
+  <body>
+    
+      
+        
+      
+        
+          <a href="https://gitter.im/netlify/netlifycms" class="notification notification-loud">We have a community on Gitter - join now to ask questions and discuss the project with other devs!</a>
+        
+      
+    
+    <header id="header" class="docs">
+      <div class="contained">
+        <a href="/" class="logo"><img src="/img/netlify-cms-logo.svg"/></a>
+        <a class="nav-link docs-link" href="/docs">Docs</a>
+        <a class="nav-link contributing-link" href="/docs/contributor-guide">Contributing</a>
+        <a class="nav-link" href="/community">Community</a>
+        <a class="utility-input">
+          <img src="/img/search.svg" />
+          <input type="search" placeholder="Search the docs" class="algolia-search"/>
+        </a>
+        <a href="https://github.com/netlify/netlify-cms" class="btn-secondary small github-btn "><img src="/img/github.svg"/> Fork me on GitHub</a>
+      </div>
+    </header>
+
+
+
+<div class="docs detail page">
+	<div class="container">
+		<aside id="sidebar" class="sidebar">
+			<nav class="docs-nav" id="docs-nav">
+				
+				
+					<a href="/docs/intro/" class="nav-link ">Introduction</a>
+				
+					<a href="/docs/" class="nav-link ">Docs</a>
+				
+					<a href="/docs/test-drive/" class="nav-link ">Test Drive</a>
+				
+					<a href="/docs/quick-start/" class="nav-link ">Quick Start</a>
+				
+					<a href="/docs/authentication-backends/" class="nav-link ">Authentication &amp; Backends</a>
+				
+					<a href="/docs/widgets/" class="nav-link ">Widgets</a>
+				
+					<a href="/docs/editorial-workflow/" class="nav-link ">Editorial Workflow</a>
+				
+					<a href="/docs/customization/" class="nav-link ">Custom Previews</a>
+				
+					<a href="/docs/extending/" class="nav-link active">Extending Widgets</a>
+				
+					<a href="/docs/validation/" class="nav-link ">Validation</a>
+				
+					<a href="/docs/architecture/" class="nav-link ">Architecture</a>
+				
+					<a href="/docs/contributor-guide/" class="nav-link ">Contributing</a>
+				
+					<a href="/docs/examples/" class="nav-link ">Examples</a>
+				
+			</nav>
+			<div class="mobile docs-nav">
+				<select class="btn-primary" id="mobile-docs-nav">
+					<option value="" selected="selected">Select A Topic</option>
+					
+					
+						<option value="/docs/intro/" class="nav-link ">Introduction</option>
+					
+						<option value="/docs/" class="nav-link ">Docs</option>
+					
+						<option value="/docs/test-drive/" class="nav-link ">Test Drive</option>
+					
+						<option value="/docs/quick-start/" class="nav-link ">Quick Start</option>
+					
+						<option value="/docs/authentication-backends/" class="nav-link ">Authentication &amp; Backends</option>
+					
+						<option value="/docs/widgets/" class="nav-link ">Widgets</option>
+					
+						<option value="/docs/editorial-workflow/" class="nav-link ">Editorial Workflow</option>
+					
+						<option value="/docs/customization/" class="nav-link ">Custom Previews</option>
+					
+						<option value="/docs/extending/" class="nav-link active">Extending Widgets</option>
+					
+						<option value="/docs/validation/" class="nav-link ">Validation</option>
+					
+						<option value="/docs/architecture/" class="nav-link ">Architecture</option>
+					
+						<option value="/docs/contributor-guide/" class="nav-link ">Contributing</option>
+					
+						<option value="/docs/examples/" class="nav-link ">Examples</option>
+					
+				</select>
+			</div>
+		</aside>
+		<article class="docs-content" id="docs-content">
+			<a class="edit-this-page" href="https://github.com/netlify/netlify-cms/blob/master/website/site/content/docs/extending.md">
+  <svg version="1.1" id="pencil" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+     width="14px" height="14px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+  <path d="M398.875,248.875L172.578,475.187l-22.625-22.625L376.25,226.265L398.875,248.875z M308.375,158.39L82.063,384.687
+    l45.266,45.25L353.625,203.64L308.375,158.39z M263.094,113.125L36.828,339.437l22.625,22.625L285.75,135.765L263.094,113.125z
+     M308.375,67.875L285.719,90.5L421.5,226.265l22.625-22.625L308.375,67.875z M376.25,0L331,45.25l135.75,135.766L512,135.781
+    L376.25,0z M32,453.5V480h26.5L32,453.5 M0,376.25L135.766,512H0V376.25L0,376.25z"/>
+  </svg>
+  Edit this page
+</a>
+			
+
+<h1 id="extending-with-widgets">Extending With Widgets</h1>
+
+<p>The NetlifyCMS exposes an <code>window.CMS</code> global object that you can use to register custom widgets, previews, and editor plugins. The available widget extension methods are:</p>
+
+<ul>
+<li><strong>registerWidget:</strong> lets you register a custom widget.</li>
+<li><strong>registerEditorComponent:</strong> lets you add a block component to the Markdown editor.</li>
+</ul>
+
+<h3 id="writing-react-components-inline">Writing React Components inline</h3>
+
+<p>The <code>registerWidget</code> requires you to provide a React component. If you have a build process in place for your project, it is possible to integrate with this build process.</p>
+
+<p>However, although possible, it may be cumbersome or even impractical to add a React build phase. For this reason, NetlifyCMS exposes two constructs globally to allow you to create components inline: ‘createClass’ and ‘h’ (alias for React.createElement).</p>
+
+<h2 id="registerwidget"><code>registerWidget</code></h2>
+
+<p>Register a custom widget.</p>
+
+<pre><code class="language-js">CMS.registerWidget(name, control, \[preview\])
+</code></pre>
+
+<p><strong>Params:</strong></p>
+
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>Widget name, allows this widget to be used via the field <code>widget</code> property in config</td>
+</tr>
+
+<tr>
+<td><code>control</code></td>
+<td>React.Component | string</td>
+<td><ul><li>React component that renders the control, receives the following props: <ul><li><strong>value:</strong> Current field value</li><li><strong>onChange:</strong> Callback function to update the field value</li></ul></li><li>Name of a registered widget whose control should be used (includes built in widgets).</li></ul></td>
+</tr>
+
+<tr>
+<td>[<code>preview</code>]</td>
+<td>React.Component, optional</td>
+<td>Renders the widget preview, receives the following props: <ul><li><strong>value:</strong> Current preview value</li><li><strong>field:</strong> Immutable map of current field configuration</li><li><strong>metadata:</strong> Immutable map of any available metadata for the current field</li><li><strong>getAsset:</strong> Function for retrieving an asset url for image/file fields</li><li><strong>entry:</strong> Immutable Map of all entry data</li><li><strong>fieldsMetaData:</strong> Immutable map of metadata from all fields.</li></ul></td>
+</tr>
+</tbody>
+</table>
+
+<ul>
+<li><strong>field:</strong> The field type that this widget will be used for.</li>
+<li><strong>control:</strong> A React component that renders the editing interface for this field. Two props will be passed:
+
+<ul>
+<li><strong>value:</strong> The current value for this field.</li>
+<li><strong>onChange:</strong> Callback function to update the field value.</li>
+</ul></li>
+<li><strong>preview (optional):</strong> A React component that renders the preview of how the content will look. A <code>value</code> prop will be passed to this component.</li>
+</ul>
+
+<p><strong>Example:</strong></p>
+
+<pre><code class="language-html">&lt;script src=&quot;https://unpkg.com/netlify-cms@^0.7.0/dist/cms.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+var CategoriesControl = createClass({
+  handleChange: function(e) {
+    this.props.onChange(e.target.value.split(',').map((e) =&gt; e.trim()));
+  },
+
+  render: function() {
+    var value = this.props.value;
+    return h('input', { type: 'text', value: value ? value.join(', ') : '', onChange: this.handleChange });
+  }
+});
+
+var CategoriesPreview = createClass({
+  render: function() {
+    return h('ul', {},
+      this.props.value.map(function(val, index) {
+        return h('li', {key: index}, val);
+      })
+    );
+  }
+});
+
+CMS.registerWidget('categories', CategoriesControl, CategoriesPreview);
+&lt;/script&gt;
+</code></pre>
+
+<h2 id="registereditorcomponent"><code>registerEditorComponent</code></h2>
+
+<p>Register a block level component for the Markdown editor:</p>
+
+<pre><code>CMS.registerEditorComponent(definition)
+</code></pre>
+
+<p><strong>Params</strong></p>
+
+<ul>
+<li><strong>definition:</strong> The component definition; must specify: id, label, fields, patterns, fromBlock, toBlock, toPreview</li>
+</ul>
+
+<p><strong>Example:</strong></p>
+
+<pre><code class="language-html">&lt;script src=&quot;https://unpkg.com/netlify-cms@^0.7.0/dist/cms.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+CMS.registerEditorComponent({
+  // Internal id of the component
+  id: &quot;youtube&quot;,
+  // Visible label
+  label: &quot;Youtube&quot;,
+  // Fields the user need to fill out when adding an instance of the component
+  fields: [{name: 'id', label: 'Youtube Video ID', widget: 'string'}],
+  // Pattern to identify a block as being an instance of this component
+  pattern: /youtube (\S+)\s/,
+  // Function to extract data elements from the regexp match
+  fromBlock: function(match) {
+    return {
+      id: match[1]
+    };
+  },
+  // Function to create a text block from an instance of this component
+  toBlock: function(obj) {
+    return 'youtube ' + obj.id;
+  },
+  // Preview output for this component. Can either be a string or a React component
+  // (component gives better render performance)
+  toPreview: function(obj) {
+    return (
+      '&lt;img src=&quot;http://img.youtube.com/vi/' + obj.id + '/maxresdefault.jpg&quot; alt=&quot;Youtube Video&quot;/&gt;'
+    );
+  }
+});
+&lt;/script&gt;
+</code></pre>
+
+<p><strong>Result:</strong></p>
+
+<p><img src="/img/youtube-widget.png" alt="youtube-widget" /></p>
+
+		</article>
+	</div>
+</div>
+
+<footer>
+  <p class="contained"><a href="https://github.com/netlify/netlify-cms/blob/master/LICENSE" class="text-link">Distributed under MIT License</a> ·
+  <a href="https://github.com/netlify/netlify-cms/blob/master/CODE_OF_CONDUCT.md" class="text-link">Code of Conduct</a></p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+  <script src="/jquery.scrollTo.min.js"></script>
+  <script src="/jquery.localScroll.min.js"></script>
+  <script src="/prism.js"></script>
+
+
+<script src="/app.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: '08d03dc80862e84c70c5a1e769b13019',
+indexName: 'netlifycms',
+inputSelector: '.algolia-search',
+debug: false 
+});
+</script>
+</body>
+</html>
+

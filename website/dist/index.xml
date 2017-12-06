@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Netlify CMS | Open-Source Content Management System</title>
+    <link>/</link>
+    <description>Recent content on Netlify CMS | Open-Source Content Management System</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Architecture</title>
+      <link>/docs/architecture/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/architecture/</guid>
+      <description>Technical Architecture Netlify CMS is a React application, using Redux for state management with immutable data structures (immutable.js).
+The core abstractions for content editing are collections, entries and widgets.
+Each collection represents a collection of entries. This can either be a collection of similar entries with the same structure, or a set of entries where each has its own structure.
+The structure of an entry is defined as a series of fields, each with a name, a label, and a widget .</description>
+    </item>
+    
+    <item>
+      <title>Authentication &amp; Backends</title>
+      <link>/docs/authentication-backends/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/authentication-backends/</guid>
+      <description>Authentication &amp;amp; Backends Netlify CMS stores content in your GitHub repository. (GitLab and Bitbucket coming soon!) In order for this to work, you need to authenticate with GitHub, and that requires a server. We have a few options for handling this.
+Git Gateway with Netlify Identity Git Gateway is a Netlify open source project that allows you to add editors to your site CMS without giving them direct push access to your GitHub repository.</description>
+    </item>
+    
+    <item>
+      <title>Community</title>
+      <link>/community/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/community/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Contributing</title>
+      <link>/docs/contributor-guide/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/contributor-guide/</guid>
+      <description> Welcome, contributors! We&amp;rsquo;re hoping that Netlify CMS will do for the JAMstack what WordPress did for dynamic sites back in the day. We know we can&amp;rsquo;t do that without building a thriving community of contributors and users, and we&amp;rsquo;d love to have you join us.
+While we work on building this page (and you can help!), here are some links with more information about getting involved:
+ Project Milestones Code of Conduct Setup instructions and Contribution Guidelines  </description>
+    </item>
+    
+    <item>
+      <title>Custom Previews</title>
+      <link>/docs/customization/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/customization/</guid>
+      <description>Customizing the Preview Pane The NetlifyCMS exposes a window.CMS global object that you can use to register custom widgets, previews and editor plugins. The available customization methods are:
+ registerPreviewStyle: Register a custom stylesheet to use on the preview pane. registerPreviewTemplate: Registers a template for a collection.  Explore the NetlifyCMS GitHub example, a working example you can review on GitHub.
+React Components inline interaction NetlifyCMS is a collection of React components and exposes two constructs globally to allow you to create components inline: ‘createClass’ and ‘h’ (alias for React.</description>
+    </item>
+    
+    <item>
+      <title>Editorial Workflow</title>
+      <link>/docs/editorial-workflow/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/editorial-workflow/</guid>
+      <description>Editorial Workflow Overview By default, all entries created or edited in the Netlify CMS are committed directly into the main repository branch.
+Alternatively, you can enable an optional &amp;ldquo;Editorial Workflow&amp;rdquo; mode that allows for more control over the content publishing phases. All unpublished entries will be arranged in a board according to their status, and they can be further reviewed and edited before going live.
+From a technical perspective, the workflow translates editor UI actions into common Git commands:</description>
+    </item>
+    
+    <item>
+      <title>Examples</title>
+      <link>/docs/examples/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/examples/</guid>
+      <description> Examples Do you have a great example? Submit a pull request to this page.
+   Name Tools Type Example More info     This Developing Journey middleman blog briandouglas.me blog post   JAMstack Recipes Hugo, Azure demo jamstack-cms.netlify.com blog post    </description>
+    </item>
+    
+    <item>
+      <title>Extending Widgets</title>
+      <link>/docs/extending/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/extending/</guid>
+      <description>Extending With Widgets The NetlifyCMS exposes an window.CMS global object that you can use to register custom widgets, previews, and editor plugins. The available widget extension methods are:
+ registerWidget: lets you register a custom widget. registerEditorComponent: lets you add a block component to the Markdown editor.  Writing React Components inline The registerWidget requires you to provide a React component. If you have a build process in place for your project, it is possible to integrate with this build process.</description>
+    </item>
+    
+    <item>
+      <title>Introduction</title>
+      <link>/docs/intro/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/intro/</guid>
+      <description>Introduction Netlify CMS is a Content Management System for static sites, allowing collaborators to create, edit, review, and publish content without writing code or dealing with version control. It brings the ease of WordPress-style editing to the simplicity and speed of static sites.
+At its core, Netlify CMS is an open-source React app that acts as a wrapper for the Git workflow, using the GitHub API. This provides many advantages, including:</description>
+    </item>
+    
+    <item>
+      <title>Quick Start</title>
+      <link>/docs/quick-start/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/quick-start/</guid>
+      <description>Quick Start Netlify CMS is adaptable to a wide variety of projects. The only inflexible requirement is that your site content must be written in markdown, JSON, YAML, or TOML files, stored in a repo on GitHub. (If you&amp;rsquo;re partial to another Git hosting service, check out the PRs in progress for GitLab and Bitbucket support.)
+In this guide, we&amp;rsquo;re going to assume you&amp;rsquo;re using a static site generator, like Jekyll, Hugo, Hexo, or Gatsby.</description>
+    </item>
+    
+    <item>
+      <title>Test Drive</title>
+      <link>/docs/test-drive/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/test-drive/</guid>
+      <description>Take a test drive Netlify CMS can run in any frontend web environment, but the quickest way to try it out is by running it on a pre-configured starter site with Netlify. Our example here is the Kaldi coffee company template. Use the button below to build and deploy your own copy of the repository:
+
+After clicking that button, you’ll authenticate with GitHub and choose a repository name. Netlify will then automatically create a repository in your GitHub account with a copy of the files from the template.</description>
+    </item>
+    
+    <item>
+      <title>Validation</title>
+      <link>/docs/validation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/validation/</guid>
+      <description>Collection Field Validation Available validations to use on config.yml:  Presence: By default all widgets are required, unless specified in the config. Example: - {label: &amp;quot;Subtitle&amp;quot;, name: &amp;quot;subtitle&amp;quot;, widget: &amp;quot;string&amp;quot;, required: false}
+ Pattern: Field configuration can specify a regex pattern with the appropriate error message. Example: - {label: &amp;quot;Title&amp;quot;, name: &amp;quot;title&amp;quot;, widget: &amp;quot;string&amp;quot;, pattern: [&#39;.{10,}&#39;, &amp;quot;Should have more than 10 characters&amp;quot;] }
+  Advanced Guide (For widget authors) The widget control can optionally implement an isValid method to perform custom validations, in addition to presence and pattern.</description>
+    </item>
+    
+    <item>
+      <title>Widgets</title>
+      <link>/docs/widgets/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/widgets/</guid>
+      <description>Widgets Widgets define the data type and interface for entry fields. Netlify CMS comes with several built-in widgets, including:
+   Name UI Data Type     string text input string   boolean toggle switch boolean   text textarea input string (multiline)   number number input number   markdown rich text editor string (markdown)   datetime date picker string (ISO date)   select select input (dropdown) string   image file picker w/ drag-and-drop image file   file file picker w/ drag-and-drop file   hidden none string   object group of other widgets Immutable Map containing field values   list repeatable group of other widgets Immutable List of objects containing field values   relation text input w/ suggestions dropdown value of valueField in related entry (see below)    We’re always adding new widgets, and you can also create your own!</description>
+    </item>
+    
+  </channel>
+</rss>

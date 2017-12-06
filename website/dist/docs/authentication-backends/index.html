@@ -1,0 +1,309 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Netlify CMS | Open-Source Content Management System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/img/favicon/manifest.json">
+    <link rel="mask-icon" href="/img/favicon/safari-pinned-tab.svg" color="#96cf05">
+    <meta name="apple-mobile-web-app-title" content="NetlifyCMS">
+    <meta name="application-name" content="NetlifyCMS">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="/css/main.css"/>
+    
+      <link rel="stylesheet" href="/css/lib/prism.css"/>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+  </head>
+  <body>
+    
+      
+        
+      
+        
+          <a href="https://gitter.im/netlify/netlifycms" class="notification notification-loud">We have a community on Gitter - join now to ask questions and discuss the project with other devs!</a>
+        
+      
+    
+    <header id="header" class="docs">
+      <div class="contained">
+        <a href="/" class="logo"><img src="/img/netlify-cms-logo.svg"/></a>
+        <a class="nav-link docs-link" href="/docs">Docs</a>
+        <a class="nav-link contributing-link" href="/docs/contributor-guide">Contributing</a>
+        <a class="nav-link" href="/community">Community</a>
+        <a class="utility-input">
+          <img src="/img/search.svg" />
+          <input type="search" placeholder="Search the docs" class="algolia-search"/>
+        </a>
+        <a href="https://github.com/netlify/netlify-cms" class="btn-secondary small github-btn "><img src="/img/github.svg"/> Fork me on GitHub</a>
+      </div>
+    </header>
+
+
+
+<div class="docs detail page">
+	<div class="container">
+		<aside id="sidebar" class="sidebar">
+			<nav class="docs-nav" id="docs-nav">
+				
+				
+					<a href="/docs/intro/" class="nav-link ">Introduction</a>
+				
+					<a href="/docs/" class="nav-link ">Docs</a>
+				
+					<a href="/docs/test-drive/" class="nav-link ">Test Drive</a>
+				
+					<a href="/docs/quick-start/" class="nav-link ">Quick Start</a>
+				
+					<a href="/docs/authentication-backends/" class="nav-link active">Authentication &amp; Backends</a>
+				
+					<a href="/docs/widgets/" class="nav-link ">Widgets</a>
+				
+					<a href="/docs/editorial-workflow/" class="nav-link ">Editorial Workflow</a>
+				
+					<a href="/docs/customization/" class="nav-link ">Custom Previews</a>
+				
+					<a href="/docs/extending/" class="nav-link ">Extending Widgets</a>
+				
+					<a href="/docs/validation/" class="nav-link ">Validation</a>
+				
+					<a href="/docs/architecture/" class="nav-link ">Architecture</a>
+				
+					<a href="/docs/contributor-guide/" class="nav-link ">Contributing</a>
+				
+					<a href="/docs/examples/" class="nav-link ">Examples</a>
+				
+			</nav>
+			<div class="mobile docs-nav">
+				<select class="btn-primary" id="mobile-docs-nav">
+					<option value="" selected="selected">Select A Topic</option>
+					
+					
+						<option value="/docs/intro/" class="nav-link ">Introduction</option>
+					
+						<option value="/docs/" class="nav-link ">Docs</option>
+					
+						<option value="/docs/test-drive/" class="nav-link ">Test Drive</option>
+					
+						<option value="/docs/quick-start/" class="nav-link ">Quick Start</option>
+					
+						<option value="/docs/authentication-backends/" class="nav-link active">Authentication &amp; Backends</option>
+					
+						<option value="/docs/widgets/" class="nav-link ">Widgets</option>
+					
+						<option value="/docs/editorial-workflow/" class="nav-link ">Editorial Workflow</option>
+					
+						<option value="/docs/customization/" class="nav-link ">Custom Previews</option>
+					
+						<option value="/docs/extending/" class="nav-link ">Extending Widgets</option>
+					
+						<option value="/docs/validation/" class="nav-link ">Validation</option>
+					
+						<option value="/docs/architecture/" class="nav-link ">Architecture</option>
+					
+						<option value="/docs/contributor-guide/" class="nav-link ">Contributing</option>
+					
+						<option value="/docs/examples/" class="nav-link ">Examples</option>
+					
+				</select>
+			</div>
+		</aside>
+		<article class="docs-content" id="docs-content">
+			<a class="edit-this-page" href="https://github.com/netlify/netlify-cms/blob/master/website/site/content/docs/authentication-backends.md">
+  <svg version="1.1" id="pencil" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+     width="14px" height="14px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+  <path d="M398.875,248.875L172.578,475.187l-22.625-22.625L376.25,226.265L398.875,248.875z M308.375,158.39L82.063,384.687
+    l45.266,45.25L353.625,203.64L308.375,158.39z M263.094,113.125L36.828,339.437l22.625,22.625L285.75,135.765L263.094,113.125z
+     M308.375,67.875L285.719,90.5L421.5,226.265l22.625-22.625L308.375,67.875z M376.25,0L331,45.25l135.75,135.766L512,135.781
+    L376.25,0z M32,453.5V480h26.5L32,453.5 M0,376.25L135.766,512H0V376.25L0,376.25z"/>
+  </svg>
+  Edit this page
+</a>
+			
+
+<h1 id="authentication-backends">Authentication &amp; Backends</h1>
+
+<p>Netlify CMS stores content in your GitHub repository. (GitLab and Bitbucket coming soon!) In order for this to work, you need to authenticate with GitHub, and that requires a server. We have a few options for handling this.</p>
+
+<h2 id="git-gateway-with-netlify-identity">Git Gateway with Netlify Identity</h2>
+
+<p><a href="https://github.com/netlify/git-gateway">Git Gateway</a> is a Netlify open source project that allows you to add editors to your site CMS without giving them direct push access to your GitHub repository. <a href="https://www.netlify.com/docs/identity/">Netlify Identity</a> service handles the authentication and provides a simple interface for user management. The Netlify CMS <a href="/test-drive/">Test Drive</a> is a working example of this backend.</p>
+
+<p>To use it in your own project, follow these steps:</p>
+
+<ol>
+<li>Head over to the <a href="https://www.netlify.com/docs/identity">Netlify Identity docs</a> and follow the
+steps to get started.</li>
+
+<li><p>Add the following lines to your <code>config.yml</code> file:</p>
+
+<pre><code class="language-yaml">backend:
+  name: git-gateway
+  accept_roles: #optional - accepts all users if left out
+    - admin
+    - editor
+      
+</code></pre></li>
+
+<li><p>Optionally, you can assign roles to users in your Netlify dashboard, and then limit which
+roles can access the CMS by defining the <code>accept_roles</code> field in the <code>config.yml</code> example above.
+Otherwise <code>accept_roles</code> can be left out, and all Netlify Identity users on your site will have access.</p></li>
+</ol>
+
+<h2 id="git-gateway-without-netlify">Git Gateway without Netlify</h2>
+
+<p>You can use <a href="https://github.com/netlify/git-gateway">Git Gateway</a> without Netlify by setting up your own Git Gateway server and connecting it with your own instance of <a href="https://www.gotrueapi.org">GoTrue</a> (the open source microservice that powers Netlify Identity), or with any other identity service that can issue JSON Web Tokens (JWT).</p>
+
+<p>To configure in Netlify CMS, use the same <code>backend</code> settings in your <code>config.yml</code> file as described in Step 2 of the <a href="#git-gateway-with-netlify-identity">Git Gateway with Netlify Identity</a> instructions above.</p>
+
+<h2 id="github-backend">GitHub Backend</h2>
+
+<p>The GitHub backend allows CMS users to log in directly with their GitHub account. Note that the
+user&rsquo;s GitHub account must have push access to your content repository for this to work.</p>
+
+<p>Because Github <a href="https://github.com/netlify/netlify-cms/issues/663#issuecomment-335023723">requires a
+server</a> for
+authentication, Netlify facilitates basic GitHub authentication.</p>
+
+<p>To enable it:</p>
+
+<ol>
+<li>Follow the authentication provider setup steps in the <a href="https://www.netlify.com/docs/authentication-providers/#using-an-authentication-provider">Netlify
+docs</a>.</li>
+
+<li><p>Add the following lines to your <code>config.yml</code> file:</p>
+
+<pre><code class="language-yaml">backend:
+  name: github
+  repo: owner-name/repo-name # Path to your Github repository
+</code></pre></li>
+</ol>
+
+<h3 id="external-oauth-clients">External OAuth Clients</h3>
+
+<p>If you would like to facilitate your own OAuth authentication rather than use Netlify&rsquo;s service, you
+can use one of the community-maintained projects below. Feel free to <a href="https://github.com/netlify/netlify-cms/blob/master/CONTRIBUTING.md">submit a pull request</a> if you&rsquo;d like to add yours!</p>
+
+<table>
+<thead>
+<tr>
+<th>Author</th>
+<th>Supported Git hosts</th>
+<th>Languages</th>
+<th>Link</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><a href="https://github.com/vencax">@vencax</a></td>
+<td>GitHub, GitHub Enterprise</td>
+<td>Node.js</td>
+<td><a href="https://github.com/vencax/netlify-cms-github-oauth-provider">Repo</a></td>
+</tr>
+
+<tr>
+<td><a href="https://github.com/igk1972">@igk1972</a></td>
+<td>GitHub, GitHub Enterprise</td>
+<td>Go</td>
+<td><a href="https://github.com/igk1972/netlify-cms-oauth-provider-go">Repo</a></td>
+</tr>
+</tbody>
+</table>
+
+<p>Check each project&rsquo;s documentation for instructions on how to configure it.</p>
+
+<h2 id="bitbucket-and-gitlab-support">Bitbucket and GitLab Support</h2>
+
+<p>Netlify CMS is meant to be platform agnostic, so we’re always looking to expand the ecosystem and
+find new ways to use it. Check out our active PRs in progress for
+<a href="https://github.com/netlify/netlify-cms/pull/525">Bitbucket</a> and
+<a href="https://github.com/netlify/netlify-cms/pull/517">Gitlab</a> backends.</p>
+
+<p>Git Gateway could also be modified to support these Git hosts. If you&rsquo;re interested, you can file an
+issue (or a pull request!) in the <a href="https://github.com/netlify/git-gateway">git-gateway repo</a>.</p>
+
+<h2 id="options">Options</h2>
+
+<p>Both <code>git-gateway</code> and <code>github</code> backends allow some additional optional fields for certain use
+cases. A full reference is below. Note that these are properties of the <code>backend</code> field, and should
+be nested under that field.</p>
+
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>repo</code></td>
+<td>none</td>
+<td><strong>Required</strong> for <code>github</code> backend; ignored by <code>git-gateway</code>. Follows the pattern <code>[org-or-username]/[repo-name]</code>.</td>
+</tr>
+
+<tr>
+<td><code>accept_roles</code></td>
+<td>none</td>
+<td><code>git-gateway</code> only. Limits CMS access to your defined array of user roles. Omitting this field gives access to all registered users.</td>
+</tr>
+
+<tr>
+<td><code>branch</code></td>
+<td><code>master</code></td>
+<td>The branch where published content is stored. All CMS commits and PRs are made to this branch.</td>
+</tr>
+
+<tr>
+<td><code>api_root</code></td>
+<td><code>https://api.github.com</code> (ignored for <code>git-gateway</code> backend)</td>
+<td>The API endpoint. Only necessary in certain cases, like with GitHub Enterprise.</td>
+</tr>
+
+<tr>
+<td><code>site_domain</code></td>
+<td><code>location.hostname</code> (or <code>cms.netlify.com</code> when on <code>localhost</code>)</td>
+<td>Sets the <code>site_id</code> query param sent to the API endpoint. Non-Netlify auth setups will often need to set this for local development to work properly.</td>
+</tr>
+
+<tr>
+<td><code>base_url</code></td>
+<td><code>https://api.netlify.com</code></td>
+<td>OAuth client URL for the <code>github</code> backend. <strong>Required</strong> when using an external OAuth server with the <code>github</code> backend.</td>
+</tr>
+</tbody>
+</table>
+
+		</article>
+	</div>
+</div>
+
+<footer>
+  <p class="contained"><a href="https://github.com/netlify/netlify-cms/blob/master/LICENSE" class="text-link">Distributed under MIT License</a> ·
+  <a href="https://github.com/netlify/netlify-cms/blob/master/CODE_OF_CONDUCT.md" class="text-link">Code of Conduct</a></p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+  <script src="/jquery.scrollTo.min.js"></script>
+  <script src="/jquery.localScroll.min.js"></script>
+  <script src="/prism.js"></script>
+
+
+<script src="/app.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: '08d03dc80862e84c70c5a1e769b13019',
+indexName: 'netlifycms',
+inputSelector: '.algolia-search',
+debug: false 
+});
+</script>
+</body>
+</html>
+
