@@ -8236,7 +8236,7 @@ slate-base64-serializer@^0.2.8:
   dependencies:
     isomorphic-base64 "^1.0.2"
 
-slate-dev-logger@^0.1.32, slate-dev-logger@^0.1.33, slate-dev-logger@^0.1.36:
+slate-dev-logger@^0.1.32, slate-dev-logger@^0.1.36:
   version "0.1.36"
   resolved "https://registry.yarnpkg.com/slate-dev-logger/-/slate-dev-logger-0.1.36.tgz#ecdb37dbf944dfc742bab23b6a20d5a0472db95e"
 
@@ -8283,9 +8283,9 @@ slate-soft-break@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/slate-soft-break/-/slate-soft-break-0.6.0.tgz#1e44815b7ff4ddada055bba14cd0d2d4ef0fd463"
 
-slate@^0.30.0:
-  version "0.30.7"
-  resolved "https://registry.yarnpkg.com/slate/-/slate-0.30.7.tgz#98b5e4d8529775eaf2e7e3a2306db8cc49034772"
+slate@^0.31.0:
+  version "0.31.7"
+  resolved "https://registry.yarnpkg.com/slate/-/slate-0.31.7.tgz#595b5e4ef45f7385a4535a4595fb0c6ebe326b45"
   dependencies:
     debug "^2.3.2"
     direction "^0.1.5"
@@ -8293,7 +8293,7 @@ slate@^0.30.0:
     is-empty "^1.0.0"
     is-plain-object "^2.0.4"
     lodash "^4.17.4"
-    slate-dev-logger "^0.1.33"
+    slate-dev-logger "^0.1.36"
     type-of "^2.0.1"
 
 slice-ansi@0.0.4:
