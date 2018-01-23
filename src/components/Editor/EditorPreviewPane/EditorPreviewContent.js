@@ -9,10 +9,10 @@ import { ScrollSyncPane } from 'react-scroll-sync';
  */
 class PreviewContent extends React.Component {
   render() {
-    const { previewComponent, previewProps } = this.props;
+    const { previewComponent } = this.props;
     return (
       <ScrollSyncPane attachTo={this.context.document.scrollingElement}>
-        {React.createElement(previewComponent, previewProps)}
+        { previewComponent }
       </ScrollSyncPane>
     );
   }

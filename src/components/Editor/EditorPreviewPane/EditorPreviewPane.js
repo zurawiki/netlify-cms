@@ -1,8 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import ReactDOMServer from 'react-dom/server';
 import { List, Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import { isString } from 'lodash';
 import Frame from 'react-frame-component';
+import HtmlToReactParser from 'html-to-react';
+import Handlebars from 'handlebars/dist/handlebars';
 import { resolveWidget, getPreviewTemplate, getPreviewStyles } from 'Lib/registry';
 import { ErrorBoundary } from 'UI';
 import { selectTemplateName, selectInferedField } from 'Reducers/collections';
@@ -11,8 +15,9 @@ import EditorPreviewContent from './EditorPreviewContent.js';
 import PreviewHOC from './PreviewHOC';
 import EditorPreview from './EditorPreview';
 
-export default class PreviewPane extends React.Component {
+const htmlToReactParser = new HtmlToReactParser.Parser;
 
+export default class PreviewPane extends React.Component {
   getWidget = (field, value, props) => {
     const { fieldsMetaData, getAsset, entry } = props;
     const widget = resolveWidget(field.get('widget'));
@@ -118,24 +123,57 @@ export default class PreviewPane extends React.Component {
     });
   };
 
+  templateData = {
+    collection: this.props.collection.toJS(),
+    fields: this.props.fields.toJS(),
+    widgetFor: this.widgetFor,
+    widgetsFor: this.widgetsFor,
+  };
+
+  getTemplateData = () => ({
+    ...this.templateData,
+    ...this.props.entry.get('data').toJS(),
+    entry: this.props.entry.toJS(),
+    fieldsMetaData: this.props.fieldsMetaData.toJS(),
+  });
+
   render() {
-    const { entry, collection } = this.props;
+    const { entry, collection, fieldsMetaData, getAsset, fields } = this.props;
 
     if (!entry || !entry.get('data')) {
       return null;
     }
 
-    const previewComponent =
-      getPreviewTemplate(selectTemplateName(collection, entry.get('slug'))) ||
-      EditorPreview;
-
     this.inferFields();
 
     const previewProps = {
-      ...this.props,
+      collection,
+      entry,
+      fields,
+      fieldsMetaData,
       widgetFor: this.widgetFor,
       widgetsFor: this.widgetsFor,
     };
+
+    Handlebars.registerHelper('getAsset', image => {
+      const assetProxy = getAsset(image);
+      return assetProxy ? assetProxy.toString() : null;
+    });
+    Handlebars.registerHelper('widgetFor', fieldName => {
+      const output = this.widgetFor(fieldName);
+      const finalOutput = ReactDOMServer.renderToStaticMarkup(output)
+      return new Handlebars.SafeString(finalOutput);
+    });
+    Handlebars.registerHelper('widgetsFor', this.widgetsFor);
+
+    const previewTemplate =
+      getPreviewTemplate(selectTemplateName(collection, entry.get('slug'))) ||
+      EditorPreview;
+
+    const previewComponent = isString(previewTemplate)
+      ? htmlToReactParser.parse(Handlebars.compile(previewTemplate)(this.getTemplateData()))
+      : React.createElement(previewTemplate, previewProps);
+
 
     const styleEls = getPreviewStyles()
       .map((style, i) => {
@@ -160,7 +198,7 @@ export default class PreviewPane extends React.Component {
     return (
       <ErrorBoundary>
         <Frame className="nc-previewPane-frame" head={styleEls} initialContent={initialContent}>
-          <EditorPreviewContent {...{ previewComponent, previewProps }}/>
+          <EditorPreviewContent previewComponent={previewComponent}/>
         </Frame>
       </ErrorBoundary>
     );
