@@ -1,13 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactDOMServer from 'react-dom/server';
 import { List, Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { isString } from 'lodash';
 import Frame from 'react-frame-component';
-import HtmlToReactParser from 'html-to-react';
-import Handlebars from 'handlebars/dist/handlebars';
-import { resolveWidget, getPreviewTemplate, getPreviewStyles } from 'Lib/registry';
+import {
+  resolveWidget,
+  getPreviewTemplate,
+  getTemplateParser,
+  getPreviewStyles,
+} from 'Lib/registry';
 import { ErrorBoundary } from 'UI';
 import { selectTemplateName, selectInferedField } from 'Reducers/collections';
 import { INFERABLE_FIELDS } from 'Constants/fieldInference';
@@ -15,9 +17,30 @@ import EditorPreviewContent from './EditorPreviewContent.js';
 import PreviewHOC from './PreviewHOC';
 import EditorPreview from './EditorPreview';
 
-const htmlToReactParser = new HtmlToReactParser.Parser;
-
 export default class PreviewPane extends React.Component {
+  constructor(props) {
+    super(props);
+    const { collection, entry, fields, fieldsMetaData } = props;
+    const templateData = {
+      collection,
+      entry,
+      fields,
+      fieldsMetaData,
+      widgetFor: this.widgetFor,
+      widgetsFor: this.widgetsFor,
+    };
+
+    const templateName = selectTemplateName(collection, entry.get('slug'));
+    const templateObj = getPreviewTemplate(templateName) || {};
+    const { template = EditorPreview, dataProvider, parserName } = templateObj;
+
+    const parserNameResolved = parserName || (isString(template) && 'handlebars');
+    this.parseTemplate = parserNameResolved
+      ? getTemplateParser(parserNameResolved).init(template, templateData)
+      : React.createElement;
+    this.template = template;
+  }
+
   getWidget = (field, value, props) => {
     const { fieldsMetaData, getAsset, entry } = props;
     const widget = resolveWidget(field.get('widget'));
@@ -123,20 +146,6 @@ export default class PreviewPane extends React.Component {
     });
   };
 
-  templateData = {
-    collection: this.props.collection.toJS(),
-    fields: this.props.fields.toJS(),
-    widgetFor: this.widgetFor,
-    widgetsFor: this.widgetsFor,
-  };
-
-  getTemplateData = () => ({
-    ...this.templateData,
-    ...this.props.entry.get('data').toJS(),
-    entry: this.props.entry.toJS(),
-    fieldsMetaData: this.props.fieldsMetaData.toJS(),
-  });
-
   render() {
     const { entry, collection, fieldsMetaData, getAsset, fields } = this.props;
 
@@ -146,7 +155,7 @@ export default class PreviewPane extends React.Component {
 
     this.inferFields();
 
-    const previewProps = {
+    const templateData = {
       collection,
       entry,
       fields,
@@ -154,26 +163,6 @@ export default class PreviewPane extends React.Component {
       widgetFor: this.widgetFor,
       widgetsFor: this.widgetsFor,
     };
-
-    Handlebars.registerHelper('getAsset', image => {
-      const assetProxy = getAsset(image);
-      return assetProxy ? assetProxy.toString() : null;
-    });
-    Handlebars.registerHelper('widgetFor', fieldName => {
-      const output = this.widgetFor(fieldName);
-      const finalOutput = ReactDOMServer.renderToStaticMarkup(output)
-      return new Handlebars.SafeString(finalOutput);
-    });
-    Handlebars.registerHelper('widgetsFor', this.widgetsFor);
-
-    const previewTemplate =
-      getPreviewTemplate(selectTemplateName(collection, entry.get('slug'))) ||
-      EditorPreview;
-
-    const previewComponent = isString(previewTemplate)
-      ? htmlToReactParser.parse(Handlebars.compile(previewTemplate)(this.getTemplateData()))
-      : React.createElement(previewTemplate, previewProps);
-
 
     const styleEls = getPreviewStyles()
       .map((style, i) => {
@@ -198,7 +187,7 @@ export default class PreviewPane extends React.Component {
     return (
       <ErrorBoundary>
         <Frame className="nc-previewPane-frame" head={styleEls} initialContent={initialContent}>
-          <EditorPreviewContent previewComponent={previewComponent}/>
+          <EditorPreviewContent previewComponent={this.parseTemplate(this.template, templateData)}/>
         </Frame>
       </ErrorBoundary>
     );
