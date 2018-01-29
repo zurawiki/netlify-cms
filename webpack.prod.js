@@ -33,6 +33,7 @@ module.exports = merge.smart(require('./webpack.base.js'), {
     // Minify and optimize the JavaScript
     new UglifyJsPlugin({
       sourceMap: true,
+      exclude: [/\/netlify-cms-template-parser-go\//],
     }),
 
     // Extract CSS
