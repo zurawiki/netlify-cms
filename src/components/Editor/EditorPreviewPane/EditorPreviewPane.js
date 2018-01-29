@@ -4,12 +4,8 @@ import { List, Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { isString } from 'lodash';
 import Frame from 'react-frame-component';
-import {
-  resolveWidget,
-  getPreviewTemplate,
-  getTemplateParser,
-  getPreviewStyles,
-} from 'Lib/registry';
+import { resolveWidget, getPreviewStyles } from 'Lib/registry';
+import { createTemplateCompiler } from 'Extensions/template-compilers';
 import { ErrorBoundary } from 'UI';
 import { selectTemplateName, selectInferedField } from 'Reducers/collections';
 import { INFERABLE_FIELDS } from 'Constants/fieldInference';
@@ -31,14 +27,7 @@ export default class PreviewPane extends React.Component {
     };
 
     const templateName = selectTemplateName(collection, entry.get('slug'));
-    const templateObj = getPreviewTemplate(templateName) || {};
-    const { template = EditorPreview, dataProvider, parserName } = templateObj;
-
-    const parserNameResolved = parserName || (isString(template) && 'handlebars');
-    this.parseTemplate = parserNameResolved
-      ? getTemplateParser(parserNameResolved).init(template, templateData)
-      : React.createElement;
-    this.template = template;
+    this.compileTemplate = createTemplateCompiler(templateName);
   }
 
   getWidget = (field, value, props) => {
@@ -160,9 +149,12 @@ export default class PreviewPane extends React.Component {
       entry,
       fields,
       fieldsMetaData,
+      getAsset,
       widgetFor: this.widgetFor,
       widgetsFor: this.widgetsFor,
     };
+
+    const previewComponent = this.compileTemplate(templateData);
 
     const styleEls = getPreviewStyles()
       .map((style, i) => {
@@ -187,7 +179,7 @@ export default class PreviewPane extends React.Component {
     return (
       <ErrorBoundary>
         <Frame className="nc-previewPane-frame" head={styleEls} initialContent={initialContent}>
-          <EditorPreviewContent previewComponent={this.parseTemplate(this.template, templateData)}/>
+          <EditorPreviewContent previewComponent={previewComponent}/>
         </Frame>
       </ErrorBoundary>
     );
