@@ -9,7 +9,7 @@
     "dev:write": "webpack-dev-server -d --config webpack.dev-write.js",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
-    "build": "cross-env NODE_ENV=production webpack --config webpack.prod.js --display-error-details",
+    "build": "NODE_OPTIONS=--max_old_space_size=4096 NODE_ENV=production webpack --config webpack.prod.js --display-error-details",
     "build:scripts": "cross-env NODE_ENV=production webpack --config webpack.cli.js",
     "add-contributor": "all-contributors add",
     "generate-contributors": "all-contributors generate",
