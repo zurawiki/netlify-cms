@@ -84,6 +84,7 @@ export default class API {
         return this.parseJsonResponse(response);
       }
       if (options.responseType === "blob") {
+        // TODO: GitHub always returns the blob with a mimetype of text/plain if Accept is set to raw.
         return response.blob();
       }
       return response.text();
@@ -158,7 +159,7 @@ export default class API {
     });
   }
 
-  readFile(path, branch = this.branch, parseText = true) {
+  readFile(path, { branch = this.branch, parseText = true } = {}) {
     return this.request(`${ this.repoURL }/contents/${ path }`, {
       headers: { Accept: "application/vnd.github.VERSION.raw" },
       params: { ref: branch },
@@ -175,14 +176,13 @@ export default class API {
     });
   }
 
-  getBlob(sha, parseText = true) {
+  getBlob(sha, { parseText = true } = {}) {
     const cacheKey = parseText ? `gh.${sha}` : `gh.${sha}.blob`;
     return LocalForage.getItem(cacheKey).then(cached => {
       if (cached) { return cached; }
 
       return this.request(`${this.repoURL}/git/blobs/${sha}`, {
         headers: { Accept: "application/vnd.github.VERSION.raw" },
-        // TODO: GitHub always returns the blob with a mimetype of text/plain.
         responseType: (!parseText ? "blob" : "text"),
       }).then(result => {
         LocalForage.setItem(cacheKey, result);
@@ -210,7 +210,7 @@ export default class API {
     return resolvePromiseProperties({
       metaData: metaDataPromise,
       fileData: metaDataPromise.then(
-        data => this.readFile(data.objects.entry.path, data.branch)),
+        data => this.readFile(data.objects.entry.path, { branch: data.branch })),
       isModification: metaDataPromise.then(
         data => this.isUnpublishedEntryModification(data.objects.entry.path, this.branch)),
     })
@@ -220,7 +220,7 @@ export default class API {
   }
 
   isUnpublishedEntryModification(path, branch) {
-    return this.readFile(path, branch)
+    return this.readFile(path, { branch })
     .then(data => true)
     .catch((err) => {
       if (err.message && err.message === "Not Found") {

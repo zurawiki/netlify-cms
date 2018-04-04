@@ -64,11 +64,11 @@ export default class GitHub {
     return this.fetchFiles(files);
   }
 
-  fetchFiles = (files) => {
+  fetchFiles = (files, apiOptions) => {
     const sem = semaphore(MAX_CONCURRENT_DOWNLOADS);
     const promises = [];
     files.forEach((file) => {
-      const apiCall = file.sha ? this.api.getBlob(file.sha, file.parseText) : this.api.readFile(file.path, file.parseText);
+      const apiCall = file.sha ? this.api.getBlob(file.sha, apiOptions) : this.api.readFile(file.path, apiOptions);
       promises.push(new Promise((resolve, reject) => (
         sem.take(() => apiCall.then((data) => {
           resolve({ file, data });
@@ -94,8 +94,7 @@ export default class GitHub {
 
   getMedia() {
     return this.api.listFiles(this.config.get('media_folder'))
-      .then(files => files.map(file => ({ ...file, parseText: false })))
-      .then(this.fetchFiles)
+      .then(files => this.fetchFiles(files, { parseText: false }))
       .then(files => files.map(({ file: { sha, name, size, path }, data }) => {
         const url = URL.createObjectURL(data);
         return { id: sha, name, size, path, url };
