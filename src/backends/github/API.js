@@ -159,21 +159,25 @@ export default class API {
     });
   }
 
-  readFile(path, { branch = this.branch, parseText = true } = {}) {
-    return this.request(`${ this.repoURL }/contents/${ path }`, {
-      headers: { Accept: "application/vnd.github.VERSION.raw" },
-      params: { ref: branch },
-      cache: "no-store",
-      responseType: (!parseText ? "blob" : "text"),
-    }).catch(error => {
-      if (hasIn(error, 'message.errors') && find(error.message.errors, { code:  "too_large" })) {
-        const dir = path.split('/').slice(0, -1).join('/');
-        return this.listFiles(dir)
-          .then(files => files.find(file => file.path === path))
-          .then(file => this.getBlob(file.sha, parseText));
-      }
-      throw error;
-    });
+  readFile(path, sha, { branch = this.branch, parseText = true } = {}) {
+    if (sha) {
+      return this.getBlob(sha, { parseText });
+    } else {
+      return this.request(`${ this.repoURL }/contents/${ path }`, {
+        headers: { Accept: "application/vnd.github.VERSION.raw" },
+        params: { ref: branch },
+        cache: "no-store",
+        responseType: (!parseText ? "blob" : "text"),
+      }).catch(error => {
+        if (hasIn(error, 'message.errors') && find(error.message.errors, { code:  "too_large" })) {
+          const dir = path.split('/').slice(0, -1).join('/');
+          return this.listFiles(dir)
+            .then(files => files.find(file => file.path === path))
+            .then(file => this.getBlob(file.sha, { parseText }));
+        }
+        throw error;
+      });
+    }
   }
 
   getBlob(sha, { parseText = true } = {}) {
@@ -210,7 +214,7 @@ export default class API {
     return resolvePromiseProperties({
       metaData: metaDataPromise,
       fileData: metaDataPromise.then(
-        data => this.readFile(data.objects.entry.path, { branch: data.branch })),
+        data => this.readFile(data.objects.entry.path, null, { branch: data.branch })),
       isModification: metaDataPromise.then(
         data => this.isUnpublishedEntryModification(data.objects.entry.path, this.branch)),
     })
@@ -220,7 +224,7 @@ export default class API {
   }
 
   isUnpublishedEntryModification(path, branch) {
-    return this.readFile(path, { branch })
+    return this.readFile(path, null, { branch })
     .then(data => true)
     .catch((err) => {
       if (err.message && err.message === "Not Found") {

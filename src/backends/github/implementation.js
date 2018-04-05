@@ -68,9 +68,8 @@ export default class GitHub {
     const sem = semaphore(MAX_CONCURRENT_DOWNLOADS);
     const promises = [];
     files.forEach((file) => {
-      const apiCall = file.sha ? this.api.getBlob(file.sha, apiOptions) : this.api.readFile(file.path, apiOptions);
       promises.push(new Promise((resolve, reject) => (
-        sem.take(() => apiCall.then((data) => {
+        sem.take(() => this.api.readFile(file.path, file.sha, apiOptions).then((data) => {
           resolve({ file, data });
           sem.leave();
         }).catch((err = true) => {
