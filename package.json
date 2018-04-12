@@ -16,11 +16,14 @@
     "lint": "npm run lint:js & npm run lint:css",
     "lint:js": "eslint .",
     "lint:js:fix": "npm run lint:js -- --fix",
-    "lint:css": "stylelint 'src/**/*.css'",
+    "lint:css": "stylelint \"src/**/*.css\"",
+    "lint:css:fix": "npm run lint:css -- --fix",
     "lint:staged": "lint-staged",
-    "format": "npm-run-all -p format:js format:css",
+    "lint:fix": "npm-run-all -p lint:*:fix",
+    "format": "npm-run-all -p format:*",
     "format:js": "prettier --write \"**/*.js\"",
     "format:css": "prettier --write \"**/*.css\"",
+    "format:md": "prettier --write \"**/*.md\"",
     "deps": "npm-check -s",
     "deps:update": "npm-check -u",
     "prepublishOnly": "npm run build"
@@ -31,8 +34,8 @@
   },
   "lint-staged": {
     "*.js": [
+      "npm run lint:fix",
       "npm run format",
-      "eslint --fix",
       "jest --findRelatedTests",
       "git add"
     ]
