@@ -19,8 +19,8 @@
     "lint:css": "stylelint 'src/**/*.css'",
     "lint:staged": "lint-staged",
     "format": "npm-run-all -p format:js format:css",
-    "format:js": "prettier --write ./src/**/*.js",
-    "format:css": "prettier --write ./src/**/*.css",
+    "format:js": "prettier --write \"**/*.js\"",
+    "format:css": "prettier --write \"**/*.css\"",
     "deps": "npm-check -s",
     "deps:update": "npm-check -u",
     "prepublishOnly": "npm run build"
