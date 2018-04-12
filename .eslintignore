@@ -1,0 +1,7 @@
+dist/
+bin/
+node_modules/
+website/site/static/jquery.localScroll.min.js
+website/site/static/jquery.scrollTo.min.js
+website/site/static/moment.min.js
+website/site/static/prism.js
