@@ -18,6 +18,7 @@
     }
   },
   "globals": {
-    "CMS_ENV": true
+    "CMS_ENV": true,
+    "NETLIFY_CMS_VERSION": true
   }
 }
