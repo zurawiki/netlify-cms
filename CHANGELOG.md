@@ -4,6 +4,8 @@
     Changes that have landed in master but are not yet released.
     Click to see more.
   </summary>
+
+  * (possibly breaking): return date object from date/datetime widgets if no format set ([@erquhart](https://github.com/erquhart) in [#1296](https://github.com/netlify/netlify-cms/pull/1296))
 </details>
 
 ## 1.6.0 (April 19, 2018) ([demo](https://5ad8e1ebb31274466632d026--cms-demo.netlify.com/#/))
